@@ -16,6 +16,8 @@ test:
 	mkdir -p .build
 	$(GOOSE) build tests/logger.goose -o .build/logger
 	./.build/logger
+	$(GOOSE) build tests/logger.goose --debug --no-bce -o .build/logger-debug
+	./.build/logger-debug
 	$(GOOSE) run examples/hello.goose
 	python3 tests/ownership.py $(GOOSE)
 bench:

@@ -57,7 +57,8 @@ generic parameters; the logger does not store a runtime callback.
 
 The input message must not borrow from scratch, which rendering clears. Goose
 checks these lifetimes; compile-failure regression tests cover both `render`
-and `emit`. Sinks cannot mutate their read-only line. The application coordinates
+and `emit`. The line parameter is read-only; sinks must preserve captured
+scratch storage while consuming it. The application coordinates
 any concurrent output or scratch sharing; no locking or cross-call atomicity
 is provided. Each enabled call makes one sink call, which may itself perform
 multiple writes.
@@ -105,16 +106,21 @@ the reusable caller buffer without a temporary message copy. No allocation-free
 or throughput guarantee is made.
 
 `make check test` checks formatting and types, runs public API tests both in
-process and as a native binary, runs the example, and checks compiler rejection
+process and as native binaries (including a debug build retaining every bounds
+check), runs the example, and checks compiler rejection
 of input/output aliasing and sink mutation. Tests exercise every severity/minimum
 pair, all 256 byte values, colors, truncation boundaries, worst-case size, buffer
 reuse, and sink failures.
 
 `make bench BENCH_ITERATIONS=100000` builds a native GCC `-O2` benchmark with
-printable, escape-heavy, and oversized messages. It reuses warmed scratch and
-consumes output in a checksum; output reports local nanoseconds per line,
-including loop/checksum overhead and excluding external I/O. Treat these as
-local measurements rather than cross-library or production claims.
+printable, escape-heavy, oversized, and filtered calls. It reuses scratch and
+consumes output in a checksum; output reports the median and min/max of seven
+samples in local nanoseconds per call, including loop/checksum overhead and
+excluding external I/O. Rendering cases warm the scratch buffer before timing.
+The threshold case uses a runtime minimum (default `Error`) to avoid assuming
+filter rejection at compile time; `.build/bench 100000 0` selects `Debug` instead
+and exercises accepted calls in that same loop. Treat these as local measurements
+rather than cross-library or production claims.
 
 The first version deliberately excludes file rotation, asynchronous queues,
 JSON output, and automatic formatting of application objects.

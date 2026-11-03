@@ -3,20 +3,50 @@ import logger from "..";
 import std;
 import os;
 
+let SAMPLES = 7;
+
+fn report(name: const u8[:], times: f64[:], checksum: i64) {
+    sort(times);
+    print(name, ": median=", times[times.len / 2], " ns/call; min=", times[0],
+          "; max=", times[times.len - 1], "; checksum=", checksum);
+}
+
 fn benchmark(name: const u8[:], message: const u8[:], count: i64) {
     let config = log::Logger { .. };
     var scratch:  u8[>..] = [];
     var checksum: i64     = 0;
     for i in 1000 { log::render(config, log::Level.Info, message, scratch); }
-    let start = clock_ns();
-    for i in count {
-        // Alternate severity and consume bytes, keeping the work observable.
-        let level = if i % 2 == 0 { log::Level.Info } else { log::Level.Warn };
-        assert(log::render(config, level, message, scratch));
-        checksum += scratch.len + scratch[i % scratch.len];
+    var times: f64[SAMPLES] = [0.0; SAMPLES];
+    for sample in SAMPLES {
+        let start = clock_ns();
+        for i in count {
+            // Alternate severity and consume bytes, keeping the work observable.
+            let level = if i % 2 == 0 { log::Level.Info } else { log::Level.Warn };
+            assert(log::render(config, level, message, scratch));
+            checksum += scratch.len + scratch[i % scratch.len];
+        }
+        times[sample] = (clock_ns() - start) / (count as f64);
     }
-    let elapsed = clock_ns() - start;
-    print(name, ": ", elapsed / (count as f64), " ns/line; checksum=", checksum);
+    report(name, times, checksum);
+}
+
+// Runtime threshold prevents the native optimizer from assuming rejection.
+// With the default Error threshold, all Debug/Info calls are filtered.
+fn benchmark_filter(minimum: log::Level, count: i64) {
+    let config = log::Logger { minimum: minimum };
+    var scratch = str("sentinel");
+    var checksum: i64          = 0;
+    var times:    f64[SAMPLES] = [0.0; SAMPLES];
+    for sample in SAMPLES {
+        let start = clock_ns();
+        for i in count {
+            let level = if i % 2 == 0 { log::Level.Debug } else { log::Level.Info };
+            let rendered = log::render(config, level, "filtered", scratch);
+            checksum += scratch.len + (if rendered { 1 } else { 0 });
+        }
+        times[sample] = (clock_ns() - start) / (count as f64);
+    }
+    report("threshold (default: filtered)", times, checksum);
 }
 
 fn main() {
@@ -28,6 +58,16 @@ fn main() {
         assert(ok && parsed > 0 && parsed <= 10000000);
         count = parsed;
     }
+    var minimum = log::Level.Error;
+    if arg_count() > 2 {
+        var argument: u8[>..] = [];
+        arg(2, argument);
+        let parsed, ok = parse_int(argument);
+        assert(ok && parsed >= 0 && parsed <= 4);
+        let levels = [log::Level.Debug, log::Level.Info, log::Level.Warn, log::Level.Error, log::Level.Off];
+        minimum = levels[parsed];
+    }
+    benchmark_filter(minimum, count);
     benchmark("printable", "request completed status=200 bytes=1234", count);
     var escaped: u8[>..] = [];
     for i in 256 { escaped.push(0xff); }
