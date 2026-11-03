@@ -71,8 +71,14 @@ def main():
         source = Path(tmp) / "cases.bin"
         source.write_bytes(fixtures)
         for driver in sys.argv[1:]:
-            subprocess.run([str(Path(driver).resolve()), str(source)],
-                           check=True, timeout=60)
+            result = subprocess.run([str(Path(driver).resolve()), str(source)],
+                                    capture_output=True, text=True, timeout=60)
+            expected = f"differential cases passed: {len(cases)}\n"
+            if result.returncode != 0 or result.stdout != expected or result.stderr:
+                raise SystemExit(f"{driver}: incomplete or failed oracle run "
+                                 f"(exit {result.returncode})\n"
+                                 f"stdout: {result.stdout}\nstderr: {result.stderr}")
+            print(result.stdout, end="")
     print(f"independent oracle: {len(cases)} cases per driver; seed=0x6005e")
 
 

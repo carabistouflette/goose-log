@@ -29,7 +29,8 @@ test:
 test-sanitize:
 	mkdir -p .build
 	$(GOOSE) build tests/differential.goose --debug --no-bce --standalone --cc ./scripts/sanitizer-cc.sh -o .build/differential-sanitized
-	python3 tests/differential.py .build/differential-sanitized
+	$(GOOSE) build tests/differential.goose -O2 --standalone --cc ./scripts/sanitizer-cc.sh -o .build/differential-sanitized-release
+	python3 tests/differential.py .build/differential-sanitized .build/differential-sanitized-release
 bench:
 	mkdir -p .build
 	$(GOOSE) build bench/bench.goose --cc gcc -O2 -o .build/bench

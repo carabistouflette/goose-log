@@ -48,6 +48,7 @@ cases = {
     ''',
 }
 control = '''
+    fn good_sink(line: const u8[:]) -> bool { line.len > 0 }
     var scratch: u8[>..] = [];
     log::render(config, log::Level.Info, "message", scratch);
     let status = log::emit(config, log::Level.Info, "message", scratch) { line =>
@@ -55,6 +56,8 @@ control = '''
         true
     };
     assert(status == log::Status.Written);
+    let named_status = log::emit(config, log::Level.Info, "message", scratch, good_sink);
+    assert(named_status == log::Status.Written);
 '''
 expected_errors = {
     "optional-sink-result": ("bool", "bool?"),

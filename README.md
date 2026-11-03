@@ -45,7 +45,8 @@ be selected with `make GOOSE=/path/to/goose check test`.
   leaving scratch untouched. Otherwise it replaces scratch with one complete
   line and returns `true`.
 - `emit(config, level, message, scratch) { line => ... }` renders and invokes
-  the sink once, synchronously, with a read-only borrowed slice. A true sink
+  the sink once, synchronously, with a read-only borrowed slice. Its result
+  must be `bool`; optional references are rejected. A true sink
   result returns `Status.Written`; false returns `Status.SinkError`. Filtering
   returns `Status.Filtered` without calling the sink. These statuses describe
   what the sink reported; they do not imply flushing or durable storage.
@@ -123,12 +124,15 @@ mutation of the safety limits.
 
 On systems with GCC and its sanitizer runtimes, `make test-sanitize` runs the
 oracle against a standalone debug build instrumented with AddressSanitizer and
-UndefinedBehaviorSanitizer. Diagnostics terminate the process. Set
+UndefinedBehaviorSanitizer, and an optimized build with the usual bounds-check
+elision enabled. Diagnostics terminate the process, and the oracle verifies
+the exact completed case count and rejects unexpected diagnostic output. Set
 `SANITIZER_CC=clang` to select Clang instead; the wrapper requires GCC-compatible
-sanitizer flags. Goose's own debug bounds checks remain enabled as well.
+sanitizer flags. CI runs both builds under both GCC and Clang.
 
 `make bench BENCH_ITERATIONS=100000` builds a native GCC `-O2` benchmark with
-printable, escape-heavy, oversized, and filtered calls. It reuses scratch and
+empty, short/maximum printable, backslash-heavy, mixed binary, escape-heavy,
+oversized, filtered, and checksum-consuming sink calls. It reuses scratch and
 consumes output in a checksum; output reports the median and min/max of seven
 samples in local nanoseconds per call, including loop/checksum overhead and
 excluding external I/O. Rendering cases warm the scratch buffer before timing.
