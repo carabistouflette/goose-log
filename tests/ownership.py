@@ -46,6 +46,14 @@ cases = {
         true
     };
     ''',
+    "nested-sink-alias": '''
+    var scratch: u8[>..] = [];
+    log::emit(config, log::Level.Info, "outer", scratch) { line =>
+        log::render(config, log::Level.Error, "inner", scratch);
+        assert(line == "[INFO] outer\\n");
+        true
+    };
+    ''',
 }
 control = '''
     fn good_sink(line: const u8[:]) -> bool { line.len > 0 }
@@ -67,6 +75,7 @@ expected_errors = {
     "emit-alias": ("cannot clear", "reference or slice"),
     "sink-mutation": ("cannot assign through this path", "read-only"),
     "sink-alias": ("shrinks scratch while line is still used", "may refer into scratch"),
+    "nested-sink-alias": ("shrinks scratch while line is still used", "may refer into scratch"),
 }
 with tempfile.TemporaryDirectory(prefix="ownership-", dir=root / ".build") as tmp:
     for name, body in {"valid-control": control, **cases}.items():

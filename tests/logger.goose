@@ -73,6 +73,25 @@ fn main() {
     // A retained copy survives reuse; the sink only receives a borrowed view.
     assert(log::render(config, log::Level.Info, "next", scratch));
     assert(saved == "[ERROR] failed\n" && scratch == "[INFO] next\n");
+    // Nested sinks use independent storage and report status independently.
+    var nested: u8[>..] = [];
+    var outer_calls = 0;
+    var inner_calls = 0;
+    let outer_status = log::emit(config, log::Level.Info, "outer", scratch) { outer_line =>
+        outer_calls += 1;
+        assert(outer_line == "[INFO] outer\n");
+        let inner_status = log::emit(config, log::Level.Error, "inner", nested) { inner_line =>
+            inner_calls += 1;
+            assert(inner_line == "[ERROR] inner\n");
+            assert(outer_line == "[INFO] outer\n");
+            false
+        };
+        assert(inner_status == log::Status.SinkError);
+        assert(outer_line == "[INFO] outer\n");
+        true
+    };
+    assert(outer_status == log::Status.Written && outer_calls == 1 && inner_calls == 1);
+    assert(scratch == "[INFO] outer\n" && nested == "[ERROR] inner\n");
     var every_byte: u8[>..] = [];
     for i in 256 { every_byte.push(i as u8); }
     assert(log::render(config, log::Level.Info, every_byte, scratch));
