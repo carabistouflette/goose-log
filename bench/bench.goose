@@ -3,7 +3,7 @@ import logger from "..";
 import std;
 import os;
 
-let SAMPLES = 7;
+const SAMPLES = 7;
 
 fn report(name: const u8[:], times: f64[:], checksum: i64) {
     sort(times);
@@ -28,6 +28,29 @@ fn benchmark(name: const u8[:], message: const u8[:], count: i64) {
         times[sample] = (clock_ns() - start) / (count as f64);
     }
     report(name, times, checksum);
+}
+
+fn benchmark_emit(message: const u8[:], count: i64) {
+    let config = log::Logger { .. };
+    var scratch: u8[>..] = [];
+    for i in 1000 { log::emit(config, log::Level.Info, message, scratch) { line => true }; }
+    var checksum: i64          = 0;
+    var calls:    i64          = 0;
+    var times:    f64[SAMPLES] = [0.0; SAMPLES];
+    for sample in SAMPLES {
+        let start = clock_ns();
+        for i in count {
+            let status = log::emit(config, log::Level.Info, message, scratch) { line =>
+                calls += 1;
+                checksum += line.len + line[i % line.len];
+                true
+            };
+            assert(status == log::Status.Written);
+        }
+        times[sample] = (clock_ns() - start) / (count as f64);
+    }
+    assert(calls == SAMPLES * count);
+    report("emit-printable", times, checksum);
 }
 
 // Runtime threshold prevents the native optimizer from assuming rejection.
@@ -68,7 +91,20 @@ fn main() {
         minimum = levels[parsed];
     }
     benchmark_filter(minimum, count);
+    benchmark("empty", "", count);
     benchmark("printable", "request completed status=200 bytes=1234", count);
+    benchmark_emit("request completed status=200 bytes=1234", count);
+    var printable:   u8[>..] = [];
+    var backslashes: u8[>..] = [];
+    var mixed:       u8[>..] = [];
+    for i in 4096 {
+        printable.push('a');
+        backslashes.push('\\');
+        mixed.push((i % 256) as u8);
+    }
+    benchmark("printable-4096", printable, count);
+    benchmark("backslashes-4096", backslashes, count);
+    benchmark("mixed-4096", mixed, count);
     var escaped: u8[>..] = [];
     for i in 256 { escaped.push(0xff); }
     benchmark("escaped-256", escaped, count);

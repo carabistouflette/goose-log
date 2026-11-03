@@ -41,8 +41,7 @@ fn render(logger: Logger, level: Level, message: const u8[:], out: u8[>..]&) -> 
     out.push(' ');
     let hex = "0123456789abcdef";
     let count = if message.len < MAX_MESSAGE_BYTES { message.len } else { MAX_MESSAGE_BYTES };
-    for i in count {
-        let c = message[i];
+    for c in message[..count] {
         if c == '\\' { out.append("\\\\"); }
         else if c >= 0x20 && c <= 0x7e { out.push(c); }
         else {
