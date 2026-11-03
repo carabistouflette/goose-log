@@ -8,6 +8,11 @@ import tempfile
 compiler = Path(sys.argv[1]).resolve()
 root = Path(__file__).resolve().parent.parent
 cases = {
+    "optional-sink-result": '''
+    fn bad_sink(line: const u8[:]) -> bool? { null }
+    var scratch: u8[>..] = [];
+    log::emit(config, log::Level.Info, "message", scratch, bad_sink);
+    ''',
     "message-limit-mutation": '''
     fn change(value: i64&) { value = 100000; }
     change(log::MAX_MESSAGE_BYTES);
@@ -52,6 +57,7 @@ control = '''
     assert(status == log::Status.Written);
 '''
 expected_errors = {
+    "optional-sink-result": ("bool", "bool?"),
     "message-limit-mutation": ("cannot write through this reference", "non-writable provenance"),
     "line-limit-mutation": ("cannot write through this reference", "non-writable provenance"),
     "input-alias": ("cannot clear", "reference or slice"),

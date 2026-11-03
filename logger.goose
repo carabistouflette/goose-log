@@ -60,6 +60,7 @@ fn render(logger: Logger, level: Level, message: const u8[:], out: u8[>..]&) -> 
 // A failed sink may already have written bytes: there is no retry/rollback.
 fn emit<F>(logger: Logger, level: Level, message: const u8[:], out: u8[>..]&) -> Status {
     if !render(logger, level, message, out) { return Status.Filtered; }
-    let line: const u8[:] = out;
-    if F(line) { Status.Written } else { Status.SinkError }
+    let line:    const u8[:] = out;
+    let success: bool        = F(line);
+    if success { Status.Written } else { Status.SinkError }
 }
