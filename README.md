@@ -91,6 +91,8 @@ info, yellow for warn, red for error. The library emits a reset before the
 space preceding the message. Colors are opt-in with no terminal detection.
 Without colors, output contains printable ASCII and exactly one final newline.
 
+Both public bounds are `const`, including through references. The renderer's
+cap uses a direct comparison so application function overloads cannot change it.
 `MAX_LINE_BYTES` is 16417: at most 8 bytes for label and space, 9 for optional
 color/reset, 16384 for escaped content, 15 for the truncation marker, and 1 for
 the newline. This bounds bytes appended per enabled call and work inspecting
@@ -111,6 +113,19 @@ check), runs the example, and checks compiler rejection
 of input/output aliasing and sink mutation. Tests exercise every severity/minimum
 pair, all 256 byte values, colors, truncation boundaries, worst-case size, buffer
 reuse, and sink failures.
+
+The suite also runs 1696 deterministic cases against an independent Python byte
+oracle in normal and debug native builds. Cases include the full configuration
+matrix, random binary data, escape-heavy input, cap boundaries, and 1 MiB
+messages. The same buffers are reused across accepted and filtered calls.
+Consumer regression tests cover application overloads and reject reference
+mutation of the safety limits.
+
+On systems with GCC and its sanitizer runtimes, `make test-sanitize` runs the
+oracle against a standalone debug build instrumented with AddressSanitizer and
+UndefinedBehaviorSanitizer. Diagnostics terminate the process. Set
+`SANITIZER_CC=clang` to select Clang instead; the wrapper requires GCC-compatible
+sanitizer flags. Goose's own debug bounds checks remain enabled as well.
 
 `make bench BENCH_ITERATIONS=100000` builds a native GCC `-O2` benchmark with
 printable, escape-heavy, oversized, and filtered calls. It reuses scratch and
