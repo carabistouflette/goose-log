@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: Apache-2.0
-import std;
 namespace log;
 
 enum Level { Debug, Info, Warn, Error, Off }
@@ -10,10 +9,10 @@ struct Logger {
     color:   bool  = false,
 }
 
-let MAX_MESSAGE_BYTES = 4096;
+const MAX_MESSAGE_BYTES = 4096;
 // Largest label (8), color + reset (9), escaped payload (4 per byte),
 // truncation suffix (15), and final newline (1).
-let MAX_LINE_BYTES = 8 + 9 + 4 * MAX_MESSAGE_BYTES + 15 + 1;
+const MAX_LINE_BYTES = 8 + 9 + 4 * MAX_MESSAGE_BYTES + 15 + 1;
 
 fn enabled(logger: Logger, level: Level) -> bool {
     if level == Level.Off || logger.minimum == Level.Off { return false; }
@@ -41,7 +40,8 @@ fn render(logger: Logger, level: Level, message: const u8[:], out: u8[>..]&) -> 
     if logger.color { out.append("\x1b[0m"); }
     out.push(' ');
     let hex = "0123456789abcdef";
-    for i in min(message.len, MAX_MESSAGE_BYTES) {
+    let count = if message.len < MAX_MESSAGE_BYTES { message.len } else { MAX_MESSAGE_BYTES };
+    for i in count {
         let c = message[i];
         if c == '\\' { out.append("\\\\"); }
         else if c >= 0x20 && c <= 0x7e { out.push(c); }

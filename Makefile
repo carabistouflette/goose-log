@@ -9,10 +9,12 @@ format:
 check:
 	$(GOOSE) format --check logger.goose examples tests bench
 	$(GOOSE) check tests/logger.goose
+	$(GOOSE) check tests/overloads.goose
 	$(GOOSE) check examples/hello.goose
 	$(GOOSE) check bench/bench.goose
 test:
 	$(GOOSE) run tests/logger.goose
+	$(GOOSE) run tests/overloads.goose
 	mkdir -p .build
 	$(GOOSE) build tests/logger.goose -o .build/logger
 	./.build/logger

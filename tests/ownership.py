@@ -8,6 +8,14 @@ import tempfile
 compiler = Path(sys.argv[1]).resolve()
 root = Path(__file__).resolve().parent.parent
 cases = {
+    "message-limit-mutation": '''
+    fn change(value: i64&) { value = 100000; }
+    change(log::MAX_MESSAGE_BYTES);
+    ''',
+    "line-limit-mutation": '''
+    fn change(value: i64&) { value = 1; }
+    change(log::MAX_LINE_BYTES);
+    ''',
     "input-alias": '''
     var scratch = str("input");
     let message: const u8[:] = scratch;
@@ -44,6 +52,8 @@ control = '''
     assert(status == log::Status.Written);
 '''
 expected_errors = {
+    "message-limit-mutation": ("cannot write through this reference", "non-writable provenance"),
+    "line-limit-mutation": ("cannot write through this reference", "non-writable provenance"),
     "input-alias": ("cannot clear", "reference or slice"),
     "emit-alias": ("cannot clear", "reference or slice"),
     "sink-mutation": ("cannot assign through this path", "read-only"),
