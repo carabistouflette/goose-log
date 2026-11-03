@@ -130,6 +130,20 @@ the exact completed case count and rejects unexpected diagnostic output. Set
 `SANITIZER_CC=clang` to select Clang instead; the wrapper requires GCC-compatible
 sanitizer flags. CI runs both builds under both GCC and Clang.
 
+Goose allocates arrays within custom mmap-backed data stacks. ASan does not
+poison every logical array boundary or lifetime inside these regions, so it
+cannot independently detect every such overrun. Sanitizers supplement Goose's
+bounds/lifetime checks, exact-output oracle, and physical protected-page tests.
+
+On POSIX systems, `make test-guarded` places inaccessible pages immediately
+after the 4096-byte readable prefix, and checks that rendering leaves the tail
+untouched. Filtered calls receive a message starting on inaccessible memory
+and must leave scratch unchanged without calling the sink. The runner first
+requires an intentional protected read to fault, distinguishing a working
+guard from unrelated setup errors. It tests both optimized and debug native
+builds; CI runs them under GCC and Clang. Protection covers the remaining whole
+pages inside the backing array; it does not cover its final partial page.
+
 `make bench BENCH_ITERATIONS=100000` builds a native GCC `-O2` benchmark with
 empty, short/maximum printable, backslash-heavy, mixed binary, escape-heavy,
 oversized, filtered, and checksum-consuming sink calls. It reuses scratch and

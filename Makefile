@@ -1,7 +1,7 @@
 GOOSE ?= .toolchain/goose/build/goose
 BENCH_ITERATIONS ?= 100000
 
-.PHONY: setup format check test test-sanitize bench
+.PHONY: setup format check test test-sanitize test-guarded bench
 setup:
 	./scripts/setup-goose.sh
 format:
@@ -11,6 +11,7 @@ check:
 	$(GOOSE) check tests/logger.goose
 	$(GOOSE) check tests/overloads.goose
 	$(GOOSE) check tests/differential.goose
+	$(GOOSE) check tests/guarded.goose
 	$(GOOSE) check examples/hello.goose
 	$(GOOSE) check bench/bench.goose
 test:
@@ -31,6 +32,11 @@ test-sanitize:
 	$(GOOSE) build tests/differential.goose --debug --no-bce --standalone --cc ./scripts/sanitizer-cc.sh -o .build/differential-sanitized
 	$(GOOSE) build tests/differential.goose -O2 --standalone --cc ./scripts/sanitizer-cc.sh -o .build/differential-sanitized-release
 	python3 tests/differential.py .build/differential-sanitized .build/differential-sanitized-release
+test-guarded:
+	mkdir -p .build
+	$(GOOSE) build tests/guarded.goose -O2 -o .build/guarded
+	$(GOOSE) build tests/guarded.goose --debug --no-bce -o .build/guarded-debug
+	python3 tests/guarded.py .build/guarded .build/guarded-debug
 bench:
 	mkdir -p .build
 	$(GOOSE) build bench/bench.goose --cc gcc -O2 -o .build/bench

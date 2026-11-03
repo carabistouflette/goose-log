@@ -15,7 +15,8 @@ For behavior changes, add public API regression cases in `tests/logger.goose`.
 Run `make format`, `make check test`, and `git diff --check`. Exercise filtering,
 all byte values, truncation boundaries, buffer reuse, and sink failures.
 For safety or buffer changes, also run `make test-sanitize` with GCC or Clang
-sanitizer runtimes installed. Keep the independent differential oracle in sync
+sanitizer runtimes installed. On POSIX, run `make test-guarded` for changes to
+filtering or input bounds. Keep the independent differential oracle in sync
 with deliberate contract changes; do not derive its expected bytes from the
 library under test.
 Request independent review, fix actionable findings, and keep CI passing.
