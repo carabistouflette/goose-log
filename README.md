@@ -279,6 +279,12 @@ It separates runtime initialization, cold and warm formatter calls, direct
 allocation/OS calls, logical arena usage, and minor page faults. GNU-compatible
 linker wrapping and pinned private runtime details are required. Zero direct
 allocation calls do not prove no arena growth or physical memory use.
+See [recorded allocation observations](bench/alloc/RESULTS.md).
+
+The 0.1.0 runtime is byte-identical to the implementation in the matched
+comparison snapshot above. Experimental filtering changes were not retained
+after native-input checks showed performance tradeoffs; no release speedup is
+claimed.
 
 The synchronous core deliberately excludes file rotation, asynchronous queues,
 JSON output, global sink registration, implicit clocks, and automatic secret

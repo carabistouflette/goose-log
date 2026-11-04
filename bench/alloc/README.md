@@ -13,6 +13,7 @@ compiler binary, standard library and harness hashes, flags, platform details,
 and every phase. Input changes during the run invalidate the result. Choose
 `--iterations N` to change warm calls (default 10000). Each phase is a fresh
 process, and whole-process runtime initialization is reported separately.
+See [recorded observations](RESULTS.md) for two retained runs.
 
 The host checks complete bytes and sink counts for 4097 input bytes of `0xff`.
 The plain profile reaches the exact 16417-byte colored line bound. The contextual
