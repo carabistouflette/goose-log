@@ -4,7 +4,7 @@ BENCH_ITERATIONS ?= 100000
 # Goose keys generated C by source path, so concurrent goals can overwrite it.
 .NOTPARALLEL:
 
-.PHONY: setup format check test test-sanitize test-guarded bench
+.PHONY: setup format check test test-sanitize test-guarded bench bench-compare
 setup:
 	./scripts/setup-goose.sh
 format:
@@ -59,3 +59,5 @@ bench:
 	mkdir -p .build
 	$(GOOSE) build bench/bench.goose --cc gcc -O2 -o .build/bench
 	./.build/bench $(BENCH_ITERATIONS)
+bench-compare:
+	python3 bench/compare/run.py --goose $(GOOSE) --iterations $(BENCH_ITERATIONS)

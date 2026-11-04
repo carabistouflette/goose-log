@@ -29,3 +29,5 @@ jobs:
         run: make test-sanitize
         env:
           SANITIZER_CC: clang
+      - name: Pinned synchronous comparison correctness smoke
+        run: python3 bench/compare/run.py --iterations 10 --rounds 1 --cpu 0

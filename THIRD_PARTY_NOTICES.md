@@ -17,3 +17,13 @@ are not part of this source publication. Anyone separately redistributing a
 compiler binary, runtime bundle, or other dependency should inspect and preserve
 the notices and terms applicable to that artifact. GCC, Clang, Python, CMake,
 Git, Make, and GitHub Actions are external development tools, not vendored here.
+
+The optional `bench/compare/run.py` comparison fetches pinned copies of
+[rxi/log.c](https://github.com/rxi/log.c) (MIT),
+[spdlog](https://github.com/gabime/spdlog) (MIT, with bundled fmt notices), and
+[Macho0x/goose-logger](https://github.com/Macho0x/goose-logger) (Apache-2.0)
+into ignored `.build/compare/` directories. Their complete license files stay
+with the downloaded sources. They are comparison-only dependencies, not imports
+of the goose-log library. The matched-policy benchmark deliberately calls the
+third-party Goose timestamp formatter/redactor on both paths; it does not
+relicense those sources or make their automatic policy part of goose-log.
