@@ -19,6 +19,10 @@ package cache on first use (network/Git access required then). Core imports and
 consumer is validated on Linux x86-64; existing core macOS coverage does not
 establish platform coverage for this consumer.
 
+The helper `utc.goose` expects its root entrypoint to declare both the logger
+and time sourced imports, as [main.goose](main.goose) does. Copying the helper
+alone does not install dependencies or acquire a clock.
+
 `utc_log::emit(config, level, message, timestamp, scratch, clock) { line => ... }`
 returns the existing `log::Status`. The clock returns an `i64` count of Unix
 nanoseconds and the sink returns `bool`. Both callbacks are caller-owned.
@@ -52,6 +56,7 @@ new global clocks or dynamic callback objects. Allocation follows builder growth
 and Goose runtime behavior; this is not an allocation-failure recovery interface.
 Caller clock and sink work are outside the formatter's byte/work bounds.
 
+[Validation evidence](VALIDATION.md) records the checks and limitations.
 Tests inject deterministic samples, validate exact bytes and callback counts,
 and exercise compiler ownership rejection. `make test-utc-sanitize` adds native
 ASan/UBSan (`SANITIZER_CC=gcc` or `clang`). Component measurements separately account for optional clock, output and
