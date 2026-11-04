@@ -29,6 +29,12 @@ jobs:
         run: make test-sanitize
         env:
           SANITIZER_CC: clang
+      - name: GCC application-owned CLI adapter sanitizers
+        run: make test-cli-sanitize
+      - name: Clang application-owned CLI adapter sanitizers
+        run: make test-cli-sanitize
+        env:
+          SANITIZER_CC: clang
       - name: Pinned synchronous comparison correctness smoke
         run: python3 bench/compare/run.py --iterations 10 --rounds 1 --cpu 0
       - name: Allocation probe counter and exact-output smoke

@@ -4,7 +4,7 @@ BENCH_ITERATIONS ?= 100000
 # Goose keys generated C by source path, so concurrent goals can overwrite it.
 .NOTPARALLEL:
 
-.PHONY: setup format check test test-sanitize test-guarded bench bench-compare bench-alloc
+.PHONY: setup format check test test-sanitize test-guarded test-cli test-cli-sanitize bench bench-compare bench-alloc
 setup:
 	./scripts/setup-goose.sh
 format:
@@ -20,6 +20,9 @@ check:
 	$(GOOSE) check examples/hello.goose
 	$(GOOSE) check examples/file.goose
 	$(GOOSE) check bench/alloc/probe.goose
+	$(GOOSE) check examples/cli/consumer.goose
+	$(GOOSE) check tests/cli_sink.goose
+	$(GOOSE) check tests/cli_state.goose
 	$(GOOSE) check bench/bench.goose
 test:
 	$(GOOSE) run tests/logger.goose
@@ -45,6 +48,19 @@ test:
 	$(GOOSE) build tests/record_oracle.goose -o .build/record-oracle
 	$(GOOSE) build tests/record_oracle.goose --debug --no-bce -o .build/record-oracle-debug
 	python3 tests/records.py .build/record-oracle .build/record-oracle-debug
+	$(MAKE) test-cli
+test-cli:
+	mkdir -p .build
+	$(GOOSE) build examples/cli/consumer.goose -o .build/cli-consumer
+	$(GOOSE) build tests/cli_sink.goose -o .build/cli-sink
+	$(GOOSE) build tests/cli_state.goose -o .build/cli-state
+	python3 tests/cli_consumer.py .build/cli-consumer .build/cli-sink .build/cli-state
+test-cli-sanitize:
+	mkdir -p .build
+	$(GOOSE) build examples/cli/consumer.goose --debug --no-bce --standalone --cc ./scripts/sanitizer-cc.sh -o .build/cli-consumer-sanitized
+	$(GOOSE) build tests/cli_sink.goose --debug --no-bce --standalone --cc ./scripts/sanitizer-cc.sh -o .build/cli-sink-sanitized
+	$(GOOSE) build tests/cli_state.goose --debug --no-bce --standalone --cc ./scripts/sanitizer-cc.sh -o .build/cli-state-sanitized
+	python3 tests/cli_consumer.py .build/cli-consumer-sanitized .build/cli-sink-sanitized .build/cli-state-sanitized
 test-sanitize:
 	mkdir -p .build
 	$(GOOSE) build tests/differential.goose --debug --no-bce --standalone --cc ./scripts/sanitizer-cc.sh -o .build/differential-sanitized
