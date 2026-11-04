@@ -1,8 +1,9 @@
 # Security
 
-This library has an experimental API and no tagged releases. Security fixes
-target the latest `main` commit; older pinned commits are not maintained release
-branches. Review updates before replacing an application's pinned revision.
+This library has an experimental API before 1.0. Security fixes target the
+latest released version and `main`; older releases and pinned commits are not
+separately maintained. Review updates before replacing an application's pinned
+revision. Supported validation remains Linux x86-64 with the pinned compiler.
 
 ## Report a vulnerability
 

@@ -2,7 +2,7 @@
 
 Small, bounded, explicit logging for the
 [Goose programming language](https://github.com/aardappel/goose).
-Apache-2.0. Experimental API; no release yet.
+Apache-2.0. Version 0.1.0; the API is experimental before 1.0.
 
 Severity filtering, single-line byte-safe formatting, optional label colors,
 and synchronous delivery to a caller-supplied sink. The application owns output
@@ -42,6 +42,18 @@ package; its API lives in `namespace log`. See [examples/hello.goose](examples/h
 Goose's `write_stderr` returns no I/O status, so this adapter always reports
 success. Use an output API that reports errors when delivery must be checked.
 
+The [file example](examples/file.goose) uses `append_file` and maps its boolean
+result to `Status.SinkError`. It only writes to an explicitly supplied path:
+
+```sh
+.toolchain/goose/build/goose run examples/file.goose -- /path/to/application.log
+```
+
+This application adapter opens and closes the file for each accepted call.
+Failure may follow partial output; it provides no retry, rollback, concurrent
+writer atomicity, or durability guarantee. Tests cover preserved existing
+content, failed opens, and Linux's `/dev/full` write/close failure.
+
 From this checkout, run `make setup`, then `make check test`. Setup needs Git,
 CMake 3.27+, a C/C++20 toolchain, and Make; tests also need Python 3.9+. On Linux,
 the in-process runner needs libc development headers. An existing compiler can
@@ -58,7 +70,12 @@ import logger from "carabistouflette/goose-log@5c5db8fd5fe733e51e5230def818a336a
 ```
 
 Use this import in place of the relative import above. It exposes the same
-`log` namespace. There are no tagged releases or API stability guarantees yet.
+`log` namespace. See [CHANGELOG.md](CHANGELOG.md) for releases.
+
+The documented types, constants, functions, byte formats, limits, and ownership
+rules below form the 0.1 API. Patch releases preserve that contract; an intentional
+API or output change requires a new minor version while the major version is
+zero. Undocumented implementation helpers are not part of this contract.
 
 ## Tested platforms
 
@@ -83,8 +100,9 @@ separate simultaneous invocations do not coordinate with each other.
 ## API and behavior
 
 - `Logger { minimum: Level.Info, color: false }` is the default configuration.
-  Levels are `Trace`, `Debug`, `Info`, `Warn`, `Error`, `Fatal`, and `Off`, in increasing order.
+  Levels are `Trace`, `Debug`, `Info`, `Warn`, `Error`, `Fatal`, and `Off`, in increasing severity order.
   `Off` disables the logger and is never an emitted severity.
+  Enum representation tags preserve historical values; use `enabled` for filtering.
 - `Fatal` is a severity only: it never terminates the process.
 - `level_name(level)` returns its uppercase static name; `parse_level(text)`
   returns `(level, ok)`. Parsing accepts exact ASCII names case-insensitively,
@@ -255,6 +273,12 @@ See [matched synchronous comparisons](bench/compare/RESULTS.md), their
 [feature contract matrix](bench/comparison.md), and the earlier
 [single-library results](bench/results.md). These are scoped local
 measurements, not production throughput promises.
+
+`make bench-alloc` runs the optional Linux [allocation/arena probe](bench/alloc/README.md).
+It separates runtime initialization, cold and warm formatter calls, direct
+allocation/OS calls, logical arena usage, and minor page faults. GNU-compatible
+linker wrapping and pinned private runtime details are required. Zero direct
+allocation calls do not prove no arena growth or physical memory use.
 
 The synchronous core deliberately excludes file rotation, asynchronous queues,
 JSON output, global sink registration, implicit clocks, and automatic secret

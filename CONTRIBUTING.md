@@ -9,7 +9,10 @@ Use focused branches (`feat/...`, `fix/...`, `docs/...`) and Conventional
 Commits: `feat: add ...`, `fix: reject ...`, `docs: clarify ...`,
 `test: cover ...`, `chore: update ...`. Subjects are imperative and each
 commit contains one coherent change. Use semantic versions when a reviewed
-release is ready; there is no stability guarantee before 1.0.
+release is ready. Within 0.1.x, preserve the documented API, output bytes,
+bounds, and ownership rules. Before 1.0, intentional changes to that contract
+require a new minor version and a changelog entry. Undocumented helpers are
+implementation details.
 
 For behavior changes, add public API regression cases in `tests/logger.goose`.
 Run `make format`, `make check test`, and `git diff --check`. Exercise filtering,
