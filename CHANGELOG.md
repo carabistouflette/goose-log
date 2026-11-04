@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Validate the full Linux test/filesystem/sanitizer suites and correctness smokes
+  on native Ubuntu 24.04 ARM64, alongside x86-64, with separate architecture
+  caches and native architecture assertions. No runtime/compiler-pin change.
+- Report an unavailable CPU model as JSON `null` in benchmark metadata when
+  `/proc/cpuinfo` lacks `model name`; record architecture independently.
+
 ## 0.1.2 — 2026-11-05
 
 Test-and-documentation maintenance release. The core implementation, documented

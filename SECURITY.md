@@ -3,8 +3,9 @@
 This library has an experimental API before 1.0. Security fixes target the
 latest released version and `main`; older releases and pinned commits are not
 separately maintained. Review updates before replacing an application's pinned
-revision. Core validation covers Linux x86-64 and macOS 15 ARM64 with the pinned
-compiler; the hardened CLI adapter remains Linux-only. See
+revision. Core validation covers Linux x86-64, native Linux ARM64 and macOS 15
+ARM64 with the pinned compiler; the hardened CLI adapter is validated on both
+Linux architectures. See
 [platform validation](PORTABILITY.md) for tested coverage and limitations.
 
 ## Report a vulnerability

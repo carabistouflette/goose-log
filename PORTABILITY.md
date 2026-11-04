@@ -1,6 +1,6 @@
 # Platform validation
 
-Validated on 2026-11-04 at source
+Initial Linux x86-64/macOS validation ran on 2026-11-04 at source
 [`dae6c5b47ca5655af774af73b601df4c01cd650b`](https://github.com/carabistouflette/goose-log/commit/dae6c5b47ca5655af774af73b601df4c01cd650b),
 with pinned Goose compiler `eadca409f68210893f366e60d0c2f0dc29a339be`
 (`goose eadca40`, runtime `3025e5810379`). Both jobs in
@@ -68,12 +68,63 @@ Existing Arch Linux measurements and exact tool versions remain in
 [allocation observations](bench/alloc/RESULTS.md), and
 [CLI component results](bench/cli/RESULTS.md).
 
+## Linux ARM64
+
+Native Ubuntu ARM64 validation passed at source
+[`86b7ab599b19710a7739fc13f97e6e2773145b21`](https://github.com/carabistouflette/goose-log/commit/86b7ab599b19710a7739fc13f97e6e2773145b21).
+The `linux-arm64` job in
+[CI run 41935734506](https://github.com/carabistouflette/goose-log/actions/runs/41935734506)
+completed successfully at `2026-11-04T23:45:01Z`, along with the unchanged
+x86-64 and macOS suites. The runtime and compiler pin remain unchanged from
+v0.1.2; no performance improvement is claimed.
+
+The `ubuntu-24.04-arm` runner checked `uname -s = Linux` and
+`uname -m = aarch64` before cache restoration or setup. It reported Ubuntu
+24.04.5 LTS, kernel `7.0.0-1017-azure`, four Neoverse-N2 CPUs, little-endian
+byte order and 4096-byte pages. Workspace and `/tmp` filesystem labels from
+`stat -f` were `ext2/ext3`. GNU GCC/G++ 13.3.0 built the pinned compiler from
+source; Clang 18.1.3, CMake 3.31.6 and Python 3.12.3 were recorded.
+
+The same Linux job definition runs on both architectures, with separate
+OS/architecture caches and `fail-fast: false`. It retained every prior check:
+
+- `make check test`: JIT/native/debug API checks, independent 1792-case byte
+  and 160-case record oracles per native driver, ownership rejection, generic
+  file append/open/`/dev/full` checks, setup guards and Linux CLI tests.
+- Seeded mixed-operation sequences on normal/debug/JIT drivers, including the
+  state-only mutation/reduction/replay control. This is the bounded four-seed
+  CI corpus; the larger local campaign remains separate evidence.
+- Optimized/debug protected-page tests under GCC and Clang, including exact
+  short slices and inaccessible filtered/sensitive inputs.
+- Core standalone ASan/UBSan and sequence tests in debug/optimized builds,
+  plus the native CLI adapter's real filesystem suite under GCC and Clang.
+- Correctness smokes for the pinned cross-library comparison, allocation
+  probe, CLI component profiler and paired native hot-path harness.
+
+Reproduce on a native Ubuntu ARM64 host with the documented prerequisites:
+
+```sh
+make setup
+make check test
+make GOOSE_CC=gcc test-guarded
+make GOOSE_CC=clang test-guarded
+make SANITIZER_CC=gcc test-sanitize test-cli-sanitize
+make SANITIZER_CC=clang test-sanitize test-cli-sanitize
+```
+
+Review identified that three reporting scripts assumed the x86-style
+`/proc/cpuinfo` field `model name`. They now report JSON `null` if it is absent,
+and retain the actual architecture independently. Local synthetic missing-field
+controls passed all three scripts' output/counter/checksum smokes; the real
+ARM64 job then passed the complete suite. These smoke timings are not ARM64
+benchmark results. Existing published measurements remain Linux x86-64 evidence.
+
 ## Limits
 
 Only the core and generic stdlib file example are validated on macOS. The
 hardened application-owned CLI file adapter and optional profiling/comparison
 tools retain their Linux scope. No macOS performance result is claimed.
-Windows, macOS x86-64, Linux ARM64, other OS versions, and other Goose compiler
+Windows, macOS x86-64, other OS versions, and other Goose compiler
 revisions remain unverified.
 
 Sanitizers do not poison every logical array boundary/lifetime inside Goose's

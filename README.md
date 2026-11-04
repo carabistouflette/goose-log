@@ -91,15 +91,17 @@ zero. Undocumented implementation helpers are not part of this contract.
 ## Tested platforms
 
 The library is pure Goose with no platform-specific calls; applications supply
-their output adapter. The core is validated on **Linux x86-64** with GCC and
-Clang (Arch Linux locally and Ubuntu 24.04 CI), and **macOS 15 ARM64** with Apple
+their output adapter. The core is validated on **Linux x86-64** (Arch Linux
+locally and Ubuntu 24.04 CI), **Linux ARM64** (native Ubuntu 24.04 CI), with GCC
+and Clang, and **macOS 15 ARM64** with Apple
 Clang in CI. Both run JIT/native core checks, independent byte/record oracles,
 ownership rejection, protected pages, and native ASan/UBSan. LeakSanitizer is
 disabled on macOS. See [platform validation](PORTABILITY.md) for exact versions,
 commands, CI evidence, and coverage limits.
 
-The hardened CLI reference, allocation probe, and recorded comparative/component
-benchmarks remain Linux-only. Windows, macOS x86-64, and other architectures
+The hardened CLI reference and optional probe correctness smokes are validated
+on both Linux architectures. Recorded comparative/component performance results
+remain Linux x86-64 measurements. Windows, macOS x86-64, and other architectures
 are unverified, not promised supported.
 The setup script requires Bash. The optional protected-page tests additionally
 require POSIX `mprotect` and Python's `resource` module. Sanitizer tests require
