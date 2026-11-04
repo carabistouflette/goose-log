@@ -179,15 +179,15 @@ def main():
                       if r["case"] == case and r["variant"] == variant]
             summary.append(dict(case=case, variant=variant, median_ns=statistics.median(values),
                                 min_ns=min(values), max_ns=max(values)))
-    cpu = next(line.split(":", 1)[1].strip() for line in Path("/proc/cpuinfo").read_text().splitlines()
-               if line.startswith("model name"))
+    cpu = next((line.split(":", 1)[1].strip() for line in Path("/proc/cpuinfo").read_text().splitlines()
+                if line.startswith("model name")), None)
     result = dict(date_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
                   source=source, dirty=bool(status), baseline=args.baseline,
                   baseline_original_compiler=baseline_compiler,
                   baseline_library_sha256=digest(baseline), build_inputs=provenance,
                   binaries=hashes, flags="Goose -O2, GCC -O2, no LTO/sanitizers",
                   goose=command([goose, "version"]), gcc=command(["gcc", "--version"]).splitlines()[0],
-                  cpu=args.cpu, build_cpu=args.build_cpu, cpu_model=cpu, kernel=platform.release(),
+                  cpu=args.cpu, build_cpu=args.build_cpu, cpu_model=cpu, architecture=platform.machine(), kernel=platform.release(),
                   rounds=rounds, iterations=args.iterations, warmup_calls=1000, smoke=args.smoke,
                   seed="0x6005e", fixtures={name: {k: v for k, v in case.items()
                       if k not in ("path", "output")} for name, case in cases.items()},

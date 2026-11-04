@@ -249,8 +249,8 @@ def main():
                   libc=platform.libc_ver(), page_size=os.sysconf("SC_PAGESIZE"),
                   filesystem=command(["stat", "-f", "-c", "%T", BUILD], args.cpu),
                   filesystem_block_size=os.statvfs(BUILD).f_bsize,
-                  cpu_model=next(line.split(":", 1)[1].strip() for line in Path("/proc/cpuinfo").read_text().splitlines()
-                                 if line.startswith("model name")),
+                  cpu_model=next((line.split(":", 1)[1].strip() for line in Path("/proc/cpuinfo").read_text().splitlines()
+                                  if line.startswith("model name")), None),
                   cpu=args.cpu, build_cpu=recorded["build_cpu"], iterations=args.iterations, rounds=args.rounds,
                   warmup=args.warmup, seed=args.seed, file_limit=FILE_LIMIT,
                   fixture=dict(format="HNKBEN01 + big-endian u64 seed + 64 records of >BQI", bytes=len(data),

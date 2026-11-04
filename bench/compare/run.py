@@ -152,8 +152,8 @@ def main():
     summary = [dict(adapter=k[0], case=k[1], minimum=k[2], level=k[3],
                     median_ns=statistics.median(v), min_ns=min(v), max_ns=max(v))
                for k, v in sorted(groups.items())]
-    cpu = next(x.split(":", 1)[1].strip() for x in Path("/proc/cpuinfo").read_text().splitlines()
-               if x.startswith("model name"))
+    cpu = next((x.split(":", 1)[1].strip() for x in Path("/proc/cpuinfo").read_text().splitlines()
+                if x.startswith("model name")), None)
     result = dict(date_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
                   source=start_source,
                   dirty=bool(start_status),
@@ -161,7 +161,7 @@ def main():
                   goose_version=command([args.goose.resolve(), "version"]),
                   compiler=command(["gcc", "--version"]).splitlines()[0],
                   cpp_compiler=command(["g++", "--version"]).splitlines()[0],
-                  cpu_model=cpu, cpu=args.cpu, os=platform.system(), kernel=platform.release(),
+                  cpu_model=cpu, architecture=platform.machine(), cpu=args.cpu, os=platform.system(), kernel=platform.release(),
                   rounds=args.rounds, iterations=args.iterations, warmup_calls=1000,
                   seed="0x6005e", dependencies={k: dict(url=v[0], commit=v[1]) for k, v in PINS.items()},
                   fixtures={k: dict(bytes=len(v), sha256=hashlib.sha256(v).hexdigest()) for k, v in fixtures.items()},
