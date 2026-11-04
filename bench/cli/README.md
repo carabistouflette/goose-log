@@ -123,6 +123,7 @@ during the run invalidate results. Output defaults to ignored
 Results include OS/kernel/architecture/libc, page size, CPU model/affinity,
 filesystem type/block size, seed, exact fixture bytes, warmup, counts, validated
 file/proof hashes, all elapsed batches, and summaries. Pin the recorded source
-commit and toolchain when reproducing. Benchmarking never writes to a shared
-Honk checkout; actual application integration belongs to the isolated owner
-handoff.
+commit and toolchain when reproducing. The benchmark writes ignored `.build/cli`
+artifacts and does not modify an application checkout.
+
+See [recorded results and raw samples](RESULTS.md) for the measured source pin.

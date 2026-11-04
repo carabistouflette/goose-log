@@ -28,7 +28,7 @@ make test-cli
 It preserves a JSON business result on stdout while writing diagnostic events
 to the explicitly selected private file. `--fail` exercises a fixed business
 failure and exit code 7. This fixture replays a lifecycle; it is not Honk itself.
-The separately tested Honk handoff is not part of a published Honk release here.
+Applications adapt this fixed lifecycle boundary to their own control flow.
 
 ## Goose API
 
