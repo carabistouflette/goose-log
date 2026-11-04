@@ -27,3 +27,10 @@ with the downloaded sources. They are comparison-only dependencies, not imports
 of the goose-log library. The matched-policy benchmark deliberately calls the
 third-party Goose timestamp formatter/redactor on both paths; it does not
 relicense those sources or make their automatic policy part of goose-log.
+
+The optional UTC example, its tests and component benchmark import
+[goose-time](https://github.com/carabistouflette/goose-time) at
+`343887caeee0a1f4e2e536ff322fcafb454e11bd` (Apache-2.0). Goose fetches that
+source into its package cache; the source is not bundled here. Its LICENSE and
+notices remain in the fetched repository. It is not a dependency of logger.goose
+or the standard core test targets.

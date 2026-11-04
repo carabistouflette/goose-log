@@ -1,0 +1,86 @@
+{
+  "ascii": {
+    "adapter_fixed": {
+      "max_ns_per_call": 338.875,
+      "median_ns_per_call": 335.1953125,
+      "min_ns_per_call": 331.515625
+    },
+    "adapter_os": {
+      "max_ns_per_call": 299.390625,
+      "median_ns_per_call": 290.984375,
+      "min_ns_per_call": 282.578125
+    },
+    "clock_only": {
+      "max_ns_per_call": 58.59375,
+      "median_ns_per_call": 54.625,
+      "min_ns_per_call": 50.65625
+    },
+    "filtered_adapter": {
+      "max_ns_per_call": 8.546875,
+      "median_ns_per_call": 6.921875,
+      "min_ns_per_call": 5.296875
+    },
+    "filtered_record": {
+      "max_ns_per_call": 14.421875,
+      "median_ns_per_call": 13.1640625,
+      "min_ns_per_call": 11.90625
+    },
+    "format_only": {
+      "max_ns_per_call": 136.328125,
+      "median_ns_per_call": 127.8046875,
+      "min_ns_per_call": 119.28125
+    },
+    "plain_record": {
+      "max_ns_per_call": 78.453125,
+      "median_ns_per_call": 74.0703125,
+      "min_ns_per_call": 69.6875
+    },
+    "preformatted_record": {
+      "max_ns_per_call": 187.671875,
+      "median_ns_per_call": 164.0234375,
+      "min_ns_per_call": 140.375
+    }
+  },
+  "escaped": {
+    "adapter_fixed": {
+      "max_ns_per_call": 298.640625,
+      "median_ns_per_call": 291.59375,
+      "min_ns_per_call": 284.546875
+    },
+    "adapter_os": {
+      "max_ns_per_call": 427.515625,
+      "median_ns_per_call": 387.40625,
+      "min_ns_per_call": 347.296875
+    },
+    "clock_only": {
+      "max_ns_per_call": 64.171875,
+      "median_ns_per_call": 61.2890625,
+      "min_ns_per_call": 58.40625
+    },
+    "filtered_adapter": {
+      "max_ns_per_call": 7.484375,
+      "median_ns_per_call": 6.515625,
+      "min_ns_per_call": 5.546875
+    },
+    "filtered_record": {
+      "max_ns_per_call": 13.515625,
+      "median_ns_per_call": 12.671875,
+      "min_ns_per_call": 11.828125
+    },
+    "format_only": {
+      "max_ns_per_call": 131.25,
+      "median_ns_per_call": 124.9921875,
+      "min_ns_per_call": 118.734375
+    },
+    "plain_record": {
+      "max_ns_per_call": 96.421875,
+      "median_ns_per_call": 91.0859375,
+      "min_ns_per_call": 85.75
+    },
+    "preformatted_record": {
+      "max_ns_per_call": 182.859375,
+      "median_ns_per_call": 178.1875,
+      "min_ns_per_call": 173.515625
+    }
+  }
+}

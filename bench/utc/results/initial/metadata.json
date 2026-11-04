@@ -1,0 +1,145 @@
+{
+  "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "build_cpu": 7,
+  "cc": "gcc",
+  "cc_version": "gcc (GCC) 16.2.1 20260810\nCopyright (C) 2026 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+  "cleared_environment": [
+    "GOOSE_CC",
+    "GOOSE_STDLIB",
+    "CFLAGS",
+    "CPPFLAGS",
+    "CXXFLAGS",
+    "LDFLAGS"
+  ],
+  "compiler_revision": "eadca409f68210893f366e60d0c2f0dc29a339be",
+  "compiler_tracked_status": "",
+  "compiler_version": "goose eadca40 (runtime 3025e5810379)",
+  "cpu_model": "Intel(R) Core(TM) Ultra 7 258V",
+  "created_utc": "2026-11-04T23:27:01.994986+00:00",
+  "dependency": {
+    "files": {
+      "GOOSE_REVISION": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+      "detail.goose": "54e54e81fa2efc3efb00d380f19ca46af5ca728fbc8e9004d562c965357754d6",
+      "time.goose": "9a43e3f14b838ab7f40e9968ce35c0972f23cfd663408d773bff67da491cb2b7"
+    },
+    "revision": "343887caeee0a1f4e2e536ff322fcafb454e11bd"
+  },
+  "executable_sha256": "bf6515f11375c8dadd315695817d2794e895c05dfe0798e2386b59ab63dbce85",
+  "fixtures": {
+    "ascii": {
+      "items": 8,
+      "message_lengths": [
+        25,
+        25,
+        25,
+        25,
+        25,
+        25,
+        25,
+        25
+      ],
+      "sha256": "b81f407a1e92c582e8f78370ac92a264b0b2bd6f2a0a0cac9f75fbe198c18685",
+      "timestamp_lengths": [
+        30,
+        30,
+        20,
+        30,
+        20,
+        25,
+        30,
+        30
+      ]
+    },
+    "escaped": {
+      "items": 8,
+      "message_lengths": [
+        25,
+        25,
+        25,
+        25,
+        25,
+        25,
+        25,
+        25
+      ],
+      "sha256": "acbac3a0fcb696eff3f22fbb786f5fa7b3f852cbb1d6b561bb4b1608f220b1c9",
+      "timestamp_lengths": [
+        30,
+        30,
+        20,
+        30,
+        20,
+        25,
+        30,
+        30
+      ]
+    }
+  },
+  "flags": [
+    "--cc",
+    "gcc",
+    "-O2",
+    "--standalone"
+  ],
+  "iterations": 100000,
+  "limitations": [
+    "Shared host; CPU frequency/turbo and thermal state uncontrolled; no isolated core.",
+    "Loop/indexing, runtime stage dispatch, counters, status checks and full-byte checksums are timed.",
+    "Clock stages include per-sample trace stores; serialization and verification are outside timing.",
+    "Without --retain-traces full OS traces are independently checked then discarded; trace hashes and all batch results remain.",
+    "Batch averages are not individual-call latency distributions; stages cannot be subtracted as an exact decomposition."
+  ],
+  "machine": "x86_64",
+  "measurement_cpu": 0,
+  "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+  "python": "3.14.9",
+  "retain_traces": false,
+  "rounds": 7,
+  "schema": 1,
+  "seed": 3339,
+  "smoke": false,
+  "source_commit": "a29dd800171bdc2084155393e795908bf20d2632",
+  "source_dirty": true,
+  "source_hashes": {
+    "GOOSE_REVISION": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+    "bench/utc/driver.goose": "47606dab892064aadf1f40ef8e0577b74c9cc780e0ae26e72bc27bbc0371d665",
+    "bench/utc/run.py": "a0b87e85ccd8517523429c696e7bc650de7567877d3a9c3e197224ede11547f0",
+    "compiler/src/runtime/goose.h": "51234daf2f8fb52d4a18158175ed517ab5bfeeb5473c5448babf19f94ffbeccf",
+    "compiler/src/runtime/jit_c.h": "d4c8f0d2e577982f68fdabeaa32f58698ddbafcbb19ca3c9952103725dd8e371",
+    "compiler/src/runtime/runtime.h": "5e744690e69fd4b365adbe24b1eea86cefd0d1789b38216c1d7c62e117021521",
+    "compiler/src/runtime/runtime_ext.h": "d50f3c7eacbff5969aa1af513938db0e444240efaf44cb97373bec49abb01d9e",
+    "compiler/src/runtime/runtime_impl.h": "f95d3d3360614853e4abdbd39a45cfcbbd1aad0136eeffb8c02af371f7676680",
+    "compiler/src/runtime/runtime_os.h": "196308b80c7fbc34eb45fcc3e4231b02bb1c5a2e99ca7ebe109f4e2301de21ab",
+    "compiler/src/runtime/runtime_threads.h": "f7540e51cedccf3c6302531541a035ebbf3c68a047ba04b2a66ba3ada5e620e7",
+    "compiler/stdlib/base64.goose": "fa1111ce46e9534311f825880dbd2988953430aeb3f1f52d8f0eaecbbc298a61",
+    "compiler/stdlib/binary.goose": "24f3f09192738f42dfc0cb08b7447bbdc38009f7fec2567cae932b3022455631",
+    "compiler/stdlib/csv.goose": "a49b0647f4a2f8ca36170e5a184ab6c6e505492434d0a10a5e05127e96da61ba",
+    "compiler/stdlib/dictionary.goose": "fb39f896731faf3799e81727f7261849a62bdfbdc92d5fdbc36405a85830f322",
+    "compiler/stdlib/exception.goose": "093863eda5433176750182b597aa6760a93808d86b0c9b713681443d2fb29160",
+    "compiler/stdlib/ffi.goose": "e092b245fbe13ee2fdc71599b7b8eb44198e5261cad9600b7681e13ad75a6c2e",
+    "compiler/stdlib/json.goose": "81595baa298b9b0deb271297c971166fd084c13b128bba2a7f7486191ea0de4e",
+    "compiler/stdlib/math.goose": "b20bd3f78cd1ca291fdbc65df85d9aeaa77054cdf601b5adecfdd4f9db9f0d6e",
+    "compiler/stdlib/os.goose": "2193f394d44469daffd993ed204a91b068084fd8db13e261e11156b40c66e934",
+    "compiler/stdlib/regex.goose": "1ea3fc0a38402f29193777478b793b4a74a3074da0e3baf96f0b54eea1a84a95",
+    "compiler/stdlib/slice_pool.goose": "e15aa757be8edea4b367ac0b2cb8cce48df9f4f249f5002a9393475cc89404f0",
+    "compiler/stdlib/slice_pool_internal.goose": "488048c4e67754c878aa24ae25a941833a4a1a36ba679a2444b13806e7d42e15",
+    "compiler/stdlib/slot_pool.goose": "e83b975bfff2806df0401afc3e37e147618c5673a9c98690007e6beb3bd51745",
+    "compiler/stdlib/std.goose": "2bff7f6748300396e4c048bbf072f798566fadfe6b05d4256052d32c93e6d5d2",
+    "compiler/stdlib/vec.goose": "2cac168c72047834433bfb419734c38455c9429ea045b1273898031c53faa82e",
+    "compiler_binary": "5e5bd97c13d8f4902855e6bbd2df1be510b81f13fe92a2482c9ac5e208bdb7a9",
+    "examples/utc/utc.goose": "831865065c7b86c92439de601a5fb65a52d15630b914cd3b5ffd75614fa3d67e",
+    "logger.goose": "9b13b2ff7af3e683df6a0f2c218102023274fe13c0eb57c2c880fc177b6a9171"
+  },
+  "source_status": "M examples/utc/README.md\n?? bench/utc/\n?? examples/utc/VALIDATION.md",
+  "validation": "passed",
+  "warmup": 64
+}

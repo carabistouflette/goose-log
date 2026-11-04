@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Optional application-owned UTC record consumer using pinned goose-time,
+  injected clocks and reusable builders. Core source, contract and dependencies
+  remain unchanged; optional tests and component measurements cover the integration.
+
 ## 0.1.2 — 2026-11-05
 
 Test-and-documentation maintenance release. The core implementation, documented
