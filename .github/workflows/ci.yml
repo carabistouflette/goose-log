@@ -41,6 +41,8 @@ jobs:
         run: python3 bench/alloc/run.py --iterations 10
       - name: CLI component profile correctness smoke
         run: python3 bench/cli/run.py --smoke --cpu 0 --build-cpu 0
+      - name: Native runtime-input hot-path correctness smoke
+        run: python3 bench/hotpath/run.py --baseline "$(git rev-parse HEAD)" --smoke --cpu 0 --build-cpu 0
   macos-arm64:
     runs-on: macos-15
     timeout-minutes: 30

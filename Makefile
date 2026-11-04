@@ -17,7 +17,7 @@ check: check-core
 	$(GOOSE) check tests/cli_sink.goose
 	$(GOOSE) check tests/cli_state.goose
 check-core:
-	$(GOOSE) format --check logger.goose tests/logger.goose tests/features.goose tests/record_oracle.goose tests/overloads.goose tests/differential.goose tests/guarded.goose examples/hello.goose examples/file.goose bench/bench.goose
+	$(GOOSE) format --check logger.goose tests/logger.goose tests/features.goose tests/record_oracle.goose tests/overloads.goose tests/differential.goose tests/guarded.goose examples/hello.goose examples/file.goose bench/bench.goose bench/hotpath/driver.goose
 	$(GOOSE) check logger.goose
 	$(GOOSE) check tests/logger.goose
 	$(GOOSE) check tests/features.goose
@@ -28,6 +28,7 @@ check-core:
 	$(GOOSE) check examples/hello.goose
 	$(GOOSE) check examples/file.goose
 	$(GOOSE) check bench/bench.goose
+	$(GOOSE) check bench/hotpath/driver.goose
 test: test-core
 	$(MAKE) test-cli
 test-core:
