@@ -4,7 +4,7 @@ BENCH_ITERATIONS ?= 100000
 # Goose keys generated C by source path, so concurrent goals can overwrite it.
 .NOTPARALLEL:
 
-.PHONY: setup format check check-core test test-core test-sanitize test-guarded test-cli test-cli-sanitize bench bench-compare bench-alloc
+.PHONY: setup format check check-core test test-core test-sanitize test-guarded test-cli test-cli-sanitize test-sequences test-sequences-sanitize bench bench-compare bench-alloc
 setup:
 	./scripts/setup-goose.sh
 format:
@@ -17,6 +17,8 @@ check: check-core
 	$(GOOSE) check tests/cli_sink.goose
 	$(GOOSE) check tests/cli_state.goose
 check-core:
+	$(GOOSE) format --check tests/sequences.goose
+	$(GOOSE) check tests/sequences.goose
 	$(GOOSE) format --check logger.goose tests/logger.goose tests/features.goose tests/record_oracle.goose tests/overloads.goose tests/differential.goose tests/guarded.goose examples/hello.goose examples/file.goose bench/bench.goose bench/hotpath/driver.goose
 	$(GOOSE) check logger.goose
 	$(GOOSE) check tests/logger.goose
@@ -55,6 +57,18 @@ test-core:
 	$(GOOSE) build tests/record_oracle.goose -o .build/record-oracle
 	$(GOOSE) build tests/record_oracle.goose --debug --no-bce -o .build/record-oracle-debug
 	python3 tests/records.py .build/record-oracle .build/record-oracle-debug
+	$(MAKE) test-sequences
+test-sequences:
+	mkdir -p .build
+	$(GOOSE) build tests/sequences.goose -o .build/sequences-native
+	$(GOOSE) build tests/sequences.goose --debug --no-bce -o .build/sequences-debug
+	GOOSE="$(GOOSE)" python3 -O tests/sequences.py .build/sequences-native .build/sequences-debug tests/sequences_jit.sh
+	python3 -O tests/sequence_control.py $(GOOSE)
+test-sequences-sanitize:
+	mkdir -p .build
+	$(GOOSE) build tests/sequences.goose --debug --no-bce --standalone --cc ./scripts/sanitizer-cc.sh -o .build/sequences-sanitized
+	$(GOOSE) build tests/sequences.goose -O2 --standalone --cc ./scripts/sanitizer-cc.sh -o .build/sequences-sanitized-release
+	python3 -O tests/sequences.py .build/sequences-sanitized .build/sequences-sanitized-release
 test-cli:
 	mkdir -p .build
 	$(GOOSE) build examples/cli/consumer.goose -o .build/cli-consumer
@@ -76,6 +90,7 @@ test-sanitize:
 	./.build/features-sanitized
 	$(GOOSE) build tests/record_oracle.goose -O2 --standalone --cc ./scripts/sanitizer-cc.sh -o .build/record-oracle-sanitized
 	python3 tests/records.py .build/record-oracle-sanitized
+	$(MAKE) test-sequences-sanitize
 test-guarded:
 	mkdir -p .build
 	$(GOOSE) build tests/guarded.goose -O2 -o .build/guarded
