@@ -5,6 +5,7 @@ import argparse
 import datetime
 import hashlib
 import json
+import os
 import platform
 import subprocess
 
@@ -77,7 +78,8 @@ def main():
     output = dict(date_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
                   source=source, dirty=bool(status), build_inputs=frozen,
                   flags=flags, linker_wraps=WRAPS, driver_sha256=binary_hash,
-                  os=platform.system(), kernel=platform.release(), iterations=args.iterations,
+                  os=platform.system(), kernel=platform.release(), page_size=os.sysconf("SC_PAGESIZE"),
+                  iterations=args.iterations,
                   measured_input=dict(bytes=4097, byte_value=255), records=records)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(output, indent=2) + "\n")

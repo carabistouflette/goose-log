@@ -135,7 +135,9 @@ static void control(void) {
     if (observed.malloc_calls != 1 || observed.calloc_calls != 1 ||
         observed.realloc_calls != 1 || observed.free_calls != 2 ||
         observed.mmap_calls != 1 || observed.mprotect_calls != 1 ||
-        observed.munmap_calls != 1 || observed.madvise_calls != 1) abort();
+        observed.munmap_calls != 1 || observed.madvise_calls != 1 ||
+        observed.malloc_bytes != 31 || observed.calloc_bytes != 34 ||
+        observed.realloc_bytes != 67 || observed.mmap_bytes != page) abort();
 }
 
 int main(int argc, char **argv) {
