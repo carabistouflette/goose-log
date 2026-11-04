@@ -45,6 +45,7 @@ fn main() {
     var checksum: i64 = 0;
     var calls:    i64 = 0;
     var written:  i64 = 0;
+    var filtered: i64 = 0;
     let start = clock_ns();
     for i in count {
         let level = levels[header[1 + 2 * (i % 2)] as i64];
@@ -54,10 +55,12 @@ fn main() {
             true
         };
         written += if status == log::Status.Written { 1 } else { 0 };
+        filtered += if status == log::Status.Filtered { 1 } else { 0 };
     }
     let elapsed = clock_ns() - start;
     assert(scratch == expected && calls == (if accepted { count } else { 0 }));
     assert(written == calls);
+    assert(filtered == count - calls);
     print("{\"elapsed_ns\":", elapsed, ",\"iterations\":", count,
           ",\"calls\":", calls, ",\"checksum\":", checksum, "}");
 }
