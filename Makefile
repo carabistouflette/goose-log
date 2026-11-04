@@ -104,3 +104,23 @@ bench-compare:
 	python3 bench/compare/run.py --goose $(GOOSE) --iterations $(BENCH_ITERATIONS)
 bench-alloc:
 	python3 bench/alloc/run.py --goose $(GOOSE)
+
+.PHONY: test-utc test-utc-sanitize
+test-utc:
+	$(GOOSE) format --check examples/utc tests/utc.goose
+	$(GOOSE) check examples/utc/main.goose
+	$(GOOSE) check tests/utc.goose
+	$(GOOSE) run tests/utc.goose
+	$(GOOSE) run tests/utc.goose --debug
+	mkdir -p .build/utc
+	$(GOOSE) build tests/utc.goose -o .build/utc/tests
+	./.build/utc/tests
+	$(GOOSE) build tests/utc.goose --debug --no-bce -o .build/utc/tests-debug
+	./.build/utc/tests-debug
+	python3 tests/utc_ownership.py $(GOOSE)
+test-utc-sanitize:
+	mkdir -p .build/utc
+	$(GOOSE) build tests/utc.goose --debug --no-bce --standalone --cc ./scripts/sanitizer-cc.sh -o .build/utc/tests-sanitized
+	./.build/utc/tests-sanitized
+	$(GOOSE) build tests/utc.goose -O2 --standalone --cc ./scripts/sanitizer-cc.sh -o .build/utc/tests-sanitized-release
+	./.build/utc/tests-sanitized-release

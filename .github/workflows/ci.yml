@@ -15,6 +15,14 @@ jobs:
           key: goose-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('GOOSE_REVISION', 'scripts/setup-goose.sh') }}
       - run: make setup
       - run: make check test
+      - name: Optional UTC record consumer with pinned goose-time
+        run: make test-utc
+      - name: GCC optional UTC consumer sanitizers
+        run: make test-utc-sanitize
+      - name: Clang optional UTC consumer sanitizers
+        run: make test-utc-sanitize
+        env:
+          SANITIZER_CC: clang
       - name: GCC protected-page tests
         run: make test-guarded
         env:

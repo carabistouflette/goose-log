@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Optional application-owned UTC record consumer using pinned goose-time,
+  injected clocks and reusable builders. Core source, contract and dependencies
+  remain unchanged; optional tests and component measurements cover the integration.
+
 - Seeded mixed-operation state tests with replayable fixtures, bounded reduction,
   owned/borrowed lazy builders and a state-only mutation control.
 
