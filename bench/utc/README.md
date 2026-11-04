@@ -19,7 +19,9 @@ Choose available CPUs; defaults use the first available CPU for measurement and
 last available CPU for compilation. `--goose /absolute/path/to/goose` overrides
 the default pinned compiler, and `--cc gcc` selects the C compiler. Builds use
 `-O2 --standalone` without native CPU tuning. The runner verifies the compiler
-checkout against GOOSE_REVISION and records its binary hash and version.
+checkout and executable’s advertised revision against GOOSE_REVISION and records
+its binary hash and version. The advertised short revision is an identity check,
+not cryptographic verification of the executable.
 `--allow-dirty` permits exploratory measurements while recording the dirty state
 and exact source hashes. Smoke permits dirty sources, caps iterations at 64 and
 rounds at two, and provides correctness evidence rather than useful timings.

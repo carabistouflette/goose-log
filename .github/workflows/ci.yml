@@ -17,6 +17,8 @@ jobs:
       - run: make check test
       - name: Optional UTC record consumer with pinned goose-time
         run: make test-utc
+      - name: Optional UTC component benchmark correctness smoke
+        run: make bench-utc-smoke
       - name: GCC optional UTC consumer sanitizers
         run: make test-utc-sanitize
       - name: Clang optional UTC consumer sanitizers

@@ -117,10 +117,19 @@ test-utc:
 	./.build/utc/tests
 	$(GOOSE) build tests/utc.goose --debug --no-bce -o .build/utc/tests-debug
 	./.build/utc/tests-debug
-	python3 tests/utc_ownership.py $(GOOSE)
+	python3 tests/utc_ownership.py "$(GOOSE)"
+	python3 tests/utc_bench.py
 test-utc-sanitize:
 	mkdir -p .build/utc
 	$(GOOSE) build tests/utc.goose --debug --no-bce --standalone --cc ./scripts/sanitizer-cc.sh -o .build/utc/tests-sanitized
 	./.build/utc/tests-sanitized
 	$(GOOSE) build tests/utc.goose -O2 --standalone --cc ./scripts/sanitizer-cc.sh -o .build/utc/tests-sanitized-release
 	./.build/utc/tests-sanitized-release
+
+.PHONY: bench-utc bench-utc-smoke
+bench-utc:
+	mkdir -p .build/utc
+	python3 bench/utc/run.py --goose "$(GOOSE)" --iterations $(BENCH_ITERATIONS) --output "$$(mktemp -d .build/utc/measurement-XXXXXX)"
+bench-utc-smoke:
+	mkdir -p .build/utc
+	python3 bench/utc/run.py --goose "$(GOOSE)" --smoke --output "$$(mktemp -d .build/utc/smoke-XXXXXX)"

@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import platform
 import random
+import re
 import shutil
 import statistics
 import struct
@@ -157,6 +158,13 @@ def dependency_snapshot(cache):
                       for name in ("time.goose", "detail.goose", "GOOSE_REVISION")}}
 
 
+def verify_compiler_version(version, revision):
+    # Goose advertises a short revision; also retain the exact executable hash.
+    match = re.match(r"\Agoose ([0-9a-f]{7,40})(?:\s|$)", version)
+    if match is None or not revision.startswith(match[1]):
+        raise SystemExit("compiler executable advertised revision does not match GOOSE_REVISION")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--goose", default=os.environ.get("GOOSE", str(ROOT / ".toolchain/goose/build/goose")))
@@ -195,6 +203,8 @@ def main():
     compiler_revision = command(["git", "-C", compiler_root, "rev-parse", "HEAD"])
     if compiler_revision != (ROOT / "GOOSE_REVISION").read_text().strip():
         parser.error("compiler source checkout does not match GOOSE_REVISION")
+    compiler_version = command([goose, "version"])
+    verify_compiler_version(compiler_version, compiler_revision)
     before = snapshot(goose, compiler_root)
     output.mkdir(parents=True, exist_ok=True)
     cache = ROOT / ".build/utc/cache"
@@ -213,7 +223,7 @@ def main():
     metadata = dict(schema=1, created_utc=dt.datetime.now(dt.timezone.utc).isoformat(),
                     source_commit=source, source_dirty=bool(dirty), source_status=dirty,
                     source_hashes=before, dependency=dependency, compiler_revision=compiler_revision,
-                    compiler_version=command([goose, "version"], env=env),
+                    compiler_version=compiler_version,
                     compiler_tracked_status=command(["git", "-C", compiler_root, "status", "--porcelain", "--untracked-files=no"]),
                     cc=args.cc, cc_version=command([args.cc, "--version"]), flags=flags,
                     cleared_environment=list(cleared), executable_sha256=binary_hash,
