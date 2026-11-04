@@ -86,12 +86,6 @@ inline fn append_prefix(logger: Logger, level: Level, out: u8[>..]&) {
 }
 
 inline fn append_message(message: const u8[:], out: u8[>..]&) {
-    // Copy short clean messages once; all other inputs use the original tail loop.
-    if message.len >= 16 && message.len < 512 && message[0] >= 0x20
-        && message[0] <= 0x7e && message[0] != '\\' && find_any(message, UNSAFE_BYTES) < 0 {
-        out.append(message);
-        return;
-    }
     let hex = "0123456789abcdef";
     let count = if message.len < MAX_MESSAGE_BYTES { message.len } else { MAX_MESSAGE_BYTES };
     let prefix = message[..count];
