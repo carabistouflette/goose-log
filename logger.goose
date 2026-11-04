@@ -1,5 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
+import std;
 namespace log;
+
+fn unsafe_bytes() -> ByteSet {
+    var members: bool[256] = [false; 256];
+    for i in 256 { members[i] = i < 32 || i > 126 || i == 92; }
+    byte_set(members)
+}
+const UNSAFE_BYTES = unsafe_bytes();
 
 // Preserve the original default (Debug) and representation tags. Filtering
 // uses named variants rather than declaration/tag order.
@@ -80,7 +88,14 @@ inline fn append_prefix(logger: Logger, level: Level, out: u8[>..]&) {
 inline fn append_message(message: const u8[:], out: u8[>..]&) {
     let hex = "0123456789abcdef";
     let count = if message.len < MAX_MESSAGE_BYTES { message.len } else { MAX_MESSAGE_BYTES };
-    for c in message[..count] {
+    let prefix = message[..count];
+    var first: i64 = 0;
+    if count >= 512 {
+        let found = find_any(prefix, UNSAFE_BYTES);
+        if found < 0 { out.append(prefix); first = count; }
+        else if found > 0 { out.append(prefix[..found]); first = found; }
+    }
+    for c in prefix[first..] {
         if c == '\\' { out.append("\\\\"); }
         else if c >= 0x20 && c <= 0x7e { out.push(c); }
         else {

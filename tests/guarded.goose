@@ -23,6 +23,8 @@ fn main() {
     // The filtered message starts on inaccessible memory. Neither scanning
     // nor calling the sink is permitted, and existing scratch must survive.
     let filtered_offset = guarded_offset(backing, 0);
+    let invalid_level, invalid_ok = log::parse_level(backing[filtered_offset..]);
+    assert(!invalid_ok && invalid_level == log::Level.Off);
     assert(!log::render(config, log::Level.Debug, backing[filtered_offset..], scratch));
     var calls = 0;
     let filtered = log::emit(config, log::Level.Debug, backing[filtered_offset..], scratch) { line =>
@@ -46,5 +48,36 @@ fn main() {
     for i in 4096 { expected.append("\\xff"); }
     expected.append("... [truncated]\n");
     assert(scratch == expected);
+
+    // Exercise the accelerated clean-prefix scan all the way to the boundary.
+    for i in offset..offset + 4096 { backing[i] = 'a'; }
+    let safe_start = guarded_offset(backing, 4096);
+    assert(log::render(config, log::Level.Info, backing[safe_start..], scratch));
+    guarded_restore(backing, 4096);
+    expected.clear();
+    expected.append("[INFO] ");
+    for i in 4096 { expected.push('a'); }
+    expected.append("... [truncated]\n");
+    assert(scratch == expected);
+
+    // Metadata and field caps must not inspect their protected tails either.
+    for kind in 5 {
+        let cap = if kind == 2 || kind == 4 { 256 } else { 64 };
+        let start = guarded_offset(backing, cap);
+        let text: const u8[:] = backing[start..];
+        let fields = [log::Field { key: if kind == 3 { text } else { "key" },
+            value: if kind == 4 { text } else { "value" } }];
+        let record = log::Record { message: "safe", timestamp: if kind == 0 { text } else { "" },
+            target: if kind == 1 { text } else { "" }, file: if kind == 2 { text } else { "" }, fields: fields };
+        assert(log::render_record(config, record, scratch));
+        guarded_restore(backing, cap);
+        assert(scratch.len <= log::MAX_RECORD_LINE_BYTES);
+    }
+    let secret_start = guarded_offset(backing, 0);
+    let secret_fields = [log::Field { key: "secret", value: backing[secret_start..], sensitive: true }];
+    let secret_record = log::Record { message: "safe", fields: secret_fields };
+    assert(log::render_record(config, secret_record, scratch));
+    guarded_restore(backing, 0);
+    assert(scratch == "[INFO] \"secret\"=\"***\" safe\n");
     print("guarded input tests passed");
 }
