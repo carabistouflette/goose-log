@@ -1,14 +1,19 @@
-# Synchronous logging comparison and proposed parity scope
+# Synchronous logging feature comparison
 
-Research date: 2026-11-04. Primary sources only. This is a feature and measurement-plan review, **not evidence that goose-log is faster**. No competitor was built or benchmarked during this research.
-
-The inspected local API is `logger.goose` at goose-log `b4c664b3c41179fb38b25e98929891283318bd8f`; implementations may change concurrently after this snapshot. The existing measurements instead identify `e450b55dcda36ca8b197ed5f17c2da79f847d8db`. Keep those versions separate. Sources: [snapshot README][gl-readme], [implementation][gl-code], [benchmark source][gl-bench], and local [recorded measurements](results.md).
+Reviewed 2026-11-04 against primary sources. The initial feature review used
+published goose-log `b4c664b3c41179fb38b25e98929891283318bd8f`. The updated
+implementation below is pinned to `5c5db8fd5fe733e51e5230def818a336a367e069`:
+six severities, deferred builders, bounded metadata/string fields, and explicit
+sensitive-field masking are now implemented and tested. The old single-library
+[results](results.md) retain their original source pin; the new
+[measured comparisons](compare/RESULTS.md) use the updated implementation.
+Sources: [README][gl-readme], [implementation][gl-code], [benchmark][gl-bench].
 
 ## Recommendation
 
-Use **rxi/log.c as the smallest manageable external synchronous baseline**, with its original source pinned and the benchmark adapter identified separately. Use **Macho0x/goose-logger as the closest discovered Goose ecosystem feature reference**. Its record renderer is easy to call without I/O, but performs substantially different work (timestamp formatting and redaction), so comparing its native output against goose-log's minimal output cannot establish equal-feature performance. Use synchronous spdlog as an optional larger reference. Rust `log`/`env_logger` and Go `slog` are feature references here; implementing and benchmarking all of them is outside this proposed small comparison. These are scope judgments based on the source review below.
+Use **rxi/log.c as the smallest manageable external synchronous baseline**, with its original source pinned and the benchmark adapter identified separately. Use **Macho0x/goose-logger as the closest discovered Goose ecosystem feature reference**. Its record renderer is easy to call without I/O, but performs substantially different work (timestamp formatting and redaction), so comparing its native output against goose-log's minimal output cannot establish equal-feature performance. Synchronous spdlog supplies the larger measured reference. Rust `log`/`env_logger` and Go `slog` are feature references here; implementing and benchmarking all of them is outside this small comparison. These are scope judgments based on the source review below.
 
-A defensible near-term parity target is six severities, a deferred message-builder entry point, and optional explicit metadata. It is not the union of every feature in every framework. Preserve bounded byte-safe rendering and explicit ownership while measuring each enabled feature's cost.
+The implemented shared synchronous core has six severities, a deferred message-builder entry point, optional explicit metadata, and bounded string fields. It is not the union of every feature in every framework. Preserve bounded byte-safe rendering and explicit ownership while measuring each enabled feature's cost.
 
 ## Ecosystem identification and search limits
 
@@ -24,7 +29,7 @@ Release information was checked against official GitHub release endpoints/pages;
 
 | Project / layer | Reviewed release or snapshot | Exact commit | License from project source |
 | --- | --- | --- | --- |
-| goose-log: facade + renderer + sink bridge | main snapshot; no published release returned | `b4c664b3c41179fb38b25e98929891283318bd8f` | [Apache-2.0][gl-license] |
+| goose-log: facade + renderer + sink bridge | implementation snapshot; no tagged release | `5c5db8fd5fe733e51e5230def818a336a367e069` | [Apache-2.0][gl-license] |
 | Macho0x/goose-logger: process-log renderer/backend | [v0.3.4][ml-release], 2026-11-03 | `50695a3df0eb5a1048a4b183538d59f43f5eb279` | [Apache-2.0][ml-license] |
 | rxi/log.c: small synchronous frontend/backend | Header says `0.1.0`; no tags and no GitHub release returned; commit dated 2020-06-20 | `f9ea34994bd58ed342d2245cd4110bb5c6790153` | [MIT][rxi-code] |
 | gabime/spdlog: frontend + configurable sinks | [v1.17.0][spd-release], 2026-01-04 | `79524ddd08a4ec981b7fea76afd08ee05f83755d` | [MIT; bundled fmt has its own MIT notice][spd-license] |
@@ -32,7 +37,7 @@ Release information was checked against official GitHub release endpoints/pages;
 | rust-cli/env_logger: backend for `log` | [v0.11.11][env-release], 2026-06-25 | `b4d3f2b8dd3f1c3362f07da8f6f4a30c701358cf` | [MIT OR Apache-2.0][env-manifest] |
 | Go log/slog: frontend + handler API + built-in handlers | [Go 1.27.3][go-release]; source commit dated 2026-10-20 | `2aae1000ea1d4b28923b96db28acf4e3b99d6aff` | [BSD-3-Clause][go-license] |
 
-Goose itself is pinned locally to `eadca409f68210893f366e60d0c2f0dc29a339be`; do not silently update it for this comparison. Its [official releases][goose-releases] also list v2026.3 (2026-10-21). Release selection does not establish compiler compatibility: competitors have not been compiled against the local pin. License labels describe the inspected upstream sources; any later vendoring must preserve their actual notices and review selected dependencies.
+Goose itself is pinned locally to `eadca409f68210893f366e60d0c2f0dc29a339be`; do not silently update it for this comparison. Its [official releases][goose-releases] also list v2026.3 (2026-10-21). The selected Macho adapter paths compile and run against this local pin; this does not establish compatibility of every upstream API or test suite. License labels describe the inspected upstream sources; any later vendoring must preserve their actual notices and review selected dependencies.
 
 ## Feature gap matrix
 
@@ -42,13 +47,13 @@ Cells describe the reviewed sources, not every possible third-party plugin. “A
 
 | Feature | goose-log snapshot | Macho0x/goose-logger v0.3.4 | rxi/log.c | synchronous spdlog v1.17.0 | Rust log + env_logger | Go slog |
 | --- | --- | --- | --- | --- | --- | --- |
-| Severities | Debug, Info, Warn, Error; Off disables | Trace through Fatal (six); no Off enum | Trace through Fatal (six); no Off enum | trace, debug, info, warn, err, critical; off | trace, debug, info, warn, error; Off filter, no Fatal | Debug, Info, Warn, Error; numeric custom levels; no built-in Trace/Fatal |
+| Severities | Trace, Debug, Info, Warn, Error, Fatal; Off disables; old default Debug preserved | Trace through Fatal (six); no Off enum | Trace through Fatal (six); no Off enum | trace, debug, info, warn, err, critical; off | trace, debug, info, warn, error; Off filter, no Fatal | Debug, Info, Warn, Error; numeric custom levels; no built-in Trace/Fatal |
 | Runtime filtering | Per-call Logger minimum; `enabled` | Explicit `levels::enabled`; convenience writers do not enforce a configured floor | Global stderr floor; independent callback floors | Logger and sink floors | Facade maximum; backend target/module directives | `Handler.Enabled`; built-in minimum/LevelVar |
 | Compile-time filtering | No logging-level switch; optimizer may specialize | No logging-level switch seen | No level-removal macro switch | `SPDLOG_ACTIVE_LEVEL` with logging macros | Cargo max-level/release-max-level features | No dedicated logging-level build switch |
-| Message construction | Already-built byte slice; manual `enabled` guard | Already-built text; manual guard | printf formatting after routing; C argument expressions already evaluated | Formatting after level check unless backtrace enabled; argument expressions already evaluated | Macros guard format-argument construction by static/runtime maximum; backend can reject later | Call arguments eager; `Enabled` guard or `LogValuer` defers expensive value computation |
-| Metadata | Severity only | Caller-supplied file/row; timestamp; field builders; optional run-id helper | File/line macros; lazily initialized local time | Name, time, thread, explicit source_loc/macros | Record target/module/file/line; backend timestamp/format controls | Record time/PC; optional source output; context passed to handlers |
-| Structured fields/context | None | Text `begin`/`field`; domain-specific key/symbol rules | printf text only | fmt/custom types and MDC; not a slog-style typed field facade | Optional `log/kv` and env_logger `kv` formatting | Typed attrs, groups, `With`, `WithGroup` |
-| Fatal/critical terminates? | Absent | No: `fatal` delegates to write | No: macro delegates to log_log | `critical` is a severity, not an exit API | No Fatal | No Fatal; custom severity does not imply exit |
+| Message construction | Prebuilt byte slice or emit_lazy builder after filtering; manual enabled guard also available | Already-built text; manual guard | printf formatting after routing; C argument expressions already evaluated | Formatting after level check unless backtrace enabled; argument expressions already evaluated | Macros guard format-argument construction by static/runtime maximum; backend can reject later | Call arguments eager; `Enabled` guard or `LogValuer` defers expensive value computation |
+| Metadata | Optional caller-supplied timestamp text, target, file and u32 line | Caller-supplied file/row; timestamp; field builders; optional run-id helper | File/line macros; lazily initialized local time | Name, time, thread, explicit source_loc/macros | Record target/module/file/line; backend timestamp/format controls | Record time/PC; optional source output; context passed to handlers |
+| Structured fields/context | Up to eight bounded quoted string fields; explicit sensitive-value flag; not typed JSON | Text `begin`/`field`; domain-specific key/symbol rules | printf text only | fmt/custom types and MDC; not a slog-style typed field facade | Optional `log/kv` and env_logger `kv` formatting | Typed attrs, groups, `With`, `WithGroup` |
+| Fatal/critical terminates? | No: Fatal is a severity only | No: `fatal` delegates to write | No: macro delegates to log_log | `critical` is a severity, not an exit API | No Fatal | No Fatal; custom severity does not imply exit |
 
 Matrix evidence: [goose-log source][gl-code]; [Macho logger][ml-code], [levels][ml-levels], [emit][ml-emit]; [rxi header][rxi-header] and [implementation][rxi-code]; [spdlog README][spd-readme] and [logger implementation][spd-logger]; [Rust facade source][rust-code], [macros][rust-macros], [manifest][rust-manifest]; [env_logger implementation][env-code]; [slog docs][slog-doc], [logger][slog-logger], [handlers][slog-handler].
 
@@ -56,11 +61,11 @@ Matrix evidence: [goose-log source][gl-code]; [Macho logger][ml-code], [levels][
 
 | Feature | goose-log snapshot | Macho0x/goose-logger | rxi/log.c | synchronous spdlog | log facade / env_logger backend | Go slog built-in handlers |
 | --- | --- | --- | --- | --- | --- | --- |
-| Render without external I/O | `render`, replaces caller scratch | `record`, appends to caller buffer; no newline | Custom callback must implement rendering | Custom sink/formatter or memory sink | Facade has no renderer; env_logger custom formatter/pipe | Custom Handler or writer buffer |
+| Render without external I/O | render / render_record replace caller scratch | `record`, appends to caller buffer; no newline | Custom callback must implement rendering | Custom sink/formatter or memory sink | Facade has no renderer; env_logger custom formatter/pipe | Custom Handler or writer buffer |
 | Default output and lifetime | No default sink; one synchronous borrowed complete line | `write`: fresh line buffer, stdout write then separate newline write | Default stderr plus up to 32 callbacks; callback borrows event/va_list | Caller-created logger/sinks; borrowed event on synchronous path | Global facade install optional for calls; backend can be built separately; thread-local format buffer | Logger holds Handler; text/JSON handlers own formatting and writer integration |
 | Byte/control safety | All non-ASCII/nonprintable bytes escaped; backslash doubled; exactly one final newline | Secret redaction; field quoting; not goose-log's universal byte escaping | printf text; embedded NUL/string/control limitations | Text by default; explicit binary-to-hex helper | Formatting text; no universal goose-log escape contract | Text quoting / JSON escaping, different Unicode and record semantics |
-| Work/message bounds | Inspect first 4096 source bytes; line bound 16417; truncation marker | No equivalent input cap in reviewed record/sanitizer path | No equivalent cap | No equivalent default cap | No facade cap; no equivalent backend default cap | No equivalent default cap |
-| Secret redaction | None | Built-in multi-pass rules incl. URLs, tokens, PEM and BIP-39 | None built in | Custom extension | Custom formatter/backend | `LogValuer` / ReplaceAttr extension |
+| Work/message bounds | 4096 message bytes; plain line 16417; separately capped metadata/fields, record line 28592 | No equivalent input cap in reviewed record/sanitizer path | No equivalent cap | No equivalent default cap | No facade cap; no equivalent backend default cap | No equivalent default cap |
+| Secret redaction | Explicit sensitive-field mask only; no automatic pattern detector | Built-in multi-pass rules incl. URLs, tokens, PEM and BIP-39 | None built in | Custom extension | Custom formatter/backend | `LogValuer` / ReplaceAttr extension |
 | Color and patterns | Opt-in label colors; fixed format | No ANSI color option seen; fixed record format | Compile-time ANSI option for stderr; fixed built-in formats | Configurable patterns, optional color sinks | Facade none; backend styles/custom formatter | No built-in ANSI option; TextHandler/JSONHandler |
 | Delivery errors | Filtered/Written/SinkError returned per call; no rollback | stdout API returns no result; no per-call status | log_log/callback return void; built-in stdio results ignored | Error handler/exception configuration; no bool delivery status | Facade returns unit; env_logger discards format/print errors in its logging path | Handler.Handle returns error; Logger methods discard it |
 | Threading/atomicity | Caller coordinates output and scratch | No lock or atomic whole-record write in reviewed writer | Optional caller-supplied lock around dispatch | `_st` no sink locking; `_mt` locking | Facade implementer thread safety; env_logger thread-local formatting and writer behavior | Built-in handlers lock around one writer call per record |
@@ -82,28 +87,37 @@ Backend evidence: sources above plus [Macho sanitization][ml-sanitize], [porting
 9. **Cover contracts, not just short ASCII.** Include empty, short and 4096-byte printable, all 256 bytes, backslashes, Unicode UTF-8, invalid UTF-8, NUL/CR/LF/ANSI, exact cap and cap+1, and oversized inputs. Test every threshold/severity pair and callback failure separately. Measure cold and reused storage separately; bounded output does not prove allocation-free behavior.
 10. **Use paired measurements and modest conclusions.** Match sample counts, iteration counts, warmups and sink; alternate order and repeat isolated runs on the same machine. Record CPU, OS, clocks, compiler revisions/flags, source hashes, affinity/power policy and concurrent load. Report median/min/max batch averages as batch averages, not tail latencies. Include code and raw output. Existing goose-log results have seven batches, checksum/loop overhead, warm reusable storage, no external I/O and no CPU/frequency controls; their render and emit cases even use different severity patterns, so their difference does not isolate callback overhead. Source: [results.md](results.md).
 
-## Small justified additions versus deliberate scope expansion
+## Implemented shared core and remaining scope
 
 - **Trace and Fatal:** aligns with both discovered Goose alternative and log.c; spdlog calls the top severity critical. Keep Fatal nonterminating, document that choice, keep Off separate, and update threshold truth tables, color labels and size bounds. Neither an exit hook nor a crash handler follows from adding a severity.
-- **Deferred builder:** a callback invoked only after `enabled` is useful parity for avoiding work on disabled logs. Reuse Goose's existing formatting primitives rather than invent a printf/fmt parser. Keep the prebuilt byte-slice API. Bound the renderer separately from builder work, which can still be arbitrarily expensive or allocate; specify storage/alias rules and test callback suppression. This is proposed API design, not a currently verified compiler implementation.
+- **Deferred builder:** a callback invoked only after `enabled` is useful parity for avoiding work on disabled logs. Reuse Goose's existing formatting primitives rather than invent a printf/fmt parser. Keep the prebuilt byte-slice API. Bound the renderer separately from builder work, which can still be arbitrarily expensive or allocate; specify storage/alias rules and test callback suppression. The implemented builder returns owned bytes or a borrowed byte slice; compiler lifetime and sink-type regressions cover both.
 - **Optional explicit metadata:** caller-supplied file/line and a small target/category address the clearest diagnostic gap. Macho's API demonstrates explicit source metadata; it does not prove automatic call-site capture in the pinned compiler. If timestamp support is wanted, accept caller-provided time/text or a deliberate clock provider rather than forcing a clock onto every minimal call. Escape and bound metadata too; preserve old default output and recompute total bounds for the new mode.
 - **Composable sink examples:** checksum, stderr, error-aware file adapter and fanout can demonstrate application-owned I/O without turning the core into a process-global backend. A void stdout/stderr API cannot truthfully supply delivery success. Returning `true` only means the adapter claimed success.
 
 Require a separate design decision for typed structured fields/JSON, environment directive parsing, automatic secret detection, persistent file ownership/rotation, async queues/backpressure/drop policies, shared-thread ordering, crash hooks, and spans/distributed tracing. Each changes ownership, resource or semantic guarantees. In particular, Macho's specialized redaction and text-field policies are a real feature difference, not a feature goose-log can claim through byte escaping. These recommendations follow the repository's [small explicit API and application-owned I/O policy][gl-contrib]; they do not claim whole-framework parity.
 
-## Unknowns and boundaries
+## Measurement and scope boundaries
 
-- Relative throughput, latency, allocations, syscall counts and durability behavior are unmeasured here. No cross-library speed claim is supported.
-- This research did not build competitors, mutate Goose source/toolchains, or verify compiler compatibility for Macho v0.3.4. The parent can prepare an isolated benchmark without rebuilding original files concurrently.
-- No exhaustive ecosystem search or security audit was performed. In particular, secret-redaction coverage and arbitrary-input robustness of competing implementations are not established by reading their feature lists.
-- Optional metadata/deferred-builder compiler support and costs remain implementation questions. New commits after this snapshot must refresh the goose-log feature column.
-- No “same features” claim is appropriate until the chosen parity scope is explicit and tested. Keep native-contract results, equal-contract adapter results and I/O results labeled separately.
+- Relative pipeline timings are now measured in [two retained series](compare/RESULTS.md).
+  Allocation counts, syscall counts, durability, and multithreaded I/O throughput
+  remain unmeasured. No universal speed claim follows from the measured profiles.
+- The direct Goose reference's exact timestamp/redaction helpers are used on
+  both logical-record benchmark paths. This is an external policy adapter,
+  not a built-in automatic secret detector or full upstream feature parity.
+- No exhaustive ecosystem search or security audit of competitors is claimed.
+  Secret-redaction coverage and arbitrary-input behavior are not established by
+  a short benchmark fixture or by reading a feature list.
+- Async queues, rotation, implicit clocks/source capture, global sink registries,
+  typed JSON, environment directive parsing, crash hooks, and spans remain absent.
+  Caller-owned adapters are integration capabilities, not built-in parity.
+- Compare matched output profiles separately from logical-record native formats.
+  Preserve the legacy byte contract and test each enabled feature independently.
 
-[gl-readme]: https://github.com/carabistouflette/goose-log/blob/b4c664b3c41179fb38b25e98929891283318bd8f/README.md
-[gl-code]: https://github.com/carabistouflette/goose-log/blob/b4c664b3c41179fb38b25e98929891283318bd8f/logger.goose
+[gl-readme]: https://github.com/carabistouflette/goose-log/blob/5c5db8fd5fe733e51e5230def818a336a367e069/README.md
+[gl-code]: https://github.com/carabistouflette/goose-log/blob/5c5db8fd5fe733e51e5230def818a336a367e069/logger.goose
 [gl-bench]: https://github.com/carabistouflette/goose-log/blob/e450b55dcda36ca8b197ed5f17c2da79f847d8db/bench/bench.goose
-[gl-license]: https://github.com/carabistouflette/goose-log/blob/b4c664b3c41179fb38b25e98929891283318bd8f/LICENSE
-[gl-contrib]: https://github.com/carabistouflette/goose-log/blob/b4c664b3c41179fb38b25e98929891283318bd8f/CONTRIBUTING.md
+[gl-license]: https://github.com/carabistouflette/goose-log/blob/5c5db8fd5fe733e51e5230def818a336a367e069/LICENSE
+[gl-contrib]: https://github.com/carabistouflette/goose-log/blob/5c5db8fd5fe733e51e5230def818a336a367e069/CONTRIBUTING.md
 [goose]: https://github.com/aardappel/goose
 [goose-releases]: https://github.com/aardappel/goose/releases
 [goose-tree]: https://github.com/aardappel/goose/tree/335fddc13dc74666398ffe160ec8a8f2958329d0/stdlib

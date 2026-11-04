@@ -47,15 +47,14 @@ CMake 3.27+, a C/C++20 toolchain, and Make; tests also need Python 3.9+. On Linu
 the in-process runner needs libc development headers. An existing compiler can
 be selected with `make GOOSE=/path/to/goose check test`.
 
-Tests require Python **3.9 or newer**. Git, Bash, CMake, Make, and a working
-C/C++20 toolchain are needed for a fresh setup; setup fetches the pinned Goose
-source and builds it locally. No compiler binaries are distributed here.
+The setup script uses Bash and builds the pinned Goose source locally.
+No compiler binaries are distributed here.
 
 Goose also accepts a remote dependency pinned to a published full commit. For
-example, the library revision used in the recorded benchmark results is:
+example, the library revision used in the synchronous comparison results is:
 
 ```goose
-import logger from "carabistouflette/goose-log@e450b55dcda36ca8b197ed5f17c2da79f847d8db";
+import logger from "carabistouflette/goose-log@5c5db8fd5fe733e51e5230def818a336a367e069";
 ```
 
 Use this import in place of the relative import above. It exposes the same
@@ -252,11 +251,15 @@ and exercises accepted calls in that same loop. Treat these as local measurement
 rather than cross-library or production claims.
 Fixed messages and configurations allow compiler specialization, so these
 rows do not represent every runtime-input or configuration pattern.
-See [recorded results and reproduction steps](bench/results.md). They are local
-measurements, not cross-library comparisons or production throughput promises.
+See [matched synchronous comparisons](bench/compare/RESULTS.md), their
+[feature contract matrix](bench/comparison.md), and the earlier
+[single-library results](bench/results.md). These are scoped local
+measurements, not production throughput promises.
 
-The first version deliberately excludes file rotation, asynchronous queues,
-JSON output, and automatic formatting of application objects.
+The synchronous core deliberately excludes file rotation, asynchronous queues,
+JSON output, global sink registration, implicit clocks, and automatic secret
+pattern detection. It is not full spdlog or Macho feature parity. Message builders
+can use Goose formatting, and applications can compose sinks and policy adapters.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development and commit standards.
 [SECURITY.md](SECURITY.md) describes vulnerability reporting and the trust model.
