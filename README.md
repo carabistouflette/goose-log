@@ -2,7 +2,7 @@
 
 Small, bounded, explicit logging for the
 [Goose programming language](https://github.com/aardappel/goose).
-Apache-2.0. Version 0.1.0; the API is experimental before 1.0.
+Apache-2.0. Version 0.1.1; the API is experimental before 1.0.
 
 Severity filtering, single-line byte-safe formatting, optional label colors,
 and synchronous delivery to a caller-supplied sink. The application owns output
@@ -17,7 +17,7 @@ Clone and run the included example without a parent workspace:
 git clone https://github.com/carabistouflette/goose-log.git
 cd goose-log
 make setup
-make check test
+make check-core test-core
 .toolchain/goose/build/goose run examples/hello.goose
 ```
 
@@ -63,10 +63,12 @@ sustained output and real filesystem failures; `make test-cli-sanitize` adds
 native sanitizers. The [component profile](bench/cli/README.md) separates message
 construction, rendering, append delivery, and actual adapter calls.
 
-From this checkout, run `make setup`, then `make check test`. Setup needs Git,
-CMake 3.27+, a C/C++20 toolchain, and Make; tests also need Python 3.9+. On Linux,
+On Linux, `make check test` additionally validates the Linux CLI reference and
+probe sources. From this checkout, run `make setup`, then the checks above.
+Setup needs Git, CMake 3.27+, a C/C++20 toolchain, and Make; tests also need
+Python 3.9+. On Linux,
 the in-process runner needs libc development headers. An existing compiler can
-be selected with `make GOOSE=/path/to/goose check test`.
+be selected with `make GOOSE=/path/to/goose check-core test-core`.
 
 The setup script uses Bash and builds the pinned Goose source locally.
 No compiler binaries are distributed here.
@@ -89,9 +91,16 @@ zero. Undocumented implementation helpers are not part of this contract.
 ## Tested platforms
 
 The library is pure Goose with no platform-specific calls; applications supply
-their output adapter. Actual validation is currently limited to **Linux x86-64**:
-Arch Linux locally with GCC and Clang, and an Ubuntu 24.04 GitHub CI workflow configured for both compilers.
-macOS, Windows, and other architectures are unverified, not promised supported.
+their output adapter. The core is validated on **Linux x86-64** with GCC and
+Clang (Arch Linux locally and Ubuntu 24.04 CI), and **macOS 15 ARM64** with Apple
+Clang in CI. Both run JIT/native core checks, independent byte/record oracles,
+ownership rejection, protected pages, and native ASan/UBSan. LeakSanitizer is
+disabled on macOS. See [platform validation](PORTABILITY.md) for exact versions,
+commands, CI evidence, and coverage limits.
+
+The hardened CLI reference, allocation probe, and recorded comparative/component
+benchmarks remain Linux-only. Windows, macOS x86-64, and other architectures
+are unverified, not promised supported.
 The setup script requires Bash. The optional protected-page tests additionally
 require POSIX `mprotect` and Python's `resource` module. Sanitizer tests require
 GCC/Clang sanitizer runtimes. See [benchmark provenance](bench/results.md) for
@@ -230,8 +239,8 @@ sink calls. Rendering scans at most 4096 source bytes, appending directly into
 the reusable caller buffer without a temporary message copy. No allocation-free
 or throughput guarantee is made.
 
-`make check test` checks formatting and types, runs public API tests both in
-process and as native binaries (including a debug build retaining every bounds
+`make check-core test-core` checks formatting and types, runs public API tests
+both in process and as native binaries (including a debug build retaining every bounds
 check), runs the example, and checks compiler rejection
 of input/output aliasing and sink mutation. Tests exercise every severity/minimum
 pair, all 256 byte values, colors, truncation boundaries, worst-case size, buffer
@@ -244,13 +253,14 @@ messages. The same buffers are reused across accepted and filtered calls.
 Consumer regression tests cover application overloads and reject reference
 mutation of the safety limits.
 
-On systems with GCC and its sanitizer runtimes, `make test-sanitize` runs the
+On systems with GCC or Clang sanitizer runtimes, `make test-sanitize` runs the
 oracle against a standalone debug build instrumented with AddressSanitizer and
 UndefinedBehaviorSanitizer, and an optimized build with the usual bounds-check
 elision enabled. Diagnostics terminate the process, and the oracle verifies
 the exact completed case count and rejects unexpected diagnostic output. Set
 `SANITIZER_CC=clang` to select Clang instead; the wrapper requires GCC-compatible
-sanitizer flags. CI runs both builds under both GCC and Clang.
+sanitizer flags. Linux CI runs both builds under both GCC and Clang; macOS CI
+uses Apple Clang with `ASAN_OPTIONS=detect_leaks=0:halt_on_error=1`.
 
 Goose allocates arrays within custom mmap-backed data stacks. ASan does not
 poison every logical array boundary or lifetime inside these regions, so it
@@ -263,8 +273,9 @@ untouched. Filtered calls receive a message starting on inaccessible memory
 and must leave scratch unchanged without calling the sink. The runner first
 requires an intentional protected read to fault, distinguishing a working
 guard from unrelated setup errors. It tests both optimized and debug native
-builds; CI runs them under GCC and Clang. Protection covers the remaining whole
-pages inside the backing array; it does not cover its final partial page.
+builds; Linux CI runs them under GCC and Clang, macOS CI under Apple Clang.
+Protection covers the remaining whole pages inside the backing array; it does
+not cover its final partial page.
 
 `make bench BENCH_ITERATIONS=100000` builds a native GCC `-O2` benchmark with
 empty, short/maximum printable, backslash-heavy, mixed binary, escape-heavy,
@@ -290,7 +301,7 @@ linker wrapping and pinned private runtime details are required. Zero direct
 allocation calls do not prove no arena growth or physical memory use.
 See [recorded allocation observations](bench/alloc/RESULTS.md).
 
-The 0.1.0 runtime is byte-identical to the implementation in the matched
+The 0.1.1 runtime is byte-identical to the implementation in the matched
 comparison snapshot above. Experimental filtering changes were not retained
 after native-input checks showed performance tradeoffs; no release speedup is
 claimed.

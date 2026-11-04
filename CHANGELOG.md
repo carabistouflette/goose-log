@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+## 0.1.1 — 2026-11-04
+
+- Fix compiler setup incorrectly rejecting a clean Git index under locale-aware
+  Bash range matching. Hidden-source index flags remain rejected, with a
+  collation regression test.
+- Validate the core on macOS 15 ARM64 with Apple Clang, including JIT/native
+  checks, ownership rejection, independent oracles, protected pages, and native
+  ASan/UBSan. Add portable `check-core`/`test-core` targets while retaining full
+  Linux coverage. See [platform validation](PORTABILITY.md).
 - Application-owned Linux CLI reference with fixed numeric diagnostic events,
   private bounded append delivery, checked business stdout, and real failure tests.
 - Separate construction, formatting, file delivery, and application-adapter
