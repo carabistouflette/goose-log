@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 namespace log;
 
-enum Level { Debug, Info, Warn, Error, Off }
+enum Level { Trace, Debug, Info, Warn, Error, Fatal, Off }
 enum Status { Filtered, Written, SinkError }
 
 struct Logger {
@@ -16,10 +16,45 @@ const MAX_LINE_BYTES = 8 + 9 + 4 * MAX_MESSAGE_BYTES + 15 + 1;
 
 fn enabled(logger: Logger, level: Level) -> bool {
     if level == Level.Off || logger.minimum == Level.Off { return false; }
-    if logger.minimum == Level.Debug { return true; }
-    if logger.minimum == Level.Info { return level != Level.Debug; }
-    if logger.minimum == Level.Warn { return level == Level.Warn || level == Level.Error; }
-    level == Level.Error
+    if logger.minimum == Level.Trace { return true; }
+    if logger.minimum == Level.Debug { return level != Level.Trace; }
+    if logger.minimum == Level.Info { return level != Level.Trace && level != Level.Debug; }
+    if logger.minimum == Level.Warn { return level == Level.Warn || level == Level.Error || level == Level.Fatal; }
+    if logger.minimum == Level.Error { return level == Level.Error || level == Level.Fatal; }
+    level == Level.Fatal
+}
+
+fn level_name(level: Level) -> const u8[:] {
+    if level == Level.Trace { return "TRACE"; }
+    if level == Level.Debug { return "DEBUG"; }
+    if level == Level.Info { return "INFO"; }
+    if level == Level.Warn { return "WARN"; }
+    if level == Level.Error { return "ERROR"; }
+    if level == Level.Fatal { return "FATAL"; }
+    "OFF"
+}
+
+fn name_matches(text: const u8[:], name: const u8[:]) -> bool {
+    if text.len != name.len { return false; }
+    for i in name.len {
+        var c = text[i];
+        if c >= 'a' && c <= 'z' { c -= 32; }
+        if c != name[i] { return false; }
+    }
+    true
+}
+
+// Exact ASCII names only; reject oversized input before reading its bytes.
+fn parse_level(text: const u8[:]) -> Level, bool {
+    if text.len > 5 { return Level.Off, false; }
+    if name_matches(text, "TRACE") { return Level.Trace, true; }
+    if name_matches(text, "DEBUG") { return Level.Debug, true; }
+    if name_matches(text, "INFO") { return Level.Info, true; }
+    if name_matches(text, "WARN") { return Level.Warn, true; }
+    if name_matches(text, "ERROR") { return Level.Error, true; }
+    if name_matches(text, "FATAL") { return Level.Fatal, true; }
+    if name_matches(text, "OFF") { return Level.Off, true; }
+    return Level.Off, false;
 }
 
 // Replaces out only when enabled. Input must not borrow from out.
@@ -28,15 +63,16 @@ fn render(logger: Logger, level: Level, message: const u8[:], out: u8[>..]&) -> 
     if !enabled(logger, level) { return false; }
     out.clear();
     if logger.color {
-        if level == Level.Debug { out.append("\x1b[36m"); }
+        if level == Level.Trace { out.append("\x1b[94m"); }
+        else if level == Level.Debug { out.append("\x1b[36m"); }
         else if level == Level.Info { out.append("\x1b[32m"); }
         else if level == Level.Warn { out.append("\x1b[33m"); }
-        else { out.append("\x1b[31m"); }
+        else if level == Level.Error { out.append("\x1b[31m"); }
+        else { out.append("\x1b[35m"); }
     }
-    if level == Level.Debug { out.append("[DEBUG]"); }
-    else if level == Level.Info { out.append("[INFO]"); }
-    else if level == Level.Warn { out.append("[WARN]"); }
-    else { out.append("[ERROR]"); }
+    out.push('[');
+    out.append(level_name(level));
+    out.push(']');
     if logger.color { out.append("\x1b[0m"); }
     out.push(' ');
     let hex = "0123456789abcdef";
@@ -62,4 +98,13 @@ fn emit<F>(logger: Logger, level: Level, message: const u8[:], out: u8[>..]&) ->
     let line:    const u8[:] = out;
     let success: bool        = F(line);
     if success { Status.Written } else { Status.SinkError }
+}
+
+// Build() is evaluated once only when enabled, before Sink(line). It may
+// return owned bytes or a borrowed slice; Goose checks the resulting lifetime.
+// Builder work is application code and is outside the formatter's byte cap.
+fn emit_lazy<Build, Sink>(logger: Logger, level: Level, out: u8[>..]&) -> Status {
+    if !enabled(logger, level) { return Status.Filtered; }
+    let message = Build();
+    emit(logger, level, message, out, Sink)
 }

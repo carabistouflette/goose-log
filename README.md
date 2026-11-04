@@ -84,8 +84,12 @@ separate simultaneous invocations do not coordinate with each other.
 ## API and behavior
 
 - `Logger { minimum: Level.Info, color: false }` is the default configuration.
-  Levels are `Debug`, `Info`, `Warn`, `Error`, and `Off`, in increasing order.
+  Levels are `Trace`, `Debug`, `Info`, `Warn`, `Error`, `Fatal`, and `Off`, in increasing order.
   `Off` disables the logger and is never an emitted severity.
+- `Fatal` is a severity only: it never terminates the process.
+- `level_name(level)` returns its uppercase static name; `parse_level(text)`
+  returns `(level, ok)`. Parsing accepts exact ASCII names case-insensitively,
+  without whitespace or aliases; failure returns `Off, false`.
 - `enabled(config, level)` checks the minimum level without formatting.
 - `render(config, level, message, scratch)` returns `false` when filtered,
   leaving scratch untouched. Otherwise it replaces scratch with one complete
@@ -119,6 +123,12 @@ if log::enabled(config, log::Level.Debug) {
 }
 ```
 
+Alternatively, `emit_lazy(config, level, scratch, build_message) { line => ... }`
+calls the zero-argument message builder once only when enabled. A builder may
+return owned bytes or a borrowed byte slice. Its work and allocations are
+application code, outside the formatter's bounds. The sink still returns `bool`.
+Goose permits one trailing function block; pass the builder by name.
+
 ## Output contract and limits
 
 Lines have the form `[LEVEL] message\n`. Printable ASCII bytes pass through;
@@ -133,8 +143,9 @@ messages append `... [truncated]`; the limit counts source bytes, including
 bytes of an escape or UTF-8 sequence. No escape is cut short in the output.
 Empty messages are valid. A literal truncation marker in user text stays literal.
 
-With `color: true`, only the level label is colored: cyan for debug, green for
-info, yellow for warn, red for error. The library emits a reset before the
+With `color: true`, only the level label is colored: bright blue for trace,
+cyan for debug, green for info, yellow for warn, red for error, magenta for fatal.
+The library emits a reset before the
 space preceding the message. Colors are opt-in with no terminal detection.
 Without colors, output contains printable ASCII and exactly one final newline.
 
@@ -161,7 +172,7 @@ of input/output aliasing and sink mutation. Tests exercise every severity/minimu
 pair, all 256 byte values, colors, truncation boundaries, worst-case size, buffer
 reuse, and sink failures.
 
-The suite also runs 1696 deterministic cases against an independent Python byte
+The suite also runs 1792 deterministic cases against an independent Python byte
 oracle in normal and debug native builds. Cases include the full configuration
 matrix, random binary data, escape-heavy input, cap boundaries, and 1 MiB
 messages. The same buffers are reused across accepted and filtered calls.

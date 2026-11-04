@@ -12,6 +12,7 @@ format:
 check:
 	$(GOOSE) format --check logger.goose examples tests bench
 	$(GOOSE) check tests/logger.goose
+	$(GOOSE) check tests/features.goose
 	$(GOOSE) check tests/overloads.goose
 	$(GOOSE) check tests/differential.goose
 	$(GOOSE) check tests/guarded.goose
@@ -19,12 +20,17 @@ check:
 	$(GOOSE) check bench/bench.goose
 test:
 	$(GOOSE) run tests/logger.goose
+	$(GOOSE) run tests/features.goose
 	$(GOOSE) run tests/overloads.goose
 	mkdir -p .build
 	$(GOOSE) build tests/logger.goose -o .build/logger
 	./.build/logger
 	$(GOOSE) build tests/logger.goose --debug --no-bce -o .build/logger-debug
 	./.build/logger-debug
+	$(GOOSE) build tests/features.goose -o .build/features
+	./.build/features
+	$(GOOSE) build tests/features.goose --debug --no-bce -o .build/features-debug
+	./.build/features-debug
 	$(GOOSE) run examples/hello.goose
 	python3 tests/ownership.py $(GOOSE)
 	python3 tests/setup.py

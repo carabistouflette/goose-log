@@ -12,13 +12,13 @@ fn main() {
     var fixtures: u8[>..] = [];
     assert(read_file(path, fixtures));
     var reader = binary::reader(fixtures);
-    let levels = [log::Level.Debug, log::Level.Info, log::Level.Warn, log::Level.Error, log::Level.Off];
+    let levels = [log::Level.Trace, log::Level.Debug, log::Level.Info, log::Level.Warn, log::Level.Error, log::Level.Fatal, log::Level.Off];
     var rendered = str("sentinel");
     var emitted = str("sentinel");
     var cases = 0;
     while reader.pos < fixtures.len {
         let header, header_ok = binary::read_bytes(reader, 13);
-        assert(header_ok && header[0] < 5 && header[1] < 5);
+        assert(header_ok && header[0] < 7 && header[1] < 7);
         let input_size, input_ok = binary::read_u32le(header, 4);
         let expected_size, expected_ok = binary::read_u32le(header, 8);
         assert(input_ok && expected_ok);

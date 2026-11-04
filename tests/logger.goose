@@ -3,14 +3,14 @@ import logger from "..";
 import std;
 
 fn main() {
-    let levels = [log::Level.Debug, log::Level.Info, log::Level.Warn, log::Level.Error, log::Level.Off];
-    let labels = ["[DEBUG] ", "[INFO] ", "[WARN] ", "[ERROR] "];
-    let colors = ["\x1b[36m", "\x1b[32m", "\x1b[33m", "\x1b[31m"];
+    let levels = [log::Level.Trace, log::Level.Debug, log::Level.Info, log::Level.Warn, log::Level.Error, log::Level.Fatal, log::Level.Off];
+    let labels = ["[TRACE] ", "[DEBUG] ", "[INFO] ", "[WARN] ", "[ERROR] ", "[FATAL] "];
+    let colors = ["\x1b[94m", "\x1b[36m", "\x1b[32m", "\x1b[33m", "\x1b[31m", "\x1b[35m"];
     var scratch: u8[>..] = [];
     for minimum, mi in levels {
         let config = log::Logger { minimum: minimum };
         for level, li in levels {
-            let expected = li < 4 && li >= mi;
+            let expected = li < 6 && li >= mi;
             assert(log::enabled(config, level) == expected);
             scratch.clear(); scratch.append("sentinel");
             let rendered = log::render(config, level, "message", scratch);
@@ -34,8 +34,8 @@ fn main() {
     assert(scratch == "[INFO] \n");
     assert(log::render(config, log::Level.Warn, "A\r\n\t\x00\x1b\\\x7f\xff😀", scratch));
     assert(scratch == "[WARN] A\\x0d\\x0a\\x09\\x00\\x1b\\\\\\x7f\\xff\\xf0\\x9f\\x98\\x80\n");
-    for i in 4 {
-        let colored = log::Logger { minimum: log::Level.Debug, color: true };
+    for i in 6 {
+        let colored = log::Logger { minimum: log::Level.Trace, color: true };
         assert(log::render(colored, levels[i], "\x1b[31m\n", scratch));
         let label = labels[i];
         assert(scratch == str(colors[i], label[..label.len - 1], "\x1b[0m \\x1b[31m\\x0a\n"));
@@ -52,7 +52,7 @@ fn main() {
     assert(scratch == str("[INFO] ", input[..4096], "... [truncated]\n"));
     input.clear();
     for i in 100000 { input.push(0xff); }
-    let colored = log::Logger { minimum: log::Level.Debug, color: true };
+    let colored = log::Logger { minimum: log::Level.Trace, color: true };
     assert(log::render(colored, log::Level.Debug, input, scratch));
     assert(scratch.len == log::MAX_LINE_BYTES);
     var worst = str("\x1b[36m[DEBUG]\x1b[0m ");

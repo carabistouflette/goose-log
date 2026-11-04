@@ -8,8 +8,8 @@ import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parent.parent
-LABELS = (b"DEBUG", b"INFO", b"WARN", b"ERROR")
-COLORS = (b"\x1b[36m", b"\x1b[32m", b"\x1b[33m", b"\x1b[31m")
+LABELS = (b"TRACE", b"DEBUG", b"INFO", b"WARN", b"ERROR", b"FATAL")
+COLORS = (b"\x1b[94m", b"\x1b[36m", b"\x1b[32m", b"\x1b[33m", b"\x1b[31m", b"\x1b[35m")
 ESCAPES = tuple(
     b"\\\\" if value == 92 else
     bytes([value]) if 32 <= value < 127 else
@@ -40,8 +40,8 @@ def main():
         raise SystemExit("usage: differential.py DRIVER [DRIVER ...]")
     rng = random.Random(0x6005E)
     cases = []
-    for minimum in range(5):
-        for level in range(5):
+    for minimum in range(7):
+        for level in range(7):
             for color in (False, True):
                 for sink_ok in (False, True):
                     cases.append((minimum, level, color, sink_ok, bytes(range(256))))
@@ -53,13 +53,13 @@ def main():
     for _ in range(1500):
         size = rng.choice((rng.randrange(8193), 0, 4095, 4096, 4097))
         message = rng.randbytes(size)
-        cases.append((rng.randrange(5), rng.randrange(5),
+        cases.append((rng.randrange(7), rng.randrange(7),
                       bool(rng.randrange(2)), bool(rng.randrange(2)), message))
     rng.shuffle(cases)
     previous = b"sentinel"
     fixtures = bytearray()
     for minimum, level, color, sink_ok, message in cases:
-        accepted = level != 4 and minimum != 4 and level >= minimum
+        accepted = level != 6 and minimum != 6 and level >= minimum
         if accepted:
             previous = oracle(message, level, color)
         status = (1 if sink_ok else 2) if accepted else 0
