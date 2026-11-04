@@ -15,5 +15,7 @@ fn main() {
     assert(scratch[scratch.len - 16..] == "... [truncated]\n");
     assert(log::render(config, log::Level.Info, "abc", scratch));
     assert(scratch == "[INFO] abc\n");
+    assert(log::render(config, log::Level.Info, "request completed\xff status=200 bytes=1234", scratch));
+    assert(scratch == "[INFO] request completed\\xff status=200 bytes=1234\n");
     print("overload isolation tests passed");
 }

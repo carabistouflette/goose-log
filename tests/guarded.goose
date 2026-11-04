@@ -60,6 +60,34 @@ fn main() {
     expected.append("... [truncated]\n");
     assert(scratch == expected);
 
+    // Exact short slices end at a protected page, including SIMD boundaries.
+    for size in [0, 1, 15, 16, 17, 31, 32, 33, 39, 63, 64, 65, 511, 512] {
+        let short_start = guarded_offset(backing, size);
+        guarded_restore(backing, size);
+        for kind in 4 {
+            expected.clear();
+            expected.append("[INFO] ");
+            for i in size {
+                let escaped = (kind == 1 && i == 0) || (kind == 2 && i == size - 1);
+                let slash = kind == 3 && i == size - 1;
+                backing[short_start + i] = if escaped { 0xff } else if slash { '\\' } else { 'a' };
+                if escaped { expected.append("\\xff"); }
+                else if slash { expected.append("\\\\"); }
+                else { expected.push('a'); }
+            }
+            expected.push('\n');
+            let protected_start = guarded_offset(backing, size);
+            assert(protected_start == short_start);
+            assert(log::render(config, log::Level.Info, backing[short_start..short_start + size], scratch));
+            let short_status = log::emit(config, log::Level.Info, backing[short_start..short_start + size], scratch) { line =>
+                assert(line == expected);
+                true
+            };
+            guarded_restore(backing, size);
+            assert(short_status == log::Status.Written && scratch == expected);
+        }
+    }
+
     // Metadata and field caps must not inspect their protected tails either.
     for kind in 5 {
         let cap = if kind == 2 || kind == 4 { 256 } else { 64 };
