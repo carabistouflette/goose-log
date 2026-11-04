@@ -1,0 +1,1039 @@
+{
+  "date_utc": "2026-11-04T22:58:12.276815+00:00",
+  "source": "36e7469527eb599fdc7e3bf2c50aea865336bdd2",
+  "dirty": false,
+  "workspace_sha256": {
+    "logger.goose": "9b13b2ff7af3e683df6a0f2c218102023274fe13c0eb57c2c880fc177b6a9171",
+    "GOOSE_REVISION": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+    "tests/sequences.goose": "5b3b4d10fea0d5f39660e93ba0576b14ab83d27571e7445d09ca344549b0c1ce",
+    "tests/sequences.py": "6d78272d0a21782d00b47554c8e9df830fcdd0cf567393a8113b9642ab9a41a9",
+    "tests/differential.py": "a48d37ccf1eea167d2ef5eb1cbfcc3d525b6f84e99a8b0880a342335ab8bf16b",
+    "tests/records.py": "e605669f2edfbb68d6583a7c74fafe2b7e8692e98165dcf6478b218dc1245f38"
+  },
+  "executables": {
+    "sequences-native": {
+      "driver": "5ba5d5f465ed993ed3dc299f9b8ab46ebbc59f4236a25e9367ccf95935d2c04a"
+    },
+    "sequences-debug": {
+      "driver": "3b50c85bd954487f1f0472f9164b5919375cb9aa1c5bcc4d2975c2c7cffc4db0"
+    },
+    "sequences_jit.sh": {
+      "driver": "62748a151b9c60e4a664bce74d7df31e022f0f781b5e0d12f0117da802ab4db9",
+      "jit_compiler": "3db881b3955dc510f3efb513cd818fd092857b11ccc2164a808ed68b76caa443"
+    },
+    "sequences-sanitized": {
+      "driver": "02678b20a8c242c5b42ed2ffddaee1800c98adb668ffcac5994a37f2bbe51e1a"
+    },
+    "sequences-sanitized-release": {
+      "driver": "fea228cff5b4edd81da70f95573673fd795df70b37d224da06fb242c17c20f01"
+    }
+  },
+  "goose": "goose eadca40 (runtime 3025e5810379)",
+  "python": "3.14.9",
+  "kernel": "7.2.11-arch1-1",
+  "native_compiler": "clang version 23.1.4",
+  "native_build_command": "make GOOSE_CC=clang SANITIZER_CC=clang test-guarded test-sanitize test-sequences",
+  "random_steps_per_seed": 2048,
+  "fixed_steps_per_seed": 299,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31
+  ],
+  "transitions_per_driver": 75104,
+  "total_transitions": 375520,
+  "records": [
+    {
+      "seed": 0,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "7f256b45d6107090570e3bf3dea09e3c5c989f01562079d185e71b8af4480103"
+    },
+    {
+      "seed": 0,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "7f256b45d6107090570e3bf3dea09e3c5c989f01562079d185e71b8af4480103"
+    },
+    {
+      "seed": 0,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "7f256b45d6107090570e3bf3dea09e3c5c989f01562079d185e71b8af4480103"
+    },
+    {
+      "seed": 0,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "7f256b45d6107090570e3bf3dea09e3c5c989f01562079d185e71b8af4480103"
+    },
+    {
+      "seed": 0,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "7f256b45d6107090570e3bf3dea09e3c5c989f01562079d185e71b8af4480103"
+    },
+    {
+      "seed": 1,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "621c8d00df4980de99a2b476e0c5b8339fbba6e8b223cebbe31f87ff630fe247"
+    },
+    {
+      "seed": 1,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "621c8d00df4980de99a2b476e0c5b8339fbba6e8b223cebbe31f87ff630fe247"
+    },
+    {
+      "seed": 1,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "621c8d00df4980de99a2b476e0c5b8339fbba6e8b223cebbe31f87ff630fe247"
+    },
+    {
+      "seed": 1,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "621c8d00df4980de99a2b476e0c5b8339fbba6e8b223cebbe31f87ff630fe247"
+    },
+    {
+      "seed": 1,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "621c8d00df4980de99a2b476e0c5b8339fbba6e8b223cebbe31f87ff630fe247"
+    },
+    {
+      "seed": 2,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "e45a29bee04c060ef8f3d12a9d2b904378ca112f4472c0c18abbefe085760d85"
+    },
+    {
+      "seed": 2,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "e45a29bee04c060ef8f3d12a9d2b904378ca112f4472c0c18abbefe085760d85"
+    },
+    {
+      "seed": 2,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "e45a29bee04c060ef8f3d12a9d2b904378ca112f4472c0c18abbefe085760d85"
+    },
+    {
+      "seed": 2,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "e45a29bee04c060ef8f3d12a9d2b904378ca112f4472c0c18abbefe085760d85"
+    },
+    {
+      "seed": 2,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "e45a29bee04c060ef8f3d12a9d2b904378ca112f4472c0c18abbefe085760d85"
+    },
+    {
+      "seed": 3,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "9ee82a212ae096fd9b50722c63f9f9457c1fe0b0a2a701b184e04561a83d52a3"
+    },
+    {
+      "seed": 3,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "9ee82a212ae096fd9b50722c63f9f9457c1fe0b0a2a701b184e04561a83d52a3"
+    },
+    {
+      "seed": 3,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "9ee82a212ae096fd9b50722c63f9f9457c1fe0b0a2a701b184e04561a83d52a3"
+    },
+    {
+      "seed": 3,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "9ee82a212ae096fd9b50722c63f9f9457c1fe0b0a2a701b184e04561a83d52a3"
+    },
+    {
+      "seed": 3,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "9ee82a212ae096fd9b50722c63f9f9457c1fe0b0a2a701b184e04561a83d52a3"
+    },
+    {
+      "seed": 4,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "5418f312d59f9019f976807f6badee0037be1f8a54ed69ee86cd6f056a937793"
+    },
+    {
+      "seed": 4,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "5418f312d59f9019f976807f6badee0037be1f8a54ed69ee86cd6f056a937793"
+    },
+    {
+      "seed": 4,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "5418f312d59f9019f976807f6badee0037be1f8a54ed69ee86cd6f056a937793"
+    },
+    {
+      "seed": 4,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "5418f312d59f9019f976807f6badee0037be1f8a54ed69ee86cd6f056a937793"
+    },
+    {
+      "seed": 4,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "5418f312d59f9019f976807f6badee0037be1f8a54ed69ee86cd6f056a937793"
+    },
+    {
+      "seed": 5,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "0a5948111e8f0db64bf7981307b91da1d027d1f7f75c25de298019d7bc0ba8d5"
+    },
+    {
+      "seed": 5,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "0a5948111e8f0db64bf7981307b91da1d027d1f7f75c25de298019d7bc0ba8d5"
+    },
+    {
+      "seed": 5,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "0a5948111e8f0db64bf7981307b91da1d027d1f7f75c25de298019d7bc0ba8d5"
+    },
+    {
+      "seed": 5,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "0a5948111e8f0db64bf7981307b91da1d027d1f7f75c25de298019d7bc0ba8d5"
+    },
+    {
+      "seed": 5,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "0a5948111e8f0db64bf7981307b91da1d027d1f7f75c25de298019d7bc0ba8d5"
+    },
+    {
+      "seed": 6,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "b9e110fe1b877bb490018a304146140fe9bce5dd8dafeed064daf14588c251c1"
+    },
+    {
+      "seed": 6,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "b9e110fe1b877bb490018a304146140fe9bce5dd8dafeed064daf14588c251c1"
+    },
+    {
+      "seed": 6,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "b9e110fe1b877bb490018a304146140fe9bce5dd8dafeed064daf14588c251c1"
+    },
+    {
+      "seed": 6,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "b9e110fe1b877bb490018a304146140fe9bce5dd8dafeed064daf14588c251c1"
+    },
+    {
+      "seed": 6,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "b9e110fe1b877bb490018a304146140fe9bce5dd8dafeed064daf14588c251c1"
+    },
+    {
+      "seed": 7,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "119206190925d73d06547304f3bc98863852e24ff33deca97a266416c3a661dc"
+    },
+    {
+      "seed": 7,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "119206190925d73d06547304f3bc98863852e24ff33deca97a266416c3a661dc"
+    },
+    {
+      "seed": 7,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "119206190925d73d06547304f3bc98863852e24ff33deca97a266416c3a661dc"
+    },
+    {
+      "seed": 7,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "119206190925d73d06547304f3bc98863852e24ff33deca97a266416c3a661dc"
+    },
+    {
+      "seed": 7,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "119206190925d73d06547304f3bc98863852e24ff33deca97a266416c3a661dc"
+    },
+    {
+      "seed": 8,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "59bb017c3df17979ff1e52b3da66f5c712f3ccc462330de9b3c41180d7f96168"
+    },
+    {
+      "seed": 8,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "59bb017c3df17979ff1e52b3da66f5c712f3ccc462330de9b3c41180d7f96168"
+    },
+    {
+      "seed": 8,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "59bb017c3df17979ff1e52b3da66f5c712f3ccc462330de9b3c41180d7f96168"
+    },
+    {
+      "seed": 8,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "59bb017c3df17979ff1e52b3da66f5c712f3ccc462330de9b3c41180d7f96168"
+    },
+    {
+      "seed": 8,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "59bb017c3df17979ff1e52b3da66f5c712f3ccc462330de9b3c41180d7f96168"
+    },
+    {
+      "seed": 9,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "0bca143795a04dab3c9ef2c0d0ac728dad1508f037265709f5d7718187797a95"
+    },
+    {
+      "seed": 9,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "0bca143795a04dab3c9ef2c0d0ac728dad1508f037265709f5d7718187797a95"
+    },
+    {
+      "seed": 9,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "0bca143795a04dab3c9ef2c0d0ac728dad1508f037265709f5d7718187797a95"
+    },
+    {
+      "seed": 9,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "0bca143795a04dab3c9ef2c0d0ac728dad1508f037265709f5d7718187797a95"
+    },
+    {
+      "seed": 9,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "0bca143795a04dab3c9ef2c0d0ac728dad1508f037265709f5d7718187797a95"
+    },
+    {
+      "seed": 10,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "f05fa52d4c60bd75d931c96072a8abe91f454fddef57568df6ef90e8815f00bc"
+    },
+    {
+      "seed": 10,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "f05fa52d4c60bd75d931c96072a8abe91f454fddef57568df6ef90e8815f00bc"
+    },
+    {
+      "seed": 10,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "f05fa52d4c60bd75d931c96072a8abe91f454fddef57568df6ef90e8815f00bc"
+    },
+    {
+      "seed": 10,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "f05fa52d4c60bd75d931c96072a8abe91f454fddef57568df6ef90e8815f00bc"
+    },
+    {
+      "seed": 10,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "f05fa52d4c60bd75d931c96072a8abe91f454fddef57568df6ef90e8815f00bc"
+    },
+    {
+      "seed": 11,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "c99a5cea6dcf027562a3a03fa3de8f2c22a0056128029512288fd72d9b942302"
+    },
+    {
+      "seed": 11,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "c99a5cea6dcf027562a3a03fa3de8f2c22a0056128029512288fd72d9b942302"
+    },
+    {
+      "seed": 11,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "c99a5cea6dcf027562a3a03fa3de8f2c22a0056128029512288fd72d9b942302"
+    },
+    {
+      "seed": 11,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "c99a5cea6dcf027562a3a03fa3de8f2c22a0056128029512288fd72d9b942302"
+    },
+    {
+      "seed": 11,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "c99a5cea6dcf027562a3a03fa3de8f2c22a0056128029512288fd72d9b942302"
+    },
+    {
+      "seed": 12,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "3511affc9b28e23c7f3d448fd65aacc139651476624b7158ba096e532237daeb"
+    },
+    {
+      "seed": 12,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "3511affc9b28e23c7f3d448fd65aacc139651476624b7158ba096e532237daeb"
+    },
+    {
+      "seed": 12,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "3511affc9b28e23c7f3d448fd65aacc139651476624b7158ba096e532237daeb"
+    },
+    {
+      "seed": 12,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "3511affc9b28e23c7f3d448fd65aacc139651476624b7158ba096e532237daeb"
+    },
+    {
+      "seed": 12,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "3511affc9b28e23c7f3d448fd65aacc139651476624b7158ba096e532237daeb"
+    },
+    {
+      "seed": 13,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "73b2997421db60192b4278b6261c364fa95864b0a81e4ed2b1a625441e9b8afb"
+    },
+    {
+      "seed": 13,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "73b2997421db60192b4278b6261c364fa95864b0a81e4ed2b1a625441e9b8afb"
+    },
+    {
+      "seed": 13,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "73b2997421db60192b4278b6261c364fa95864b0a81e4ed2b1a625441e9b8afb"
+    },
+    {
+      "seed": 13,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "73b2997421db60192b4278b6261c364fa95864b0a81e4ed2b1a625441e9b8afb"
+    },
+    {
+      "seed": 13,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "73b2997421db60192b4278b6261c364fa95864b0a81e4ed2b1a625441e9b8afb"
+    },
+    {
+      "seed": 14,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "58e623c3e30096c6dbfd0bf4759612b973131926f6c7c0b0253e210ff73a6257"
+    },
+    {
+      "seed": 14,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "58e623c3e30096c6dbfd0bf4759612b973131926f6c7c0b0253e210ff73a6257"
+    },
+    {
+      "seed": 14,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "58e623c3e30096c6dbfd0bf4759612b973131926f6c7c0b0253e210ff73a6257"
+    },
+    {
+      "seed": 14,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "58e623c3e30096c6dbfd0bf4759612b973131926f6c7c0b0253e210ff73a6257"
+    },
+    {
+      "seed": 14,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "58e623c3e30096c6dbfd0bf4759612b973131926f6c7c0b0253e210ff73a6257"
+    },
+    {
+      "seed": 15,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "02a89c6c76bb639431557da71e238d8c9a08106eb737c9928f1a05e1da77e624"
+    },
+    {
+      "seed": 15,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "02a89c6c76bb639431557da71e238d8c9a08106eb737c9928f1a05e1da77e624"
+    },
+    {
+      "seed": 15,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "02a89c6c76bb639431557da71e238d8c9a08106eb737c9928f1a05e1da77e624"
+    },
+    {
+      "seed": 15,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "02a89c6c76bb639431557da71e238d8c9a08106eb737c9928f1a05e1da77e624"
+    },
+    {
+      "seed": 15,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "02a89c6c76bb639431557da71e238d8c9a08106eb737c9928f1a05e1da77e624"
+    },
+    {
+      "seed": 16,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "aee43254ee7751774ff87c94262ed372af438a873113e654b0a688e8ab751e88"
+    },
+    {
+      "seed": 16,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "aee43254ee7751774ff87c94262ed372af438a873113e654b0a688e8ab751e88"
+    },
+    {
+      "seed": 16,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "aee43254ee7751774ff87c94262ed372af438a873113e654b0a688e8ab751e88"
+    },
+    {
+      "seed": 16,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "aee43254ee7751774ff87c94262ed372af438a873113e654b0a688e8ab751e88"
+    },
+    {
+      "seed": 16,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "aee43254ee7751774ff87c94262ed372af438a873113e654b0a688e8ab751e88"
+    },
+    {
+      "seed": 17,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "27b4e7b39de386cd497479b2e51884cbe89bbaa87bb18b008968e0b5c885115b"
+    },
+    {
+      "seed": 17,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "27b4e7b39de386cd497479b2e51884cbe89bbaa87bb18b008968e0b5c885115b"
+    },
+    {
+      "seed": 17,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "27b4e7b39de386cd497479b2e51884cbe89bbaa87bb18b008968e0b5c885115b"
+    },
+    {
+      "seed": 17,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "27b4e7b39de386cd497479b2e51884cbe89bbaa87bb18b008968e0b5c885115b"
+    },
+    {
+      "seed": 17,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "27b4e7b39de386cd497479b2e51884cbe89bbaa87bb18b008968e0b5c885115b"
+    },
+    {
+      "seed": 18,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "8604af5a2eacba3611c5007d098be13c28f18307f277a222c721c6f6f02b7415"
+    },
+    {
+      "seed": 18,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "8604af5a2eacba3611c5007d098be13c28f18307f277a222c721c6f6f02b7415"
+    },
+    {
+      "seed": 18,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "8604af5a2eacba3611c5007d098be13c28f18307f277a222c721c6f6f02b7415"
+    },
+    {
+      "seed": 18,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "8604af5a2eacba3611c5007d098be13c28f18307f277a222c721c6f6f02b7415"
+    },
+    {
+      "seed": 18,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "8604af5a2eacba3611c5007d098be13c28f18307f277a222c721c6f6f02b7415"
+    },
+    {
+      "seed": 19,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "24cb2dd87293210ded3e8d5fc51fdeb6dca2efbf05ac9d84353b80912c912cf5"
+    },
+    {
+      "seed": 19,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "24cb2dd87293210ded3e8d5fc51fdeb6dca2efbf05ac9d84353b80912c912cf5"
+    },
+    {
+      "seed": 19,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "24cb2dd87293210ded3e8d5fc51fdeb6dca2efbf05ac9d84353b80912c912cf5"
+    },
+    {
+      "seed": 19,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "24cb2dd87293210ded3e8d5fc51fdeb6dca2efbf05ac9d84353b80912c912cf5"
+    },
+    {
+      "seed": 19,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "24cb2dd87293210ded3e8d5fc51fdeb6dca2efbf05ac9d84353b80912c912cf5"
+    },
+    {
+      "seed": 20,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "df8031750a933968df920acd9b3858ac57e8a59f3bdb3b9ee96825b764636b47"
+    },
+    {
+      "seed": 20,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "df8031750a933968df920acd9b3858ac57e8a59f3bdb3b9ee96825b764636b47"
+    },
+    {
+      "seed": 20,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "df8031750a933968df920acd9b3858ac57e8a59f3bdb3b9ee96825b764636b47"
+    },
+    {
+      "seed": 20,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "df8031750a933968df920acd9b3858ac57e8a59f3bdb3b9ee96825b764636b47"
+    },
+    {
+      "seed": 20,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "df8031750a933968df920acd9b3858ac57e8a59f3bdb3b9ee96825b764636b47"
+    },
+    {
+      "seed": 21,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "cb8931061218c241d108b2c9400ccfab81da4117dc8c2d82828fea08aa7705a2"
+    },
+    {
+      "seed": 21,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "cb8931061218c241d108b2c9400ccfab81da4117dc8c2d82828fea08aa7705a2"
+    },
+    {
+      "seed": 21,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "cb8931061218c241d108b2c9400ccfab81da4117dc8c2d82828fea08aa7705a2"
+    },
+    {
+      "seed": 21,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "cb8931061218c241d108b2c9400ccfab81da4117dc8c2d82828fea08aa7705a2"
+    },
+    {
+      "seed": 21,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "cb8931061218c241d108b2c9400ccfab81da4117dc8c2d82828fea08aa7705a2"
+    },
+    {
+      "seed": 22,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "29d093bc150ee7b109996569427b8853a223fe8f3b703b8e88cfb9d4e154f379"
+    },
+    {
+      "seed": 22,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "29d093bc150ee7b109996569427b8853a223fe8f3b703b8e88cfb9d4e154f379"
+    },
+    {
+      "seed": 22,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "29d093bc150ee7b109996569427b8853a223fe8f3b703b8e88cfb9d4e154f379"
+    },
+    {
+      "seed": 22,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "29d093bc150ee7b109996569427b8853a223fe8f3b703b8e88cfb9d4e154f379"
+    },
+    {
+      "seed": 22,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "29d093bc150ee7b109996569427b8853a223fe8f3b703b8e88cfb9d4e154f379"
+    },
+    {
+      "seed": 23,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "bded0bb6c020109c22aa9967782abf254f57b0e2239dd7c2a9c51b69259fd9a0"
+    },
+    {
+      "seed": 23,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "bded0bb6c020109c22aa9967782abf254f57b0e2239dd7c2a9c51b69259fd9a0"
+    },
+    {
+      "seed": 23,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "bded0bb6c020109c22aa9967782abf254f57b0e2239dd7c2a9c51b69259fd9a0"
+    },
+    {
+      "seed": 23,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "bded0bb6c020109c22aa9967782abf254f57b0e2239dd7c2a9c51b69259fd9a0"
+    },
+    {
+      "seed": 23,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "bded0bb6c020109c22aa9967782abf254f57b0e2239dd7c2a9c51b69259fd9a0"
+    },
+    {
+      "seed": 24,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "537d764a4ce80323a06217159e7309156a91067b0f7a383372961871ca688aa2"
+    },
+    {
+      "seed": 24,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "537d764a4ce80323a06217159e7309156a91067b0f7a383372961871ca688aa2"
+    },
+    {
+      "seed": 24,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "537d764a4ce80323a06217159e7309156a91067b0f7a383372961871ca688aa2"
+    },
+    {
+      "seed": 24,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "537d764a4ce80323a06217159e7309156a91067b0f7a383372961871ca688aa2"
+    },
+    {
+      "seed": 24,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "537d764a4ce80323a06217159e7309156a91067b0f7a383372961871ca688aa2"
+    },
+    {
+      "seed": 25,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "cfb7677bfe4f83b5dcc5bb8cb776efd1636c2383dba8487b3d6c27bbe476fa16"
+    },
+    {
+      "seed": 25,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "cfb7677bfe4f83b5dcc5bb8cb776efd1636c2383dba8487b3d6c27bbe476fa16"
+    },
+    {
+      "seed": 25,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "cfb7677bfe4f83b5dcc5bb8cb776efd1636c2383dba8487b3d6c27bbe476fa16"
+    },
+    {
+      "seed": 25,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "cfb7677bfe4f83b5dcc5bb8cb776efd1636c2383dba8487b3d6c27bbe476fa16"
+    },
+    {
+      "seed": 25,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "cfb7677bfe4f83b5dcc5bb8cb776efd1636c2383dba8487b3d6c27bbe476fa16"
+    },
+    {
+      "seed": 26,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "0dbd4f9dfe9e9d6a2810bb157b5bddaf5f1a674a8dc4de44016b60553e8d49d9"
+    },
+    {
+      "seed": 26,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "0dbd4f9dfe9e9d6a2810bb157b5bddaf5f1a674a8dc4de44016b60553e8d49d9"
+    },
+    {
+      "seed": 26,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "0dbd4f9dfe9e9d6a2810bb157b5bddaf5f1a674a8dc4de44016b60553e8d49d9"
+    },
+    {
+      "seed": 26,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "0dbd4f9dfe9e9d6a2810bb157b5bddaf5f1a674a8dc4de44016b60553e8d49d9"
+    },
+    {
+      "seed": 26,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "0dbd4f9dfe9e9d6a2810bb157b5bddaf5f1a674a8dc4de44016b60553e8d49d9"
+    },
+    {
+      "seed": 27,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "af9bb39c2ce7bafb78eec5d1ab8df74f163b05a8484b8c1edfb538fa5901145f"
+    },
+    {
+      "seed": 27,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "af9bb39c2ce7bafb78eec5d1ab8df74f163b05a8484b8c1edfb538fa5901145f"
+    },
+    {
+      "seed": 27,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "af9bb39c2ce7bafb78eec5d1ab8df74f163b05a8484b8c1edfb538fa5901145f"
+    },
+    {
+      "seed": 27,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "af9bb39c2ce7bafb78eec5d1ab8df74f163b05a8484b8c1edfb538fa5901145f"
+    },
+    {
+      "seed": 27,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "af9bb39c2ce7bafb78eec5d1ab8df74f163b05a8484b8c1edfb538fa5901145f"
+    },
+    {
+      "seed": 28,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "4c527b07a9bf1400964273bf35cf13f93812cec27cf5b23f07f7afc97728b4be"
+    },
+    {
+      "seed": 28,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "4c527b07a9bf1400964273bf35cf13f93812cec27cf5b23f07f7afc97728b4be"
+    },
+    {
+      "seed": 28,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "4c527b07a9bf1400964273bf35cf13f93812cec27cf5b23f07f7afc97728b4be"
+    },
+    {
+      "seed": 28,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "4c527b07a9bf1400964273bf35cf13f93812cec27cf5b23f07f7afc97728b4be"
+    },
+    {
+      "seed": 28,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "4c527b07a9bf1400964273bf35cf13f93812cec27cf5b23f07f7afc97728b4be"
+    },
+    {
+      "seed": 29,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "792a96ba2c578903443e0f1c0f92b8ac4f33e12e700e689b215f90557939c6ef"
+    },
+    {
+      "seed": 29,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "792a96ba2c578903443e0f1c0f92b8ac4f33e12e700e689b215f90557939c6ef"
+    },
+    {
+      "seed": 29,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "792a96ba2c578903443e0f1c0f92b8ac4f33e12e700e689b215f90557939c6ef"
+    },
+    {
+      "seed": 29,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "792a96ba2c578903443e0f1c0f92b8ac4f33e12e700e689b215f90557939c6ef"
+    },
+    {
+      "seed": 29,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "792a96ba2c578903443e0f1c0f92b8ac4f33e12e700e689b215f90557939c6ef"
+    },
+    {
+      "seed": 30,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "0070ca5b2f9867985636d26156cd5770c3b54d78232986346608fc0b5ba9bdaf"
+    },
+    {
+      "seed": 30,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "0070ca5b2f9867985636d26156cd5770c3b54d78232986346608fc0b5ba9bdaf"
+    },
+    {
+      "seed": 30,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "0070ca5b2f9867985636d26156cd5770c3b54d78232986346608fc0b5ba9bdaf"
+    },
+    {
+      "seed": 30,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "0070ca5b2f9867985636d26156cd5770c3b54d78232986346608fc0b5ba9bdaf"
+    },
+    {
+      "seed": 30,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "0070ca5b2f9867985636d26156cd5770c3b54d78232986346608fc0b5ba9bdaf"
+    },
+    {
+      "seed": 31,
+      "operations": 2347,
+      "driver": "sequences-native",
+      "fixture_sha256": "5466237888ed010ddccbe2187296eb9675a9cea7d4f35a4afc84b27641f5e24b"
+    },
+    {
+      "seed": 31,
+      "operations": 2347,
+      "driver": "sequences-debug",
+      "fixture_sha256": "5466237888ed010ddccbe2187296eb9675a9cea7d4f35a4afc84b27641f5e24b"
+    },
+    {
+      "seed": 31,
+      "operations": 2347,
+      "driver": "sequences_jit.sh",
+      "fixture_sha256": "5466237888ed010ddccbe2187296eb9675a9cea7d4f35a4afc84b27641f5e24b"
+    },
+    {
+      "seed": 31,
+      "operations": 2347,
+      "driver": "sequences-sanitized",
+      "fixture_sha256": "5466237888ed010ddccbe2187296eb9675a9cea7d4f35a4afc84b27641f5e24b"
+    },
+    {
+      "seed": 31,
+      "operations": 2347,
+      "driver": "sequences-sanitized-release",
+      "fixture_sha256": "5466237888ed010ddccbe2187296eb9675a9cea7d4f35a4afc84b27641f5e24b"
+    }
+  ],
+  "runtime_changed": false,
+  "production_failures_observed": 0,
+  "negative_control": "state-only mutant rejected; 299 operations reduced to 2; original runtime passes witness"
+}
