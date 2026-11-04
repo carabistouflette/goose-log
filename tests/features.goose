@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 import logger from "..";
 import std;
+var default_level: log::Level;
 
 fn main() {
+    assert(default_level == log::Level.Debug);
     let levels = [log::Level.Trace, log::Level.Debug, log::Level.Info, log::Level.Warn,
         log::Level.Error, log::Level.Fatal, log::Level.Off];
     let names = ["TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OFF"];

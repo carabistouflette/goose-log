@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 namespace log;
 
-enum Level { Trace, Debug, Info, Warn, Error, Fatal, Off }
+// Preserve the original default (Debug) and representation tags. Filtering
+// uses named variants rather than declaration/tag order.
+enum Level { Debug, Info, Warn, Error, Off, Trace, Fatal }
 enum Status { Filtered, Written, SinkError }
 
 struct Logger {
