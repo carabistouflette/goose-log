@@ -4,13 +4,21 @@ BENCH_ITERATIONS ?= 100000
 # Goose keys generated C by source path, so concurrent goals can overwrite it.
 .NOTPARALLEL:
 
-.PHONY: setup format check test test-sanitize test-guarded test-cli test-cli-sanitize bench bench-compare bench-alloc
+.PHONY: setup format check check-core test test-core test-sanitize test-guarded test-cli test-cli-sanitize bench bench-compare bench-alloc
 setup:
 	./scripts/setup-goose.sh
 format:
 	$(GOOSE) format logger.goose examples tests bench
-check:
+check: check-core
 	$(GOOSE) format --check logger.goose examples tests bench
+	$(GOOSE) check bench/alloc/probe.goose
+	$(GOOSE) check bench/cli/driver.goose
+	$(GOOSE) check examples/cli/consumer.goose
+	$(GOOSE) check tests/cli_sink.goose
+	$(GOOSE) check tests/cli_state.goose
+check-core:
+	$(GOOSE) format --check logger.goose tests/logger.goose tests/features.goose tests/record_oracle.goose tests/overloads.goose tests/differential.goose tests/guarded.goose examples/hello.goose examples/file.goose bench/bench.goose
+	$(GOOSE) check logger.goose
 	$(GOOSE) check tests/logger.goose
 	$(GOOSE) check tests/features.goose
 	$(GOOSE) check tests/record_oracle.goose
@@ -19,13 +27,10 @@ check:
 	$(GOOSE) check tests/guarded.goose
 	$(GOOSE) check examples/hello.goose
 	$(GOOSE) check examples/file.goose
-	$(GOOSE) check bench/alloc/probe.goose
-	$(GOOSE) check bench/cli/driver.goose
-	$(GOOSE) check examples/cli/consumer.goose
-	$(GOOSE) check tests/cli_sink.goose
-	$(GOOSE) check tests/cli_state.goose
 	$(GOOSE) check bench/bench.goose
-test:
+test: test-core
+	$(MAKE) test-cli
+test-core:
 	$(GOOSE) run tests/logger.goose
 	$(GOOSE) run tests/features.goose
 	$(GOOSE) run tests/overloads.goose
@@ -49,7 +54,6 @@ test:
 	$(GOOSE) build tests/record_oracle.goose -o .build/record-oracle
 	$(GOOSE) build tests/record_oracle.goose --debug --no-bce -o .build/record-oracle-debug
 	python3 tests/records.py .build/record-oracle .build/record-oracle-debug
-	$(MAKE) test-cli
 test-cli:
 	mkdir -p .build
 	$(GOOSE) build examples/cli/consumer.goose -o .build/cli-consumer

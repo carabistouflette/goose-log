@@ -12,7 +12,7 @@ jobs:
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: .toolchain
-          key: goose-${{ runner.os }}-${{ hashFiles('GOOSE_REVISION', 'scripts/setup-goose.sh') }}
+          key: goose-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('GOOSE_REVISION', 'scripts/setup-goose.sh') }}
       - run: make setup
       - run: make check test
       - name: GCC protected-page tests
@@ -41,3 +41,35 @@ jobs:
         run: python3 bench/alloc/run.py --iterations 10
       - name: CLI component profile correctness smoke
         run: python3 bench/cli/run.py --smoke --cpu 0 --build-cpu 0
+  macos-arm64:
+    runs-on: macos-15
+    timeout-minutes: 30
+    env:
+      CC: clang
+      CXX: clang++
+      GOOSE_CC: clang
+      SANITIZER_CC: clang
+      ASAN_OPTIONS: detect_leaks=0:halt_on_error=1
+      UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Verify macOS ARM64 runner and record tools
+        run: |
+          test "$(uname -s)" = Darwin
+          test "$(uname -m)" = arm64
+          sw_vers
+          clang --version
+          cmake --version
+          python3 --version
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .toolchain
+          key: goose-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('GOOSE_REVISION', 'scripts/setup-goose.sh') }}
+      - run: make setup
+      - run: .toolchain/goose/build/goose version
+      - name: Core type, ownership and byte/record oracles (JIT and native)
+        run: make check-core test-core
+      - name: Core protected-page tests (optimized and debug)
+        run: make test-guarded
+      - name: Core ASan and UBSan (debug and optimized)
+        run: make test-sanitize
