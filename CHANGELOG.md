@@ -6,9 +6,14 @@
   injected clocks and reusable builders. Core source, contract and dependencies
   remain unchanged; optional tests and component measurements cover the integration.
 
+## 0.1.2 — 2026-11-05
+
+Test-and-documentation maintenance release. The core implementation, documented
+API/output/bounds, and compiler pin are unchanged from 0.1.1. No performance
+gain is claimed.
+
 - Seeded mixed-operation state tests with replayable fixtures, bounded reduction,
   owned/borrowed lazy builders and a state-only mutation control.
-
 - Native runtime-input paired benchmarks with independent fixture/checksum
   validation, retained raw samples, and explicit reporting of a rejected
   short-ASCII optimization. No runtime speedup is claimed.
