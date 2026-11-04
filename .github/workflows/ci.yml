@@ -6,14 +6,44 @@ permissions:
   contents: read
 jobs:
   test:
-    runs-on: ubuntu-24.04
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: test
+            runner: ubuntu-24.04
+            arch: x86_64
+          - name: linux-arm64
+            runner: ubuntu-24.04-arm
+            arch: aarch64
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Verify native Linux architecture and record tools
+        env:
+          EXPECTED_ARCH: ${{ matrix.arch }}
+        run: |
+          test "$(uname -s)" = Linux
+          test "$(uname -m)" = "$EXPECTED_ARCH"
+          uname -a
+          cat /etc/os-release
+          getconf PAGESIZE
+          stat -f -c 'workspace filesystem: %T' .
+          stat -f -c 'temporary filesystem: %T' /tmp
+          lscpu
+          gcc --version
+          g++ --version
+          clang --version
+          cmake --version
+          python3 --version
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: .toolchain
           key: goose-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('GOOSE_REVISION', 'scripts/setup-goose.sh') }}
       - run: make setup
+      - run: .toolchain/goose/build/goose version
       - run: make check test
       - name: GCC protected-page tests
         run: make test-guarded
