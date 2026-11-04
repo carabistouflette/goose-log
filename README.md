@@ -253,6 +253,13 @@ messages. The same buffers are reused across accepted and filtered calls.
 Consumer regression tests cover application overloads and reject reference
 mutation of the safety limits.
 
+The [randomized sequence suite](tests/SEQUENCES.md) mixes plain/contextual/lazy
+calls on shared scratch and checks independent bytes, statuses, builder/sink
+counts and retained copies. `make test-sequences` runs normal/debug/JIT drivers;
+`make test-sequences-sanitize` adds standalone debug/optimized ASan/UBSan.
+Both are included in the existing CI targets. Failures retain seeded fixtures
+and support bounded operation-deletion reduction.
+
 On systems with GCC or Clang sanitizer runtimes, `make test-sanitize` runs the
 oracle against a standalone debug build instrumented with AddressSanitizer and
 UndefinedBehaviorSanitizer, and an optimized build with the usual bounds-check

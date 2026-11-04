@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Seeded mixed-operation state tests with replayable fixtures, bounded reduction,
+  owned/borrowed lazy builders and a state-only mutation control.
+
 - Native runtime-input paired benchmarks with independent fixture/checksum
   validation, retained raw samples, and explicit reporting of a rejected
   short-ASCII optimization. No runtime speedup is claimed.
