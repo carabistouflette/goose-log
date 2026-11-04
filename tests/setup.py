@@ -39,8 +39,14 @@ def main():
         git(origin, "-c", "user.name=Setup Test", "-c", "user.email=test@example.invalid",
             "-c", "commit.gpgsign=false", "commit", "-m", "newer fixture")
         tip = git(origin, "rev-parse", "HEAD")
-        for case in ("clean", "modified", "staged", "untracked", "invalid-pin",
-                     "assume-unchanged", "skip-worktree"):
+        locales = subprocess.check_output(["locale", "-a"], text=True).splitlines()
+        collating_locale = next((name for name in locales if name.lower().startswith("en_us.")), None)
+        cases = ["clean", "modified", "staged", "untracked", "invalid-pin",
+                 "assume-unchanged", "skip-worktree"]
+        if collating_locale:
+            cases.append("clean-collation")
+        for case in cases:
+            clean = case in ("clean", "clean-collation")
             project = base / case
             scripts = project / "scripts"
             scripts.mkdir(parents=True)
@@ -52,7 +58,7 @@ def main():
             git(project, "clone", str(origin), str(toolchain))
             require(git(toolchain, "rev-parse", "HEAD") == tip,
                     f"{case}: clone did not start at the newer commit")
-            if case not in ("clean", "invalid-pin"):
+            if not clean and case != "invalid-pin":
                 # Dirty-cache cases must reproduce edits surviving a checkout
                 # of the same pin, rather than an unrelated checkout conflict.
                 git(toolchain, "checkout", "--detach", pin)
@@ -83,9 +89,15 @@ def main():
             cmake.chmod(0o700)
             env = dict(os.environ, PATH=str(tools) + os.pathsep + os.environ["PATH"],
                        SETUP_MARKER=str(marker))
-            result = subprocess.run([str(installer)], cwd=project, env=env,
+            invocation = [str(installer)]
+            if case == "clean-collation":
+                env["LC_ALL"] = collating_locale
+                # Modern Bash defaults to ASCII ranges; macOS Bash 3 does not.
+                # Source with the old behavior and retain the installer's $0.
+                invocation = ["bash", "-c", 'shopt -u globasciiranges 2>/dev/null || :; source "$0"', str(installer)]
+            result = subprocess.run(invocation, cwd=project, env=env,
                                     capture_output=True, text=True, timeout=30)
-            if case == "clean":
+            if clean:
                 require(result.returncode == 0, result.stderr)
                 require(git(toolchain, "rev-parse", "HEAD") == pin,
                         "clean: failed to check out the older requested pin")

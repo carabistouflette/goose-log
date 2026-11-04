@@ -14,8 +14,11 @@ require_clean_source() {
     while IFS= read -r entry; do
         # Lowercase tags hide assume-unchanged files; S hides skip-worktree.
         case "${entry:0:1}" in
-            [a-z]|S)
+            # Spell out lowercase tags: locale collation can make [a-z]
+            # match uppercase H (ordinary tracked files) on macOS.
+            [abcdefghijklmnopqrstuvwxyz]|S)
                 echo "Compiler index hides source checks: $toolchain_dir" >&2
+                echo "Index entry: $entry" >&2
                 echo "Clear assume-unchanged/skip-worktree flags before setup." >&2
                 exit 1
                 ;;
