@@ -1,6 +1,9 @@
 GOOSE ?= .toolchain/goose/build/goose
 BENCH_ITERATIONS ?= 100000
 
+# Goose keys generated C by source path, so concurrent goals can overwrite it.
+.NOTPARALLEL:
+
 .PHONY: setup format check test test-sanitize test-guarded bench
 setup:
 	./scripts/setup-goose.sh
