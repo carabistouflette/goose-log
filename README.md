@@ -11,6 +11,18 @@ access, or runtime dependencies beyond Goose's standard library.
 
 ## Quick start
 
+Clone and run the included example without a parent workspace:
+
+```sh
+git clone https://github.com/carabistouflette/goose-log.git
+cd goose-log
+make setup
+make check test
+.toolchain/goose/build/goose run examples/hello.goose
+```
+
+For a program in a sibling directory of that clone:
+
 ```goose
 import logger from "../goose-log";
 import os;
@@ -31,9 +43,34 @@ Goose's `write_stderr` returns no I/O status, so this adapter always reports
 success. Use an output API that reports errors when delivery must be checked.
 
 From this checkout, run `make setup`, then `make check test`. Setup needs Git,
-CMake 3.27+, a C/C++20 toolchain, and Make; tests also need Python 3. On Linux,
+CMake 3.27+, a C/C++20 toolchain, and Make; tests also need Python 3.9+. On Linux,
 the in-process runner needs libc development headers. An existing compiler can
 be selected with `make GOOSE=/path/to/goose check test`.
+
+Tests require Python **3.9 or newer**. Git, Bash, CMake, Make, and a working
+C/C++20 toolchain are needed for a fresh setup; setup fetches the pinned Goose
+source and builds it locally. No compiler binaries are distributed here.
+
+Goose also accepts a remote dependency pinned to a published full commit. For
+example, the library revision used in the recorded benchmark results is:
+
+```goose
+import logger from "carabistouflette/goose-log@e450b55dcda36ca8b197ed5f17c2da79f847d8db";
+```
+
+Use this import in place of the relative import above. It exposes the same
+`log` namespace. There are no tagged releases or API stability guarantees yet.
+
+## Tested platforms
+
+The library is pure Goose with no platform-specific calls; applications supply
+their output adapter. Actual validation is currently limited to **Linux x86-64**:
+Arch Linux locally with GCC and Clang, and an Ubuntu 24.04 GitHub CI workflow configured for both compilers.
+macOS, Windows, and other architectures are unverified, not promised supported.
+The setup script requires Bash. The optional protected-page tests additionally
+require POSIX `mprotect` and Python's `resource` module. Sanitizer tests require
+GCC/Clang sanitizer runtimes. See [benchmark provenance](bench/results.md) for
+the exact locally measured tool versions; CI uses the runner's installed tools.
 
 Setup requires a full commit hash and refuses tracked edits or nonignored
 untracked files in the cached compiler source. Index flags that hide source
@@ -165,12 +202,16 @@ and exercises accepted calls in that same loop. Treat these as local measurement
 rather than cross-library or production claims.
 Fixed messages and configurations allow compiler specialization, so these
 rows do not represent every runtime-input or configuration pattern.
+See [recorded results and reproduction steps](bench/results.md). They are local
+measurements, not cross-library comparisons or production throughput promises.
 
 The first version deliberately excludes file rotation, asynchronous queues,
 JSON output, and automatic formatting of application objects.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development and commit standards.
+[SECURITY.md](SECURITY.md) describes vulnerability reporting and the trust model.
 [GOOSE_REVISION](GOOSE_REVISION) pins the compiler used in CI.
 Compatibility with other compiler revisions is not guaranteed.
 
 [Apache-2.0](LICENSE). Copyright 2026 goose-log contributors.
+See [NOTICE](NOTICE) and [third-party notes](THIRD_PARTY_NOTICES.md).

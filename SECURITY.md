@@ -1,0 +1,41 @@
+# Security
+
+This library has an experimental API and no tagged releases. Security fixes
+target the latest `main` commit; older pinned commits are not maintained release
+branches. Review updates before replacing an application's pinned revision.
+
+## Report a vulnerability
+
+Use GitHub's private vulnerability reporting form:
+https://github.com/carabistouflette/goose-log/security/advisories/new
+
+Please include the full library and Goose compiler commits, platform, a minimal
+reproducer, and the expected versus observed behavior. Do not put credentials,
+personal data, or live secrets in the report. Keep exploit details private until
+a fix or coordinated disclosure is ready. Non-security defects can use ordinary
+GitHub issues. No response-time guarantee is made for this volunteer project.
+
+## Trust model and limits
+
+Messages may contain arbitrary bytes. The formatter escapes controls, non-ASCII
+bytes, and backslashes; it inspects at most 4096 source bytes and emits at most
+16417 bytes per enabled call, including explicit optional label colors. It does
+not redact secrets, parse its output as structured data, or make durable writes.
+
+The application owns the logger, message construction, scratch storage, output
+sink, synchronization, and sink error reporting. The input must not borrow from
+scratch; sinks must preserve their borrowed line while consuming it. Sink
+failures may follow partial external output and are not retried. Work done by
+message expressions and sinks is outside the formatter's limits. Native FFI
+that violates Goose's ownership or layout requirements is outside this contract.
+
+Validation combines exact-output tests, compiler ownership rejection tests,
+protected pages, and native sanitizers. Goose's mmap-backed data stack allocations
+do not expose every logical array boundary/lifetime to ASan. No single check
+proves absence of bugs. The tested compiler revision is pinned in
+`GOOSE_REVISION`; other revisions and platforms require separate validation.
+
+Setup checks source cleanliness for reproducibility. It does not authenticate
+an already-compromised machine, Git configuration, compiler binary, or cached
+build artifacts. GitHub CI uses read-only contents permissions and immutable
+action revisions; generated toolchains and build outputs are not published.

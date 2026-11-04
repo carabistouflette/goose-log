@@ -1,0 +1,13 @@
+mkdir -p .build
+.toolchain/goose/build/goose build bench/bench.goose --cc gcc -O2 -o .build/bench
+built .build/bench
+./.build/bench 100000
+threshold (default: filtered): median=6.22261 ns/call; min=6.09289; max=6.54177; checksum=5600000
+empty: median=6.86953 ns/call; min=6.61384; max=6.95778; checksum=53900000
+printable: median=39.38394 ns/call; min=37.62697; max=40.45613; checksum=93355423
+emit-printable: median=36.47285 ns/call; min=33.83169; max=62.722; checksum=93266047
+printable-4096: median=3871.07108 ns/call; min=3809.32759; max=4745.49677; checksum=2940661409
+backslashes-4096: median=2745.43367 ns/call; min=2686.62652; max=2765.7701; checksum=5804383830
+mixed-4096: median=4899.11952 ns/call; min=4836.23705; max=4923.1966; checksum=8356037599
+escaped-256: median=406.16349 ns/call; min=398.81837; max=414.43609; checksum=795010454
+truncated-100k: median=6086.29193 ns/call; min=6066.78755; max=6130.38095; checksum=11557676200
