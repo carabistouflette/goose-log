@@ -27,6 +27,7 @@ test:
 	./.build/logger-debug
 	$(GOOSE) run examples/hello.goose
 	python3 tests/ownership.py $(GOOSE)
+	python3 tests/setup.py
 	$(GOOSE) build tests/differential.goose -o .build/differential
 	$(GOOSE) build tests/differential.goose --debug --no-bce -o .build/differential-debug
 	python3 tests/differential.py .build/differential .build/differential-debug

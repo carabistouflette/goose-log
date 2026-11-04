@@ -35,6 +35,15 @@ CMake 3.27+, a C/C++20 toolchain, and Make; tests also need Python 3. On Linux,
 the in-process runner needs libc development headers. An existing compiler can
 be selected with `make GOOSE=/path/to/goose check test`.
 
+Setup requires a full commit hash and refuses tracked edits or nonignored
+untracked files in the cached compiler source. Index flags that hide source
+changes (`assume-unchanged` or `skip-worktree`) are also refused. Refusals leave
+local source untouched; resolve them before rerunning setup. Ignored compiler
+build output is allowed. Make goals
+run serially even with `-j`, because the pinned Goose compiler shares generated
+C paths between builds of the same source. Use one Make invocation per checkout;
+separate simultaneous invocations do not coordinate with each other.
+
 ## API and behavior
 
 - `Logger { minimum: Level.Info, color: false }` is the default configuration.
