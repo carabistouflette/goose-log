@@ -30,7 +30,15 @@ Performed checks:
 - GCC and Clang native ASan/UBSan checks passed in debug (`--no-bce`) and optimized
   standalone executable modes. The behavioral tests also passed in ordinary
   standalone debug GCC/Clang executables.
+- Fresh-cache execution of the real-clock example fetched the pinned dependency,
+  left stdout empty, and emitted one complete UTC-stamped stderr record.
 - Source formatting, Python syntax compilation, and whitespace checks passed.
+- Benchmark controls replay retained smoke rows, reject deliberately corrupted
+  checksums/callback counts/final bytes, and reject mismatched executable revisions.
+  They pass both normal and optimization-enabled Python.
+- Frozen source 5ede662 produced 112 full benchmark batches plus 32 replayable smoke
+  batches, all validated with the exact dependency and recorded source/tool hashes.
+  All stages and outliers remain retained; these are instrumented batch costs.
 - Independent design and implementation reviews checked filtering, bounds,
   callback counts, borrowing, sink outcomes and the optional dependency graph.
 

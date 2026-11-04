@@ -38,7 +38,12 @@ def load_items(path):
 
 class VerificationControls(unittest.TestCase):
     def test_replay_all_retained_smoke_rows(self):
-        base = ROOT / "bench/utc/results/smoke"
+        for capture in ("smoke", "final-smoke"):
+            with self.subTest(capture=capture):
+                self.replay_smoke(capture)
+
+    def replay_smoke(self, capture):
+        base = ROOT / "bench/utc/results" / capture
         fixtures = {p.stem: load_items(p) for p in (base / "fixtures").glob("*.bin")}
         rows = [json.loads(line) for line in (base / "rounds.jsonl").read_text().splitlines()]
         self.assertEqual(len(rows), 32)

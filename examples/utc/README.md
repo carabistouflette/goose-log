@@ -59,5 +59,5 @@ Caller clock and sink work are outside the formatter's byte/work bounds.
 [Validation evidence](VALIDATION.md) records the checks and limitations.
 Tests inject deterministic samples, validate exact bytes and callback counts,
 and exercise compiler ownership rejection. `make test-utc-sanitize` adds native
-ASan/UBSan (`SANITIZER_CC=gcc` or `clang`). Component measurements separately account for optional clock, output and
-checksum work.
+ASan/UBSan (`SANITIZER_CC=gcc` or `clang`). See the [component measurements](../../bench/utc/README.md) for optional
+clock, output and checksum costs and their instrumentation limits.

@@ -117,3 +117,22 @@ preserved existing result-file bytes.
 Run one measurement process at a time per checkout/cache: Goose caches generated
 C by source path. Source/executable hash checks catch ordinary concurrent drift,
 but do not establish adversarial race freedom. CPU affinity does not reserve a CPU.
+
+## Frozen-source follow-up
+
+The [final capture](results/final/metadata.json) records clean source commit
+`5ede662`, after adding executable-revision validation and verifier mutation
+controls. Seven shuffled rounds at 100000 calls, two fixtures, all eight stages
+and every outlier remain in [112 raw batches](results/final/rounds.jsonl).
+The companion [final smoke](results/final-smoke/metadata.json) retains 32 batches
+and compressed OS traces. Both captures passed independent counters, complete
+output and all-byte checksums. Source commit 5ede662 remains in the feature
+history; the later merge only incorporates maintenance release documentation.
+The root adapter remains byte-identical to a29dd80.
+
+Run `make bench-utc` from a clean checkout for full measurements, or
+`make bench-utc-smoke` for correctness. Both allocate fresh result directories.
+`python3 tests/utc_bench.py` replays every originally retained smoke sample and
+requires rejection of corrupted checksum, callback-count and final-byte fields;
+it also rejects malformed/mismatched compiler-advertised revisions. These checks
+pass under normal Python and `python3 -O`.
