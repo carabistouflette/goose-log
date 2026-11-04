@@ -57,5 +57,31 @@ fn main() {
         true
     };
     assert(borrowed_status == log::Status.Written);
+    let empty_record = log::Record { .. };
+    assert(log::render_record(config, empty_record, scratch));
+    assert(scratch == "[INFO] \n");
+    let fields = [log::Field { key: "user\"", value: "a\\b\n" },
+        log::Field { key: "password", value: "do-not-output", sensitive: true }];
+    let record = log::Record { level: log::Level.Info, message: "done\n",
+        timestamp: "2026-11-04Z", target: "net\"", file: "app.goose", line: 42, fields: fields };
+    let record_status = log::emit_record(config, record, scratch) { line =>
+        assert(line == "[INFO] timestamp=\"2026-11-04Z\" target=\"net\\\"\" file=\"app.goose\" line=42 \"user\\\"\"=\"a\\\\b\\x0a\" \"password\"=\"***\" done\\x0a\n");
+        false
+    };
+    assert(record_status == log::Status.SinkError);
+    let disabled = log::Logger { minimum: log::Level.Off };
+    let before = str(scratch);
+    var record_calls = 0;
+    let record_filtered = log::emit_record(disabled, record, scratch) { line => record_calls += 1; true };
+    assert(record_filtered == log::Status.Filtered && record_calls == 0 && scratch == before);
+    huge.clear();
+    for i in 4097 { huge.push(0xff); }
+    let maximum_fields = [log::Field { key: huge, value: huge }; 9];
+    let maximum = log::Record { level: log::Level.Trace, message: huge,
+        timestamp: huge, target: huge, file: huge, line: 4294967295, fields: maximum_fields };
+    let trace = log::Logger { minimum: log::Level.Trace, color: true };
+    assert(log::render_record(trace, maximum, scratch));
+    assert(scratch.len == log::MAX_RECORD_LINE_BYTES && scratch.len == 28592);
+    assert(scratch[scratch.len - 16..] == "... [truncated]\n");
     print("feature tests passed");
 }

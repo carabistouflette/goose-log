@@ -129,6 +129,45 @@ return owned bytes or a borrowed byte slice. Its work and allocations are
 application code, outside the formatter's bounds. The sink still returns `bool`.
 Goose permits one trailing function block; pass the builder by name.
 
+## Contextual records
+
+The plain `render`/`emit` format remains unchanged. `Record` adds opt-in,
+bounded context and string fields; bind it to a local before passing it to
+`render_record(config, record, scratch)` or `emit_record(config, record, scratch)`.
+These functions borrow a read-only `Record&`. They have the same filtering,
+buffer replacement, boolean sink, and status rules as their plain counterparts.
+
+```goose
+let fields = [log::Field { key: "account", value: "demo" },
+    log::Field { key: "token", value: "application-provided", sensitive: true }];
+let record = log::Record { level: log::Level.Info, message: "request complete",
+    target: "http", file: "app.goose", line: 42, fields: fields };
+log::render_record(config, record, scratch);
+```
+
+Output: `[INFO] target="http" file="app.goose" line=42 "account"="demo" "token"="***" request complete`
+followed by a newline. Optional `timestamp` is caller-formatted text: there is
+no implicit clock read, date parser, or automatic source-location capture.
+`line` is a `u32`; zero omits it. Empty timestamp/target/file values are omitted.
+All metadata values and field keys/values are quoted; quotes, backslashes,
+controls, and non-ASCII bytes are escaped. Field keys remain quoted even when
+they match a reserved metadata name. This is a text format, not JSON.
+
+Timestamp and target inspect at most 64 source bytes each; file inspects at
+most 256. At most eight arbitrary fields are inspected, with 64 key bytes and
+256 value bytes per field. Each truncated string gets `... [truncated]` inside
+its closing quote; excess fields add `[fields truncated] `. Message truncation
+still uses 4096 bytes. `MAX_RECORD_LINE_BYTES` is **28592**, including all
+syntax, truncation markers, a maximum line number, optional colors, and newline.
+The plain `MAX_LINE_BYTES` remains 16417. All borrowed record text and field
+storage must remain alive and must not alias output being replaced.
+
+`sensitive: true` replaces the entire value with `"***"` without inspecting it.
+This is explicit field masking, **not** automatic secret detection: unmarked
+fields and message text are not redacted. Applications choose their redaction
+policy before calling the logger. See [the comparison](bench/comparison.md)
+for features that remain outside this synchronous core.
+
 ## Output contract and limits
 
 Lines have the form `[LEVEL] message\n`. Printable ASCII bytes pass through;

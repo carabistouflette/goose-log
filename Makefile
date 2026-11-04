@@ -13,6 +13,7 @@ check:
 	$(GOOSE) format --check logger.goose examples tests bench
 	$(GOOSE) check tests/logger.goose
 	$(GOOSE) check tests/features.goose
+	$(GOOSE) check tests/record_oracle.goose
 	$(GOOSE) check tests/overloads.goose
 	$(GOOSE) check tests/differential.goose
 	$(GOOSE) check tests/guarded.goose
@@ -37,11 +38,18 @@ test:
 	$(GOOSE) build tests/differential.goose -o .build/differential
 	$(GOOSE) build tests/differential.goose --debug --no-bce -o .build/differential-debug
 	python3 tests/differential.py .build/differential .build/differential-debug
+	$(GOOSE) build tests/record_oracle.goose -o .build/record-oracle
+	$(GOOSE) build tests/record_oracle.goose --debug --no-bce -o .build/record-oracle-debug
+	python3 tests/records.py .build/record-oracle .build/record-oracle-debug
 test-sanitize:
 	mkdir -p .build
 	$(GOOSE) build tests/differential.goose --debug --no-bce --standalone --cc ./scripts/sanitizer-cc.sh -o .build/differential-sanitized
 	$(GOOSE) build tests/differential.goose -O2 --standalone --cc ./scripts/sanitizer-cc.sh -o .build/differential-sanitized-release
 	python3 tests/differential.py .build/differential-sanitized .build/differential-sanitized-release
+	$(GOOSE) build tests/features.goose --debug --no-bce --standalone --cc ./scripts/sanitizer-cc.sh -o .build/features-sanitized
+	./.build/features-sanitized
+	$(GOOSE) build tests/record_oracle.goose -O2 --standalone --cc ./scripts/sanitizer-cc.sh -o .build/record-oracle-sanitized
+	python3 tests/records.py .build/record-oracle-sanitized
 test-guarded:
 	mkdir -p .build
 	$(GOOSE) build tests/guarded.goose -O2 -o .build/guarded

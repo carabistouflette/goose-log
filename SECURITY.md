@@ -22,6 +22,13 @@ bytes, and backslashes; it inspects at most 4096 source bytes and emits at most
 16417 bytes per enabled call, including explicit optional label colors. It does
 not redact secrets, parse its output as structured data, or make durable writes.
 
+Opt-in contextual records cap metadata and fields separately, with at most
+28592 output bytes. Metadata and arbitrary string fields are quoted and escaped;
+explicitly sensitive field values are replaced by `***` without being inspected.
+This does not detect secrets in ordinary fields or message text. Timestamp text
+and source locations come from the application. Lazy message builders run only
+when enabled, but their arbitrary CPU/allocation work remains outside these caps.
+
 The application owns the logger, message construction, scratch storage, output
 sink, synchronization, and sink error reporting. The input must not borrow from
 scratch; sinks must preserve their borrowed line while consuming it. Sink

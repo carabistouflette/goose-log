@@ -59,9 +59,7 @@ fn parse_level(text: const u8[:]) -> Level, bool {
 
 // Replaces out only when enabled. Input must not borrow from out.
 // All non-printable/non-ASCII bytes are escaped, as is backslash itself.
-fn render(logger: Logger, level: Level, message: const u8[:], out: u8[>..]&) -> bool {
-    if !enabled(logger, level) { return false; }
-    out.clear();
+inline fn append_prefix(logger: Logger, level: Level, out: u8[>..]&) {
     if logger.color {
         if level == Level.Trace { out.append("\x1b[94m"); }
         else if level == Level.Debug { out.append("\x1b[36m"); }
@@ -75,6 +73,9 @@ fn render(logger: Logger, level: Level, message: const u8[:], out: u8[>..]&) -> 
     out.push(']');
     if logger.color { out.append("\x1b[0m"); }
     out.push(' ');
+}
+
+inline fn append_message(message: const u8[:], out: u8[>..]&) {
     let hex = "0123456789abcdef";
     let count = if message.len < MAX_MESSAGE_BYTES { message.len } else { MAX_MESSAGE_BYTES };
     for c in message[..count] {
@@ -87,6 +88,13 @@ fn render(logger: Logger, level: Level, message: const u8[:], out: u8[>..]&) -> 
         }
     }
     if message.len > MAX_MESSAGE_BYTES { out.append("... [truncated]"); }
+}
+
+fn render(logger: Logger, level: Level, message: const u8[:], out: u8[>..]&) -> bool {
+    if !enabled(logger, level) { return false; }
+    out.clear();
+    append_prefix(logger, level, out);
+    append_message(message, out);
     out.push('\n');
     true
 }
@@ -107,4 +115,107 @@ fn emit_lazy<Build, Sink>(logger: Logger, level: Level, out: u8[>..]&) -> Status
     if !enabled(logger, level) { return Status.Filtered; }
     let message = Build();
     emit(logger, level, message, out, Sink)
+}
+
+struct Field {
+    key:       const u8[:],
+    value:     const u8[:],
+    sensitive: bool = false,
+}
+
+const EMPTY_FIELDS: Field[0] = [];
+
+struct Record {
+    level:     Level          = Level.Info,
+    message:   const u8[:]    = "",
+    timestamp: const u8[:]    = "",
+    target:    const u8[:]    = "",
+    file:      const u8[:]    = "",
+    line:      u32            = 0,
+    fields:    const Field[:] = EMPTY_FIELDS,
+}
+
+const MAX_TIMESTAMP_BYTES = 64;
+const MAX_TARGET_BYTES = 64;
+const MAX_FILE_BYTES = 256;
+const MAX_FIELD_KEY_BYTES = 64;
+const MAX_FIELD_VALUE_BYTES = 256;
+const MAX_FIELDS = 8;
+// Three quoted metadata fields: expanded bytes, 15-byte truncation marker
+// each, 31 syntax bytes; line= plus ten decimal digits and a space: 16.
+// Each arbitrary field adds six syntax bytes, two possible markers, and
+// its escaped key/value. The extra-field marker adds 19 bytes.
+const MAX_RECORD_LINE_BYTES = MAX_LINE_BYTES
+    + 4 * (MAX_TIMESTAMP_BYTES + MAX_TARGET_BYTES + MAX_FILE_BYTES) + 3 * 15 + 31 + 16
+    + MAX_FIELDS * (4 * (MAX_FIELD_KEY_BYTES + MAX_FIELD_VALUE_BYTES) + 2 * 15 + 6) + 19;
+
+fn append_quoted(text: const u8[:], cap: i64, out: u8[>..]&) {
+    out.push('"');
+    let count = if text.len < cap { text.len } else { cap };
+    let hex = "0123456789abcdef";
+    for c in text[..count] {
+        if c == '"' || c == '\\' { out.push('\\'); out.push(c); }
+        else if c >= 0x20 && c <= 0x7e { out.push(c); }
+        else {
+            out.append("\\x");
+            out.push(hex[(c >> 4) as i64]);
+            out.push(hex[(c & 15) as i64]);
+        }
+    }
+    if text.len > cap { out.append("... [truncated]"); }
+    out.push('"');
+}
+
+fn append_metadata(name: const u8[:], text: const u8[:], cap: i64, out: u8[>..]&) {
+    if text.len == 0 { return; }
+    out.append(name);
+    out.push('=');
+    append_quoted(text, cap, out);
+    out.push(' ');
+}
+
+// Fixed bounded decimal formatting, independent of application format overloads.
+fn append_line_number(line: u32, out: u8[>..]&) {
+    if line == 0 { return; }
+    var digits: u8[10] = [0; 10];
+    var at:     i64    = 10;
+    var n = line;
+    while true {
+        at -= 1;
+        digits[at] = '0' + ((n % 10) as u8);
+        n /= 10;
+        if n == 0 { break; }
+    }
+    out.append("line=");
+    out.append(digits[at..]);
+    out.push(' ');
+}
+
+fn render_record(logger: Logger, record: const Record&, out: u8[>..]&) -> bool {
+    if !enabled(logger, record.level) { return false; }
+    out.clear();
+    append_prefix(logger, record.level, out);
+    append_metadata("timestamp", record.timestamp, MAX_TIMESTAMP_BYTES, out);
+    append_metadata("target", record.target, MAX_TARGET_BYTES, out);
+    append_metadata("file", record.file, MAX_FILE_BYTES, out);
+    append_line_number(record.line, out);
+    let count = if record.fields.len < MAX_FIELDS { record.fields.len } else { MAX_FIELDS };
+    for field in record.fields[..count] {
+        append_quoted(field.key, MAX_FIELD_KEY_BYTES, out);
+        out.push('=');
+        if field.sensitive { out.append("\"***\""); }
+        else { append_quoted(field.value, MAX_FIELD_VALUE_BYTES, out); }
+        out.push(' ');
+    }
+    if record.fields.len > MAX_FIELDS { out.append("[fields truncated] "); }
+    append_message(record.message, out);
+    out.push('\n');
+    true
+}
+
+fn emit_record<Sink>(logger: Logger, record: const Record&, out: u8[>..]&) -> Status {
+    if !render_record(logger, record, out) { return Status.Filtered; }
+    let line:    const u8[:] = out;
+    let success: bool        = Sink(line);
+    if success { Status.Written } else { Status.SinkError }
 }
