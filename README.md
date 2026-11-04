@@ -94,7 +94,7 @@ The library is pure Goose with no platform-specific calls; applications supply
 their output adapter. The core is validated on **Linux x86-64** (Arch Linux
 locally and Ubuntu 24.04 CI), **Linux ARM64** (native Ubuntu 24.04 CI), with GCC
 and Clang, and **macOS 15 ARM64** with Apple
-Clang in CI. Both run JIT/native core checks, independent byte/record oracles,
+Clang in CI. All three run JIT/native core checks, independent byte/record oracles,
 ownership rejection, protected pages, and native ASan/UBSan. LeakSanitizer is
 disabled on macOS. See [platform validation](PORTABILITY.md) for exact versions,
 commands, CI evidence, and coverage limits.
