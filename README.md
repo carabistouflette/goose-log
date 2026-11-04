@@ -163,6 +163,8 @@ The threshold case uses a runtime minimum (default `Error`) to avoid assuming
 filter rejection at compile time; `.build/bench 100000 0` selects `Debug` instead
 and exercises accepted calls in that same loop. Treat these as local measurements
 rather than cross-library or production claims.
+Fixed messages and configurations allow compiler specialization, so these
+rows do not represent every runtime-input or configuration pattern.
 
 The first version deliberately excludes file rotation, asynchronous queues,
 JSON output, and automatic formatting of application objects.
