@@ -23,6 +23,12 @@ CACHE = ROOT / ".build/sequences"
 SEEDS = (0x6005E, 0x5EC0AD, 0, 0xFFFFFFFF)
 
 
+def workspace_hashes():
+    return {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
+            for name in ("logger.goose", "GOOSE_REVISION", "tests/sequences.goose",
+                         "tests/sequences.py", "tests/differential.py", "tests/records.py")}
+
+
 def driver_hashes(driver):
     hashes = {"driver": hashlib.sha256(driver.read_bytes()).hexdigest()}
     if driver == (ROOT / "tests/sequences_jit.sh").resolve():
@@ -170,7 +176,7 @@ def main():
     parser.add_argument("--steps", type=int, default=256, help="random steps after 299 fixed transitions per seed")
     parser.add_argument("--replay", type=Path)
     parser.add_argument("--minimize", action="store_true")
-    parser.add_argument("--allow-new-driver", action="store_true", help="replay against rebuilt/fixed binaries")
+    parser.add_argument("--allow-new-driver", action="store_true", help="explicitly replay changed binaries or workspace sources")
     args = parser.parse_args()
     if not 0 <= args.steps <= 10000:
         parser.error("steps must be 0..10000")
@@ -184,6 +190,8 @@ def main():
         for driver in drivers:
             if driver_hashes(driver) != replay.get("executables", {"driver": replay["driver_sha256"]}):
                 parser.error("replay binary differs; use --allow-new-driver to test a rebuilt/fixed driver")
+        if replay.get("sources", workspace_hashes()) != workspace_hashes():
+            parser.error("replay workspace differs; use --allow-new-driver to test changed sources/oracles")
     seeds = args.seed if args.seed is not None else SEEDS
     batches = ((str(seed), generate(seed, args.steps)) for seed in seeds) if replay is None else [(str(args.replay), replay["cases"])]
     for seed, cases in batches:
@@ -205,9 +213,7 @@ def main():
                                    timed_out=timed_out, returncode=getattr(result, "returncode", None),
                                    commit=git.stdout.strip() if git.returncode == 0 else None,
                                    driver_sha256=executables["driver"], executables=executables,
-                                   sources={name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
-                                            for name in ("logger.goose", "GOOSE_REVISION", "tests/sequences.goose",
-                                                         "tests/sequences.py", "tests/differential.py", "tests/records.py")})
+                                   sources=workspace_hashes())
                     (failure / "original.json").write_text(json.dumps(payload, indent=2) + "\n")
                     (failure / "original.bin").write_bytes(encode(cases))
                     if result is not None:

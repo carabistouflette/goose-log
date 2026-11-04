@@ -63,6 +63,14 @@ def main():
         refused = subprocess.run(replay_command + [str(baseline)], capture_output=True, timeout=30)
         require(refused.returncode == 2 and b"replay binary differs" in refused.stderr,
                 "replay silently changed driver binaries")
+        identity = dict(reduced, sources=dict(reduced["sources"]))
+        identity["sources"]["logger.goose"] = "0" * 64
+        (root / "changed-source.json").write_text(json.dumps(identity))
+        refused_source = subprocess.run([sys.executable, "-O", str(sequences.ROOT / "tests/sequences.py"),
+                                         "--replay", str(root / "changed-source.json"), str(binary)],
+                                        capture_output=True, timeout=30)
+        require(refused_source.returncode == 2 and b"replay workspace differs" in refused_source.stderr,
+                "replay silently changed source/oracle inputs")
         accepted = subprocess.run(replay_command + ["--allow-new-driver", str(baseline)], capture_output=True, timeout=30)
         require(accepted.returncode == 0, "explicit fixed-driver replay failed")
         shutil.rmtree(failure)
