@@ -4,7 +4,7 @@ BENCH_ITERATIONS ?= 100000
 # Goose keys generated C by source path, so concurrent goals can overwrite it.
 .NOTPARALLEL:
 
-.PHONY: setup format check test test-sanitize test-guarded bench bench-compare
+.PHONY: setup format check test test-sanitize test-guarded bench bench-compare bench-alloc
 setup:
 	./scripts/setup-goose.sh
 format:
@@ -18,6 +18,8 @@ check:
 	$(GOOSE) check tests/differential.goose
 	$(GOOSE) check tests/guarded.goose
 	$(GOOSE) check examples/hello.goose
+	$(GOOSE) check examples/file.goose
+	$(GOOSE) check bench/alloc/probe.goose
 	$(GOOSE) check bench/bench.goose
 test:
 	$(GOOSE) run tests/logger.goose
@@ -33,6 +35,8 @@ test:
 	$(GOOSE) build tests/features.goose --debug --no-bce -o .build/features-debug
 	./.build/features-debug
 	$(GOOSE) run examples/hello.goose
+	$(GOOSE) build examples/file.goose -o .build/file-example
+	python3 tests/file_example.py .build/file-example
 	python3 tests/ownership.py $(GOOSE)
 	python3 tests/setup.py
 	$(GOOSE) build tests/differential.goose -o .build/differential
@@ -61,3 +65,5 @@ bench:
 	./.build/bench $(BENCH_ITERATIONS)
 bench-compare:
 	python3 bench/compare/run.py --goose $(GOOSE) --iterations $(BENCH_ITERATIONS)
+bench-alloc:
+	python3 bench/alloc/run.py --goose $(GOOSE)
