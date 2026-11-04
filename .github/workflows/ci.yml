@@ -39,3 +39,5 @@ jobs:
         run: python3 bench/compare/run.py --iterations 10 --rounds 1 --cpu 0
       - name: Allocation probe counter and exact-output smoke
         run: python3 bench/alloc/run.py --iterations 10
+      - name: CLI component profile correctness smoke
+        run: python3 bench/cli/run.py --smoke --cpu 0 --build-cpu 0

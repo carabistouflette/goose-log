@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- Application-owned Linux CLI reference with fixed numeric diagnostic events,
+  private bounded append delivery, checked business stdout, and real failure tests.
+- Separate construction, formatting, file delivery, and application-adapter
+  profiles using the reference's actual helpers.
+- Compiler lifetime regression coverage for terminal logging while callers build
+  or borrow data. The documented core API and runtime remain unchanged.
+
 ## 0.1.0 — 2026-11-04
 
 First tagged source release, under Apache-2.0. Validated on Linux x86-64 with

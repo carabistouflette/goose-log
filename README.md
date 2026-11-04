@@ -54,6 +54,15 @@ Failure may follow partial output; it provides no retry, rollback, concurrent
 writer atomicity, or durability guarantee. Tests cover preserved existing
 content, failed opens, and Linux's `/dev/full` write/close failure.
 
+For an application with a stricter file policy, see the Linux
+[CLI reference consumer](examples/cli/README.md). It uses only fixed events and
+numeric fields, keeps business JSON on stdout, and appends through a private
+regular-file adapter with checked limits, locks, writes, and close. It is
+application code, not a new core logging API. `make test-cli` exercises its
+sustained output and real filesystem failures; `make test-cli-sanitize` adds
+native sanitizers. The [component profile](bench/cli/README.md) separates message
+construction, rendering, append delivery, and actual adapter calls.
+
 From this checkout, run `make setup`, then `make check test`. Setup needs Git,
 CMake 3.27+, a C/C++20 toolchain, and Make; tests also need Python 3.9+. On Linux,
 the in-process runner needs libc development headers. An existing compiler can

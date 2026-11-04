@@ -20,6 +20,7 @@ check:
 	$(GOOSE) check examples/hello.goose
 	$(GOOSE) check examples/file.goose
 	$(GOOSE) check bench/alloc/probe.goose
+	$(GOOSE) check bench/cli/driver.goose
 	$(GOOSE) check examples/cli/consumer.goose
 	$(GOOSE) check tests/cli_sink.goose
 	$(GOOSE) check tests/cli_state.goose
