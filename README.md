@@ -294,6 +294,12 @@ See [matched synchronous comparisons](bench/compare/RESULTS.md), their
 [single-library results](bench/results.md). These are scoped local
 measurements, not production throughput promises.
 
+The [native short-message/filtering investigation](bench/hotpath/RESULTS.md)
+retains 1188 paired samples and the rejected experiment's source. Its printable
+gains came with repeatable escaped-input penalties, so the runtime was kept
+unchanged. The native checksum-only sink differs from the copying-sink
+cross-library comparison; their absolute times are not interchangeable.
+
 `make bench-alloc` runs the optional Linux [allocation/arena probe](bench/alloc/README.md).
 It separates runtime initialization, cold and warm formatter calls, direct
 allocation/OS calls, logical arena usage, and minor page faults. GNU-compatible

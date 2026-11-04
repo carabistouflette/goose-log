@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Native runtime-input paired benchmarks with independent fixture/checksum
+  validation, retained raw samples, and explicit reporting of a rejected
+  short-ASCII optimization. No runtime speedup is claimed.
+- Exact protected-page coverage for 56 short-input slices around scanner
+  boundaries, including empty input, unsafe bytes, and trailing backslashes.
+
 ## 0.1.1 — 2026-11-04
 
 - Fix compiler setup incorrectly rejecting a clean Git index under locale-aware
