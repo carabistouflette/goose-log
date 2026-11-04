@@ -2,7 +2,7 @@
 
 Small, bounded, explicit logging for the
 [Goose programming language](https://github.com/aardappel/goose).
-Apache-2.0. Version 0.1.1; the API is experimental before 1.0.
+Apache-2.0. Version 0.1.2; the API is experimental before 1.0.
 
 Severity filtering, single-line byte-safe formatting, optional label colors,
 and synchronous delivery to a caller-supplied sink. The application owns output
@@ -314,7 +314,7 @@ linker wrapping and pinned private runtime details are required. Zero direct
 allocation calls do not prove no arena growth or physical memory use.
 See [recorded allocation observations](bench/alloc/RESULTS.md).
 
-The 0.1.1 runtime is byte-identical to the implementation in the matched
+The 0.1.2 runtime is byte-identical to the implementation in the matched
 comparison snapshot above. Experimental filtering changes were not retained
 after native-input checks showed performance tradeoffs; no release speedup is
 claimed.
