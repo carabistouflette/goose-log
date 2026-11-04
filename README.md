@@ -63,6 +63,12 @@ sustained output and real filesystem failures; `make test-cli-sanitize` adds
 native sanitizers. The [component profile](bench/cli/README.md) separates message
 construction, rendering, append delivery, and actual adapter calls.
 
+For optional canonical UTC timestamps, see the
+[application-owned UTC consumer](examples/utc/README.md). It composes the
+existing record interface with a full-commit goose-time dependency, an injected
+clock, and reusable caller buffers. `make test-utc` validates that optional
+consumer; the core keeps its standard-library-only dependency graph.
+
 On Linux, `make check test` additionally validates the Linux CLI reference and
 probe sources. From this checkout, run `make setup`, then the checks above.
 Setup needs Git, CMake 3.27+, a C/C++20 toolchain, and Make; tests also need
