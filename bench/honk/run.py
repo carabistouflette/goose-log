@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[2]
 PREFIX = b"prefix\n"
 EVENT = re.compile(rb"\[INFO\] (started|returned) duration_ns=([0-9]+) outcome=0\n")
 CAP = 16 * 1024 * 1024
+FAILURE = b"honk: diagnostic log failed\n" * 2
 
 
 def require(ok, message):
@@ -140,7 +141,7 @@ def main():
         with log.open("r+b") as locked:
             fcntl.flock(locked, fcntl.LOCK_EX | fcntl.LOCK_NB)
             failed = invoke(True)
-        require((failed.returncode, failed.stdout, failed.stderr) == (1, b"", b"diagnostic log failed\n"),
+        require((failed.returncode, failed.stdout, failed.stderr) == (1, b"", FAILURE),
                 "busy sink failure policy changed")
         require(log.read_bytes() == PREFIX, "busy sink modified file")
         require(file_state(log) == busy_state, "busy sink changed file identity or bytes")
@@ -148,7 +149,7 @@ def main():
             full.truncate(CAP)
         full_state = file_state(log)
         failed = invoke(True)
-        require((failed.returncode, failed.stdout, failed.stderr) == (1, b"", b"diagnostic log failed\n"),
+        require((failed.returncode, failed.stdout, failed.stderr) == (1, b"", FAILURE),
                 "full sink failure policy changed")
         require(log.stat().st_size == CAP, "full sink grew")
         require(file_state(log) == full_state, "full sink changed file identity or bytes")
