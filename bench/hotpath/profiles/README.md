@@ -1,4 +1,7 @@
-# Supplementary instruction/cycle counters
+# Historical instruction/cycle counters
+
+These counters belong to the rejected candidate experiment, not a new release.
+See the [source comparisons](../../CURRENTNESS.md) for the retained baseline.
 
 Four separate `perf stat` runs on CPU 3 used the frozen native binaries from
 the repeated series, source `66c7b7e0954d9fdf1d05fb6aff2794985c2e26a6`.

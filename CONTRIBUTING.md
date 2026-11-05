@@ -9,7 +9,7 @@ Use focused branches (`feat/...`, `fix/...`, `docs/...`) and Conventional
 Commits: `feat: add ...`, `fix: reject ...`, `docs: clarify ...`,
 `test: cover ...`, `chore: update ...`. Subjects are imperative and each
 commit contains one coherent change. Use semantic versions when a reviewed
-release is ready. Within 0.1.x, preserve the documented API, output bytes,
+release is ready. Within 0.1.x, preserve the [documented API](API.md), output bytes,
 bounds, and ownership rules. Before 1.0, intentional changes to that contract
 require a new minor version and a changelog entry. Undocumented helpers are
 implementation details.
@@ -22,6 +22,8 @@ sanitizer runtimes installed. On POSIX, run `make test-guarded` for changes to
 filtering or input bounds. Keep the independent differential oracle in sync
 with deliberate contract changes; do not derive its expected bytes from the
 library under test.
+For documentation-only changes, check the affected examples and links; use
+[TESTING.md](TESTING.md) for the full suite and platform requirements.
 Request independent review, fix actionable findings, and keep CI passing.
 Never commit credentials, generated compiler output, or private workspace notes.
 

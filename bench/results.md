@@ -1,11 +1,13 @@
-# Local benchmark results
+# Historical single-library benchmark
 
-Recorded 2026-11-04 UTC. These are one machine's
-measurements, not a performance ranking or production throughput promise.
+Recorded 2026-11-04 UTC for an older logger implementation. **These numbers
+are historical, not current-library results.** The current logger differs from
+the measured source; no source bridge is claimed. Use the [benchmark index](README.md)
+for measurements whose timed code still matches main. Raw output remains unchanged.
 
 ## Provenance
 
-- Library and benchmark source: [`e450b55dcda36ca8b197ed5f17c2da79f847d8db`](https://github.com/carabistouflette/goose-log/tree/e450b55dcda36ca8b197ed5f17c2da79f847d8db). Later publication-only documentation commits do not change these source bytes.
+- Library and benchmark source: [`e450b55dcda36ca8b197ed5f17c2da79f847d8db`](https://github.com/carabistouflette/goose-log/tree/e450b55dcda36ca8b197ed5f17c2da79f847d8db). Reproduction checks out that exact historical implementation, not main.
 - Goose source: [`eadca409f68210893f366e60d0c2f0dc29a339be`](https://github.com/aardappel/goose/tree/eadca409f68210893f366e60d0c2f0dc29a339be).
 - Goose version: `goose eadca40 (runtime 3025e5810379)`.
 - Native C compiler: `gcc (GCC) 16.2.1 20260810`.

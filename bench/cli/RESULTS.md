@@ -3,8 +3,8 @@
 Measured on 2026-11-04 UTC from clean, unchanged source
 [`0c3794066cb3d5c5c1e06cace92b953437baea46`](https://github.com/carabistouflette/goose-log/tree/0c3794066cb3d5c5c1e06cace92b953437baea46).
 Both independently launched series used identical implementation, harness,
-compiler/stdlib inputs and driver hash. Later result/documentation commits do
-not change the measured code. Raw samples: [results.json](results.json) and
+compiler/stdlib inputs and driver hash. The measured driver, logger and
+file-adapter sources are retained unchanged. Raw samples: [results.json](results.json) and
 [repeat.json](repeat.json). See [method and workload](README.md).
 
 These are native component pipelines for the fixed enum/numeric CLI helper,
@@ -12,6 +12,11 @@ These are native component pipelines for the fixed enum/numeric CLI helper,
 or production service results. Each stage has its own loop/counter/checksum
 work and process/cache/lifetime context. Do not add or subtract stage timings
 to attribute a cost to construction, scratch policy, or configuration alone.
+
+Current-code status: the timed implementation and pinned compiler/dependencies
+still match main. See the [checked source comparisons](../CURRENTNESS.md) for
+exact paths and any reporting-only runner changes. This does not turn the
+recorded timings into measurements on a different host or toolchain.
 
 ## Provenance
 

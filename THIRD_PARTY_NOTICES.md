@@ -17,6 +17,8 @@ are not part of this source publication. Anyone separately redistributing a
 compiler binary, runtime bundle, or other dependency should inspect and preserve
 the notices and terms applicable to that artifact. GCC, Clang, Python, CMake,
 Git, Make, and GitHub Actions are external development tools, not vendored here.
+Optional application profiling also uses external heaptrack, strace and Valgrind;
+none of their source or binaries is bundled.
 
 The optional `bench/compare/run.py` comparison fetches pinned copies of
 [rxi/log.c](https://github.com/rxi/log.c) (MIT),

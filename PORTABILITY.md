@@ -1,5 +1,19 @@
 # Platform validation
 
+Current main's CI covers the following with the compiler in
+[GOOSE_REVISION](GOOSE_REVISION):
+
+| Component | Linux x86-64 | Linux ARM64 | macOS 15 ARM64 |
+| --- | --- | --- | --- |
+| Core logger and generic file example | Tested | Tested | Tested |
+| CLI file adapter | Tested | Tested | Not tested |
+| Optional UTC adapter | Tested | Tested on main | Not tested |
+
+Released v0.1.3 predates the Linux ARM64 CI addition. Its core and adapter source
+bytes match main; this does not claim that the tag ran the newer CI matrix.
+Performance results remain Linux x86-64 only. Windows and macOS x86-64 are unverified.
+The sections below retain exact environments and coverage from specific runs.
+
 Initial Linux x86-64/macOS validation ran on 2026-11-04 at source
 [`dae6c5b47ca5655af774af73b601df4c01cd650b`](https://github.com/carabistouflette/goose-log/commit/dae6c5b47ca5655af774af73b601df4c01cd650b),
 with pinned Goose compiler `eadca409f68210893f366e60d0c2f0dc29a339be`

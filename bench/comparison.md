@@ -3,17 +3,25 @@
 Reviewed 2026-11-04 against primary sources. The initial feature review used
 published goose-log `b4c664b3c41179fb38b25e98929891283318bd8f`. The updated
 implementation below is pinned to `5c5db8fd5fe733e51e5230def818a336a367e069`:
-six severities, deferred builders, bounded metadata/string fields, and explicit
-sensitive-field masking are now implemented and tested. The old single-library
+the measured API has six severities, deferred builders, bounded metadata/string
+fields and explicit sensitive-field masking. The old single-library
 [results](results.md) retain their original source pin; the new
 [measured comparisons](compare/RESULTS.md) use the updated implementation.
 Sources: [README][gl-readme], [implementation][gl-code], [benchmark][gl-bench].
 
-## Recommendation
+## Compared projects
 
-Use **rxi/log.c as the smallest manageable external synchronous baseline**, with its original source pinned and the benchmark adapter identified separately. Use **Macho0x/goose-logger as the closest discovered Goose ecosystem feature reference**. Its record renderer is easy to call without I/O, but performs substantially different work (timestamp formatting and redaction), so comparing its native output against goose-log's minimal output cannot establish equal-feature performance. Synchronous spdlog supplies the larger measured reference. Rust `log`/`env_logger` and Go `slog` are feature references here; implementing and benchmarking all of them is outside this small comparison. These are scope judgments based on the source review below.
+The measured baselines are rxi/log.c for a small synchronous C logger, spdlog for
+configurable sinks, and Macho0x/goose-logger for a Goose record renderer. The
+Macho path includes timestamp formatting and redaction, so its rows use a
+separate logical-record comparison. Rust log/env_logger and Go slog are feature
+references here, not measured backends. Versions below are fixed source-review
+snapshots, not a list of current releases.
 
-The implemented shared synchronous core has six severities, a deferred message-builder entry point, optional explicit metadata, and bounded string fields. It is not the union of every feature in every framework. Preserve bounded byte-safe rendering and explicit ownership while measuring each enabled feature's cost.
+Goose-log's six severities, lazy builders, bounded metadata and explicit field
+masking cover a small synchronous API. Async queues, rotation, global sinks and
+automatic secret detection remain outside it. See [current API](../API.md) and
+[checked measurement source comparisons](CURRENTNESS.md).
 
 ## Ecosystem identification and search limits
 
@@ -47,7 +55,7 @@ Cells describe the reviewed sources, not every possible third-party plugin. “A
 
 | Feature | goose-log snapshot | Macho0x/goose-logger v0.3.4 | rxi/log.c | synchronous spdlog v1.17.0 | Rust log + env_logger | Go slog |
 | --- | --- | --- | --- | --- | --- | --- |
-| Severities | Trace, Debug, Info, Warn, Error, Fatal; Off disables; old default Debug preserved | Trace through Fatal (six); no Off enum | Trace through Fatal (six); no Off enum | trace, debug, info, warn, err, critical; off | trace, debug, info, warn, error; Off filter, no Fatal | Debug, Info, Warn, Error; numeric custom levels; no built-in Trace/Fatal |
+| Severities | Trace, Debug, Info, Warn, Error, Fatal; Off disables; Logger defaults to Info | Trace through Fatal (six); no Off enum | Trace through Fatal (six); no Off enum | trace, debug, info, warn, err, critical; off | trace, debug, info, warn, error; Off filter, no Fatal | Debug, Info, Warn, Error; numeric custom levels; no built-in Trace/Fatal |
 | Runtime filtering | Per-call Logger minimum; `enabled` | Explicit `levels::enabled`; convenience writers do not enforce a configured floor | Global stderr floor; independent callback floors | Logger and sink floors | Facade maximum; backend target/module directives | `Handler.Enabled`; built-in minimum/LevelVar |
 | Compile-time filtering | No logging-level switch; optimizer may specialize | No logging-level switch seen | No level-removal macro switch | `SPDLOG_ACTIVE_LEVEL` with logging macros | Cargo max-level/release-max-level features | No dedicated logging-level build switch |
 | Message construction | Prebuilt byte slice or emit_lazy builder after filtering; manual enabled guard also available | Already-built text; manual guard | printf formatting after routing; C argument expressions already evaluated | Formatting after level check unless backtrace enabled; argument expressions already evaluated | Macros guard format-argument construction by static/runtime maximum; backend can reject later | Call arguments eager; `Enabled` guard or `LogValuer` defers expensive value computation |
@@ -87,20 +95,22 @@ Backend evidence: sources above plus [Macho sanitization][ml-sanitize], [porting
 9. **Cover contracts, not just short ASCII.** Include empty, short and 4096-byte printable, all 256 bytes, backslashes, Unicode UTF-8, invalid UTF-8, NUL/CR/LF/ANSI, exact cap and cap+1, and oversized inputs. Test every threshold/severity pair and callback failure separately. Measure cold and reused storage separately; bounded output does not prove allocation-free behavior.
 10. **Use paired measurements and modest conclusions.** Match sample counts, iteration counts, warmups and sink; alternate order and repeat isolated runs on the same machine. Record CPU, OS, clocks, compiler revisions/flags, source hashes, affinity/power policy and concurrent load. Report median/min/max batch averages as batch averages, not tail latencies. Include code and raw output. Existing goose-log results have seven batches, checksum/loop overhead, warm reusable storage, no external I/O and no CPU/frequency controls; their render and emit cases even use different severity patterns, so their difference does not isolate callback overhead. Source: [results.md](results.md).
 
-## Implemented shared core and remaining scope
+## Current scope
 
-- **Trace and Fatal:** aligns with both discovered Goose alternative and log.c; spdlog calls the top severity critical. Keep Fatal nonterminating, document that choice, keep Off separate, and update threshold truth tables, color labels and size bounds. Neither an exit hook nor a crash handler follows from adding a severity.
-- **Deferred builder:** a callback invoked only after `enabled` is useful parity for avoiding work on disabled logs. Reuse Goose's existing formatting primitives rather than invent a printf/fmt parser. Keep the prebuilt byte-slice API. Bound the renderer separately from builder work, which can still be arbitrarily expensive or allocate; specify storage/alias rules and test callback suppression. The implemented builder returns owned bytes or a borrowed byte slice; compiler lifetime and sink-type regressions cover both.
-- **Optional explicit metadata:** caller-supplied file/line and a small target/category address the clearest diagnostic gap. Macho's API demonstrates explicit source metadata; it does not prove automatic call-site capture in the pinned compiler. If timestamp support is wanted, accept caller-provided time/text or a deliberate clock provider rather than forcing a clock onto every minimal call. Escape and bound metadata too; preserve old default output and recompute total bounds for the new mode.
-- **Composable sink examples:** checksum, stderr, error-aware file adapter and fanout can demonstrate application-owned I/O without turning the core into a process-global backend. A void stdout/stderr API cannot truthfully supply delivery success. Returning `true` only means the adapter claimed success.
+The [API reference](../API.md) defines six emitted severities, lazy builders,
+caller-supplied metadata, bounded string fields and explicit sensitive-value
+masking. The [examples](../README.md#examples) show stderr, checked file delivery
+and an optional UTC adapter.
 
-Require a separate design decision for typed structured fields/JSON, environment directive parsing, automatic secret detection, persistent file ownership/rotation, async queues/backpressure/drop policies, shared-thread ordering, crash hooks, and spans/distributed tracing. Each changes ownership, resource or semantic guarantees. In particular, Macho's specialized redaction and text-field policies are a real feature difference, not a feature goose-log can claim through byte escaping. These recommendations follow the repository's [small explicit API and application-owned I/O policy][gl-contrib]; they do not claim whole-framework parity.
+Typed JSON fields, environment filter directives, automatic secret detection,
+rotation, asynchronous queues, global sink management and tracing spans are
+outside the core. A custom adapter does not make those built-in features.
 
 ## Measurement and scope boundaries
 
-- Relative pipeline timings are now measured in [two retained series](compare/RESULTS.md).
-  Allocation counts, syscall counts, durability, and multithreaded I/O throughput
-  remain unmeasured. No universal speed claim follows from the measured profiles.
+- The [two retained comparison series](compare/RESULTS.md) measure pipeline time.
+  They do not measure allocation/syscall counts, durability or multithreaded I/O.
+  Separate probes are listed in the [benchmark index](README.md).
 - The direct Goose reference's exact timestamp/redaction helpers are used on
   both logical-record benchmark paths. This is an external policy adapter,
   not a built-in automatic secret detector or full upstream feature parity.

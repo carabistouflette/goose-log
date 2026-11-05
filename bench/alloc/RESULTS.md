@@ -8,6 +8,11 @@ and the same driver hash. Raw results are [results.json](results.json) and
 [repeat-results.json](repeat-results.json). See the [probe method](README.md)
 for counter boundaries and exact-output controls.
 
+Current-code status: the timed implementation and pinned compiler/dependencies
+still match main. See the [checked source comparisons](../CURRENTNESS.md) for
+exact paths and any reporting-only runner changes. This does not turn the
+recorded timings into measurements on a different host or toolchain.
+
 ## Environment
 
 - Linux x86-64, kernel `7.2.11-arch1-1`, 4096-byte OS pages.

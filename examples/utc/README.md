@@ -1,14 +1,14 @@
-# Optional UTC record consumer
+# UTC timestamp example
 
-This application-owned adapter composes goose-log's existing `Record.timestamp`
-with [goose-time](https://github.com/carabistouflette/goose-time) at the reviewed
-experimental v0.1.0 commit `343887caeee0a1f4e2e536ff322fcafb454e11bd`.
-It does not extend the core logging interface. `logger.goose` and its documented
-output formats, filtering, limits and dependency graph are unchanged.
+This example fills `Record.timestamp` using an injected clock and
+[goose-time](https://github.com/carabistouflette/goose-time), pinned to experimental
+v0.1.0 commit `343887caeee0a1f4e2e536ff322fcafb454e11bd`. It is optional application
+code; the core logger does not import goose-time.
 
 From a standalone goose-log checkout with the pinned compiler:
 
 ```sh
+make setup
 make test-utc
 .toolchain/goose/build/goose run examples/utc/main.goose
 ```
@@ -16,8 +16,9 @@ make test-utc
 The optional entrypoints fetch that full-commit dependency through Goose's normal
 package cache on first use (network/Git access required then). Core imports and
 `make check-core test-core` do not fetch or depend on goose-time. The optional
-consumer is validated on Linux x86-64; existing core macOS coverage does not
-establish platform coverage for this consumer.
+consumer is tested on Linux x86-64 and, on main, native Linux ARM64.
+Released v0.1.3 predates the ARM64 CI addition. Core macOS testing does not
+establish macOS support for this consumer. See [platform coverage](../../PORTABILITY.md#linux-arm64).
 
 The helper `utc.goose` expects its root entrypoint to declare both the logger
 and time sourced imports, as [main.goose](main.goose) does. Copying the helper

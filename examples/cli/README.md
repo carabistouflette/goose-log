@@ -1,4 +1,4 @@
-# Application-owned CLI diagnostics
+# Linux CLI diagnostics example
 
 This Linux reference integration adds application state and a native file
 adapter around goose-log. The core logger remains independent of file I/O.

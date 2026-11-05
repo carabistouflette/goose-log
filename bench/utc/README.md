@@ -126,9 +126,11 @@ controls. Seven shuffled rounds at 100000 calls, two fixtures, all eight stages
 and every outlier remain in [112 raw batches](results/final/rounds.jsonl).
 The companion [final smoke](results/final-smoke/metadata.json) retains 32 batches
 and compressed OS traces. Both captures passed independent counters, complete
-output and all-byte checksums. Source commit 5ede662 remains in the feature
-history; the later merge only incorporates maintenance release documentation.
-The root adapter remains byte-identical to a29dd80.
+output and all-byte checksums. The logger, compiler pin, UTC adapter, benchmark driver and runner still match
+source `5ede662`; see the [checked source comparisons](../CURRENTNESS.md).
+Later commits added results, release documentation and final-smoke replay tests;
+those changes are not timed implementation changes. The UTC adapter remains
+byte-identical to a29dd80.
 
 Run `make bench-utc` from a clean checkout for full measurements, or
 `make bench-utc-smoke` for correctness. Both allocate fresh result directories.

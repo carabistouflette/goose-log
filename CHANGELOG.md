@@ -76,6 +76,6 @@ the full Goose compiler revision in [GOOSE_REVISION](GOOSE_REVISION).
   Goose ecosystem reference. Scope, raw samples, and limitations are retained
   with the measurements; no universal performance or feature-parity claim.
 
-The [README](README.md) defines the 0.1 API contract and deliberate scope limits.
+The [API reference](API.md) defines the 0.1 contract and scope limits.
 Applications own I/O, storage, synchronization, and redaction policy. This
 release does not add async queues, file rotation, or automatic secret detection.

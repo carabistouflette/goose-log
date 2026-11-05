@@ -1,9 +1,12 @@
-# Whole-Honk logging profile
+# Honk v0.2.0 logging profile
+
+The retained results describe Honk v0.2.0 at `855fb055`, not current Honk.
+Identical logger bytes do not make later application versions equivalent.
 
 This Linux controller runs the same trusted native Honk binary and synthetic,
 dependency-free `metadata` project with and without `--log-file`. It never builds
 or modifies an application checkout. Use a separate clean checkout and build its
-binary first, or copy a verified owner-provided binary to `.build/honk` there.
+binary first, or copy a verified maintainer-provided binary to `.build/honk` there.
 A source pin and executable hash do not prove a binary came from that source;
 trust and record its build provenance.
 

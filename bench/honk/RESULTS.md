@@ -1,9 +1,13 @@
-# Honk logging observations
+# Historical Honk v0.2.0 logging observations
+
+These results describe the named application version only. They do not measure
+current Honk builds. The harness and logger source comparisons are listed
+[separately](../CURRENTNESS.md).
 
 The frozen public Honk v0.2.0 source is
 [`855fb0552aefd5f0c033826af64f3bdd09ae6482`](https://github.com/carabistouflette/honk/tree/855fb0552aefd5f0c033826af64f3bdd09ae6482).
 Two independently launched plain series used clean harness source `e8668cc`,
-the same owner-supplied native binary, compiler selection and fixture template.
+the same maintainer-supplied native binary, compiler selection and fixture template.
 The binary, source tree and complete stdout/event bytes were validated; the
 vendored logger bytes equal current goose-log. No product source was changed.
 
@@ -17,8 +21,8 @@ every accepted sample and validation outcomes. See [method](README.md).
 
 Linux x86-64, Intel Core Ultra 7 258V, CPU6, kernel 7.2.11-arch1-1, glibc 2.44,
 Python 3.14.9, btrfs, 4096-byte pages. The host was shared, without exclusive core,
-frequency or filesystem isolation. Honk's independent build/run owner used CPU0;
-this does not establish absence of other shared-host interference.
+frequency or filesystem isolation. Other build/run work used CPU0; unrelated
+shared-host activity was not controlled.
 
 Each series has nine shuffled paired rounds of 32 sequential fresh processes:
 36 batches / 1152 measured commands across both series. Each enabled command

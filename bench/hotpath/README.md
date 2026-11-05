@@ -1,5 +1,9 @@
 # Native hot-path comparisons
 
+The [published candidate experiment](RESULTS.md) is historical and was rejected.
+Current `logger.goose` matches its baseline, not the candidate. See the
+[source comparisons](../CURRENTNESS.md).
+
 Optional Linux development measurements compare two versions of `logger.goose`
 with the same native Goose caller. This is separate from the C-host
 [cross-library copying-sink harness](../compare/README.md). Absolute times from

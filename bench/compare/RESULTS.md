@@ -2,12 +2,17 @@
 
 Measured on 2026-11-04 UTC, source [`5c5db8fd5fe733e51e5230def818a336a367e069`](https://github.com/carabistouflette/goose-log/tree/5c5db8fd5fe733e51e5230def818a336a367e069).
 Both runs started and ended with a clean, unchanged source tree, identical
-compiler/stdlib inputs and driver hash. The later documentation/results commit
-does not change the measured implementation or harness.
+compiler/stdlib inputs and driver hash. The raw files identify the original
+implementation and runner separately.
 
 These are **scoped pipeline measurements**, not proof that every feature of
 another framework is present or that goose-log is universally faster. See the
 [feature contract comparison](../comparison.md) and [harness method](README.md).
+
+Current-code status: the timed implementation and pinned compiler/dependencies
+still match main. See the [checked source comparisons](../CURRENTNESS.md) for
+exact paths and any reporting-only runner changes. This does not turn the
+recorded timings into measurements on a different host or toolchain.
 
 ## Provenance and method
 

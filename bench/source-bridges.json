@@ -1,0 +1,373 @@
+{
+  "audited_public_revision": "1f10b1d2c92a4ea7de48250f57f55b968b5339ba",
+  "compiler_pin": "eadca409f68210893f366e60d0c2f0dc29a339be",
+  "release_revision": "e93a71c0ff2f852b2d68f0a2c70f25ded3e8893a",
+  "source_checks": [
+    {
+      "measurement": "literal-history",
+      "measured_revision": "e450b55dcda36ca8b197ed5f17c2da79f847d8db",
+      "status": "historical implementation; not current performance",
+      "files": [
+        {
+          "path": "logger.goose",
+          "measured_sha256": "07e8a4e1317c33bca71f9f7de17f3e5a4e37b08d28986d013d4b6271cb7700d8",
+          "audited_sha256": "9b13b2ff7af3e683df6a0f2c218102023274fe13c0eb57c2c880fc177b6a9171",
+          "identical": false
+        },
+        {
+          "path": "GOOSE_REVISION",
+          "measured_sha256": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+          "audited_sha256": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+          "identical": true
+        },
+        {
+          "path": "bench/bench.goose",
+          "measured_sha256": "e1cbe1836d4ff0c49b847957903795de092afd7deb28ab3d203e595a5a512d98",
+          "audited_sha256": "e1cbe1836d4ff0c49b847957903795de092afd7deb28ab3d203e595a5a512d98",
+          "identical": true
+        },
+        {
+          "path": "Makefile",
+          "measured_sha256": "4a05a6ae9698b60324d94a54072fbc0f1ddbf866c177087d92cd821b49edf63e",
+          "audited_sha256": "b689422c8c07e7dfd24873a64b74a02e00f4e8acda16e33a467c2e0d3493eb46",
+          "identical": false
+        }
+      ]
+    },
+    {
+      "measurement": "synchronous-comparison",
+      "measured_revision": "5c5db8fd5fe733e51e5230def818a336a367e069",
+      "status": "same timed code",
+      "files": [
+        {
+          "path": "logger.goose",
+          "measured_sha256": "9b13b2ff7af3e683df6a0f2c218102023274fe13c0eb57c2c880fc177b6a9171",
+          "audited_sha256": "9b13b2ff7af3e683df6a0f2c218102023274fe13c0eb57c2c880fc177b6a9171",
+          "identical": true
+        },
+        {
+          "path": "GOOSE_REVISION",
+          "measured_sha256": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+          "audited_sha256": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+          "identical": true
+        },
+        {
+          "path": "bench/compare/goose_adapter.goose",
+          "measured_sha256": "02f5dddee6af9891e6a2b7bda79d3e896f50161a47d8370140df610a721f9e92",
+          "audited_sha256": "02f5dddee6af9891e6a2b7bda79d3e896f50161a47d8370140df610a721f9e92",
+          "identical": true
+        },
+        {
+          "path": "bench/compare/driver.cpp",
+          "measured_sha256": "44fa28d481fc56b8c57c52850c5208159c99051faa7c2cf2f2702071d8729c8b",
+          "audited_sha256": "44fa28d481fc56b8c57c52850c5208159c99051faa7c2cf2f2702071d8729c8b",
+          "identical": true
+        },
+        {
+          "path": "bench/compare/run.py",
+          "measured_sha256": "7b0c8790369c657a50b7e940e28139ac867e81ae56f17439b62bce334a6a538e",
+          "audited_sha256": "be10586880d3f95bc5f91d4dad5e8ca118e48eaee8fdb02218a0576f2b4d45ab",
+          "identical": false
+        }
+      ]
+    },
+    {
+      "measurement": "allocation-probe",
+      "measured_revision": "10a794ab376786dd949671c5942c4bb9124c0aa5",
+      "status": "same measured code",
+      "files": [
+        {
+          "path": "logger.goose",
+          "measured_sha256": "9b13b2ff7af3e683df6a0f2c218102023274fe13c0eb57c2c880fc177b6a9171",
+          "audited_sha256": "9b13b2ff7af3e683df6a0f2c218102023274fe13c0eb57c2c880fc177b6a9171",
+          "identical": true
+        },
+        {
+          "path": "GOOSE_REVISION",
+          "measured_sha256": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+          "audited_sha256": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+          "identical": true
+        },
+        {
+          "path": "bench/alloc/probe.goose",
+          "measured_sha256": "684bb30ff29173800b736c3ef339d1ffbc3ba70463a9431c64b3589013ca046b",
+          "audited_sha256": "684bb30ff29173800b736c3ef339d1ffbc3ba70463a9431c64b3589013ca046b",
+          "identical": true
+        },
+        {
+          "path": "bench/alloc/driver.c",
+          "measured_sha256": "7da60016fbbfd6455b9da0c4ab09e16eee5715d0112f283559544d8ea65967d9",
+          "audited_sha256": "7da60016fbbfd6455b9da0c4ab09e16eee5715d0112f283559544d8ea65967d9",
+          "identical": true
+        },
+        {
+          "path": "bench/alloc/run.py",
+          "measured_sha256": "5afe7c4b6725edf9c7057de377fef578861f85a13c14783ae45522525893dbee",
+          "audited_sha256": "5afe7c4b6725edf9c7057de377fef578861f85a13c14783ae45522525893dbee",
+          "identical": true
+        }
+      ]
+    },
+    {
+      "measurement": "cli-components",
+      "measured_revision": "0c3794066cb3d5c5c1e06cace92b953437baea46",
+      "status": "same timed code",
+      "files": [
+        {
+          "path": "logger.goose",
+          "measured_sha256": "9b13b2ff7af3e683df6a0f2c218102023274fe13c0eb57c2c880fc177b6a9171",
+          "audited_sha256": "9b13b2ff7af3e683df6a0f2c218102023274fe13c0eb57c2c880fc177b6a9171",
+          "identical": true
+        },
+        {
+          "path": "GOOSE_REVISION",
+          "measured_sha256": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+          "audited_sha256": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+          "identical": true
+        },
+        {
+          "path": "bench/cli/driver.goose",
+          "measured_sha256": "64297ec6e5c24d5028099a90243e7db96560d93fba4d1659c4bc6c699e88ac8d",
+          "audited_sha256": "64297ec6e5c24d5028099a90243e7db96560d93fba4d1659c4bc6c699e88ac8d",
+          "identical": true
+        },
+        {
+          "path": "bench/cli/run.py",
+          "measured_sha256": "45cce49adcf11692018038919f6ccd93c3b047146c0f7c15cf23c5878fc17305",
+          "audited_sha256": "986b8ee188c1b29eeb5477b72db9d63389a4245344ee68e526c3f5dd13ff5f9a",
+          "identical": false
+        },
+        {
+          "path": "examples/cli/diagnostics.goose",
+          "measured_sha256": "cd91d7bc6209af362508e255d8cb58673b455e8b9f595af267e6f753f390628a",
+          "audited_sha256": "cd91d7bc6209af362508e255d8cb58673b455e8b9f595af267e6f753f390628a",
+          "identical": true
+        },
+        {
+          "path": "examples/cli/diagnostics.build",
+          "measured_sha256": "66f2c671d0c826c4ab7a487ebda097f8a849395ec6e3bda8d6ae118aa62d7a63",
+          "audited_sha256": "66f2c671d0c826c4ab7a487ebda097f8a849395ec6e3bda8d6ae118aa62d7a63",
+          "identical": true
+        },
+        {
+          "path": "examples/cli/log_sink.c",
+          "measured_sha256": "51dabc2881c3032e2dd3e12e535d2d6c2d634cc16506a57ccd783522a4033c5e",
+          "audited_sha256": "51dabc2881c3032e2dd3e12e535d2d6c2d634cc16506a57ccd783522a4033c5e",
+          "identical": true
+        }
+      ]
+    },
+    {
+      "measurement": "rejected-candidate",
+      "measured_revision": "66c7b7e0954d9fdf1d05fb6aff2794985c2e26a6",
+      "status": "historical rejected candidate",
+      "files": [
+        {
+          "path": "logger.goose",
+          "measured_sha256": "9dee3b0ce0a24e0e1550b4de042d5652139f3a98adba2b257b2dc96f576cd375",
+          "audited_sha256": "9b13b2ff7af3e683df6a0f2c218102023274fe13c0eb57c2c880fc177b6a9171",
+          "identical": false
+        },
+        {
+          "path": "GOOSE_REVISION",
+          "measured_sha256": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+          "audited_sha256": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+          "identical": true
+        },
+        {
+          "path": "bench/hotpath/driver.goose",
+          "measured_sha256": "8ee77b2e1871fbbbad69854aae4c5a3c6b0a557ad80beeb6081a8da12f3257fd",
+          "audited_sha256": "8ee77b2e1871fbbbad69854aae4c5a3c6b0a557ad80beeb6081a8da12f3257fd",
+          "identical": true
+        },
+        {
+          "path": "bench/hotpath/run.py",
+          "measured_sha256": "e75cff9336d53a2cb48e850888271c2e281fa79a261cdd719327e487c27f84e3",
+          "audited_sha256": "2a3564b10ac80dc68b6ac48a324641c27553b928cc75404d54bf3e0734379695",
+          "identical": false
+        }
+      ]
+    },
+    {
+      "measurement": "retained-baseline",
+      "measured_revision": "0ec9a007c128bcb48d6bb8923faf7e3cbc281a4f",
+      "status": "same retained logger",
+      "files": [
+        {
+          "path": "logger.goose",
+          "measured_sha256": "9b13b2ff7af3e683df6a0f2c218102023274fe13c0eb57c2c880fc177b6a9171",
+          "audited_sha256": "9b13b2ff7af3e683df6a0f2c218102023274fe13c0eb57c2c880fc177b6a9171",
+          "identical": true
+        },
+        {
+          "path": "GOOSE_REVISION",
+          "measured_sha256": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+          "audited_sha256": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+          "identical": true
+        }
+      ]
+    },
+    {
+      "measurement": "utc-final",
+      "measured_revision": "5ede662761337b491d62cbe8b9e737ff02fcd740",
+      "status": "same timed code",
+      "files": [
+        {
+          "path": "logger.goose",
+          "measured_sha256": "9b13b2ff7af3e683df6a0f2c218102023274fe13c0eb57c2c880fc177b6a9171",
+          "audited_sha256": "9b13b2ff7af3e683df6a0f2c218102023274fe13c0eb57c2c880fc177b6a9171",
+          "identical": true
+        },
+        {
+          "path": "GOOSE_REVISION",
+          "measured_sha256": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+          "audited_sha256": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+          "identical": true
+        },
+        {
+          "path": "examples/utc/utc.goose",
+          "measured_sha256": "831865065c7b86c92439de601a5fb65a52d15630b914cd3b5ffd75614fa3d67e",
+          "audited_sha256": "831865065c7b86c92439de601a5fb65a52d15630b914cd3b5ffd75614fa3d67e",
+          "identical": true
+        },
+        {
+          "path": "bench/utc/driver.goose",
+          "measured_sha256": "47606dab892064aadf1f40ef8e0577b74c9cc780e0ae26e72bc27bbc0371d665",
+          "audited_sha256": "47606dab892064aadf1f40ef8e0577b74c9cc780e0ae26e72bc27bbc0371d665",
+          "identical": true
+        },
+        {
+          "path": "bench/utc/run.py",
+          "measured_sha256": "6350a3b1f3e0def9fdc9a28138104f20f58ff6d820bbe1a3a847e999c8334538",
+          "audited_sha256": "6350a3b1f3e0def9fdc9a28138104f20f58ff6d820bbe1a3a847e999c8334538",
+          "identical": true
+        }
+      ]
+    },
+    {
+      "measurement": "honk-metadata",
+      "measured_revision": "e8668cc357dce4d5e56dc29339b8748f93ad554a",
+      "status": "same harness; historical Honk v0.2.0 binary",
+      "files": [
+        {
+          "path": "logger.goose",
+          "measured_sha256": "9b13b2ff7af3e683df6a0f2c218102023274fe13c0eb57c2c880fc177b6a9171",
+          "audited_sha256": "9b13b2ff7af3e683df6a0f2c218102023274fe13c0eb57c2c880fc177b6a9171",
+          "identical": true
+        },
+        {
+          "path": "GOOSE_REVISION",
+          "measured_sha256": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+          "audited_sha256": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15",
+          "identical": true
+        },
+        {
+          "path": "bench/honk/run.py",
+          "measured_sha256": "a04f43c556d7e7a699cfec1d37938c3aa5ee9c7a90e909fb01367cc49795f260",
+          "audited_sha256": "a04f43c556d7e7a699cfec1d37938c3aa5ee9c7a90e909fb01367cc49795f260",
+          "identical": true
+        }
+      ]
+    },
+    {
+      "measurement": "honk-instrument-initial",
+      "measured_revision": "13bf9246efcf333711e9e435c23e2e8f34a5331c",
+      "status": "historical initial controls",
+      "files": [
+        {
+          "path": "bench/honk/instrument.py",
+          "measured_sha256": "c723bc443063b770062404fd688921b9586094775480110d67ee2186e58e85e1",
+          "audited_sha256": "a5a535e12e5caeab65f8c58db23f152cb6477b1d99b68348b52d487d5ff10874",
+          "identical": false
+        }
+      ]
+    },
+    {
+      "measurement": "honk-instrument-final",
+      "measured_revision": "7c5202ef20ff2571541daa6d601ec551cc1e1cc3",
+      "status": "same final controls; historical Honk v0.2.0 binary",
+      "files": [
+        {
+          "path": "bench/honk/instrument.py",
+          "measured_sha256": "a5a535e12e5caeab65f8c58db23f152cb6477b1d99b68348b52d487d5ff10874",
+          "audited_sha256": "a5a535e12e5caeab65f8c58db23f152cb6477b1d99b68348b52d487d5ff10874",
+          "identical": true
+        }
+      ]
+    }
+  ],
+  "raw_record_checks": [
+    {
+      "artifact": "bench/compare/results.json",
+      "sha256": "fff225c12086cfd4ffab78e6a322c899a2b26f076270c3f482d24b070164b38b",
+      "checked_local_source_hashes": 5,
+      "checked_compiler_source_hashes": 15,
+      "checked_dependency_source_hashes": 0
+    },
+    {
+      "artifact": "bench/compare/repeat-results.json",
+      "sha256": "934b1a57191bec78db73a27608bc3c4c6530c39aacb85c1fdb4c1a130fbf5921",
+      "checked_local_source_hashes": 5,
+      "checked_compiler_source_hashes": 15,
+      "checked_dependency_source_hashes": 0
+    },
+    {
+      "artifact": "bench/alloc/results.json",
+      "sha256": "05df69924bf1d96468175481fbaa5d29ee18fbddb14c9b409ad124ca82f6adfa",
+      "checked_local_source_hashes": 5,
+      "checked_compiler_source_hashes": 15,
+      "checked_dependency_source_hashes": 0
+    },
+    {
+      "artifact": "bench/alloc/repeat-results.json",
+      "sha256": "4879c6bb993e9c69e7188dfd5c1961160461df37b7a2848000429dce00347738",
+      "checked_local_source_hashes": 5,
+      "checked_compiler_source_hashes": 15,
+      "checked_dependency_source_hashes": 0
+    },
+    {
+      "artifact": "bench/cli/results.json",
+      "sha256": "32c523ba81831b61857e1b1d0bfa82c33209e3cc8f7b69c6065ee19abd5c42d1",
+      "checked_local_source_hashes": 7,
+      "checked_compiler_source_hashes": 15,
+      "checked_dependency_source_hashes": 0
+    },
+    {
+      "artifact": "bench/cli/repeat.json",
+      "sha256": "18d349c9078c82bea373a44cb1917d1a5a684071da7358320fc982eb77be1f43",
+      "checked_local_source_hashes": 7,
+      "checked_compiler_source_hashes": 15,
+      "checked_dependency_source_hashes": 0
+    },
+    {
+      "artifact": "bench/utc/results/final/metadata.json",
+      "sha256": "fa98ff68d1a726689492b3c82c392f7b668cc58201c8a4edc960f9df61673e69",
+      "checked_local_source_hashes": 5,
+      "checked_compiler_source_hashes": 22,
+      "checked_dependency_source_hashes": 3
+    },
+    {
+      "artifact": "bench/utc/results/final-smoke/metadata.json",
+      "sha256": "cf4d10ae014a598a605178bb827a1405b7a6e7108b9d970f20f0be5b43ad49da",
+      "checked_local_source_hashes": 5,
+      "checked_compiler_source_hashes": 22,
+      "checked_dependency_source_hashes": 3
+    }
+  ],
+  "comparison_dependency_pins": {
+    "logc": "f9ea34994bd58ed342d2245cd4110bb5c6790153",
+    "spdlog": "79524ddd08a4ec981b7fea76afd08ee05f83755d",
+    "goose-logger": "50695a3df0eb5a1048a4b183538d59f43f5eb279"
+  },
+  "utc_dependency_pin": "343887caeee0a1f4e2e536ff322fcafb454e11bd",
+  "reporting_changes": {
+    "bench/compare/run.py": "missing CPU-model fallback and architecture metadata only",
+    "bench/cli/run.py": "missing CPU-model fallback only",
+    "bench/hotpath/run.py": "missing CPU-model fallback and architecture metadata only"
+  },
+  "limitations": [
+    "Git/source comparisons are not measurements on a new machine/toolchain",
+    "Historical implementation, rejected candidate and frozen Honk v0.2.0 do not establish current application performance",
+    "Dirty UTC initial captures identify uncommitted source by hashes, not a complete Git revision"
+  ]
+}

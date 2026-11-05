@@ -57,8 +57,7 @@ formatter still provides bounded output, not bounded callback execution or
 allocation-failure recovery. The stderr example cannot check delivery because
 Goose's standard stderr function returns no I/O status.
 
-Hosted CI must pass on the published source before parent registration. Local
-commands above are not presented as a hosted result. See the optional component
+The local commands above are separate from the hosted results recorded below. See the optional component
 benchmark for instrumentation costs and retained evidence; no default-core speed
 change or universal performance ranking is claimed.
 
@@ -75,7 +74,6 @@ commands above. No Linux ARM64 consumer coverage is claimed by this checkpoint.
 
 Version 0.1.3 preparation changes only release documentation. Its implementation,
 compiler pin, tests, measurement tools and retained samples remain byte-identical
-to the published checkpoint. Successful maintained CI on the exact release
-commit is required before tagging. The
-[release record](https://github.com/carabistouflette/goose-log/releases/tag/v0.1.3)
+to the published checkpoint. The exact-source CI and archive checks used for
+tagging are recorded with the [release record](https://github.com/carabistouflette/goose-log/releases/tag/v0.1.3)
 links that exact-commit evidence and identifies the source-only archive/checksum.

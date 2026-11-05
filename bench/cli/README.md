@@ -23,9 +23,8 @@ python3 bench/cli/run.py --no-build --iterations 20000 --rounds 9 --warmup 64 --
 Choose CPUs available to your process. The runner, independent oracle, and
 measurement children are pinned to `--cpu`; compilation children move to
 `--build-cpu`. Affinity does not reserve a core or isolate filesystem/kernel
-activity. The defaults above keep measurements on CPU 0 and builds off the
-source-editor CPU 1 on the shared development host. No governor or exclusive
-core policy is imposed.
+activity. Choose CPUs for the host on which you run it. No governor or exclusive-core
+policy is imposed.
 
 ## Workload and stages
 
