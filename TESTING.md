@@ -77,3 +77,11 @@ Protection covers the remaining whole pages inside the backing array; it does
 not cover its final partial page.
 
 See [benchmarks](bench/README.md) for measurement commands and scope.
+
+## Documentation examples
+
+The [example check record](examples/checked.json) names the published main and
+v0.1.3 commits used to check the README imports, hello/file output, contextual
+record snippet, Linux CLI suite and optional UTC suite/example. It records the
+compiler and snippet hashes. Those checks reused the pinned compiler; they do
+not claim a fresh compiler bootstrap or a performance measurement.

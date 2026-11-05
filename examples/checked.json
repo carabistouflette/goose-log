@@ -1,0 +1,108 @@
+{
+  "task": "GL-DOCSLOG-01",
+  "source_revisions": [
+    "1f10b1d2c92a4ea7de48250f57f55b968b5339ba",
+    "e93a71c0ff2f852b2d68f0a2c70f25ded3e8893a"
+  ],
+  "compiler_pin": "eadca409f68210893f366e60d0c2f0dc29a339be",
+  "compiler_sha256": "3db881b3955dc510f3efb513cd818fd092857b11ccc2164a808ed68b76caa443",
+  "compiler_version": "goose eadca40 (runtime 3025e5810379)",
+  "rows": [
+    {
+      "revision": "1f10b1d2c92a4ea7de48250f57f55b968b5339ba",
+      "check": "README-relative",
+      "result": "passed"
+    },
+    {
+      "revision": "1f10b1d2c92a4ea7de48250f57f55b968b5339ba",
+      "check": "README-released-import",
+      "result": "passed"
+    },
+    {
+      "revision": "1f10b1d2c92a4ea7de48250f57f55b968b5339ba",
+      "check": "hello",
+      "result": "passed"
+    },
+    {
+      "revision": "1f10b1d2c92a4ea7de48250f57f55b968b5339ba",
+      "check": "file-append",
+      "result": "passed"
+    },
+    {
+      "revision": "1f10b1d2c92a4ea7de48250f57f55b968b5339ba",
+      "check": "API-record",
+      "result": "passed"
+    },
+    {
+      "revision": "1f10b1d2c92a4ea7de48250f57f55b968b5339ba",
+      "check": "test-cli",
+      "result": "passed"
+    },
+    {
+      "revision": "1f10b1d2c92a4ea7de48250f57f55b968b5339ba",
+      "check": "test-utc",
+      "result": "passed"
+    },
+    {
+      "revision": "1f10b1d2c92a4ea7de48250f57f55b968b5339ba",
+      "check": "UTC-main",
+      "result": "passed"
+    },
+    {
+      "revision": "e93a71c0ff2f852b2d68f0a2c70f25ded3e8893a",
+      "check": "README-relative",
+      "result": "passed"
+    },
+    {
+      "revision": "e93a71c0ff2f852b2d68f0a2c70f25ded3e8893a",
+      "check": "README-released-import",
+      "result": "passed"
+    },
+    {
+      "revision": "e93a71c0ff2f852b2d68f0a2c70f25ded3e8893a",
+      "check": "hello",
+      "result": "passed"
+    },
+    {
+      "revision": "e93a71c0ff2f852b2d68f0a2c70f25ded3e8893a",
+      "check": "file-append",
+      "result": "passed"
+    },
+    {
+      "revision": "e93a71c0ff2f852b2d68f0a2c70f25ded3e8893a",
+      "check": "API-record",
+      "result": "passed"
+    },
+    {
+      "revision": "e93a71c0ff2f852b2d68f0a2c70f25ded3e8893a",
+      "check": "test-cli",
+      "result": "passed"
+    },
+    {
+      "revision": "e93a71c0ff2f852b2d68f0a2c70f25ded3e8893a",
+      "check": "test-utc",
+      "result": "passed"
+    },
+    {
+      "revision": "e93a71c0ff2f852b2d68f0a2c70f25ded3e8893a",
+      "check": "UTC-main",
+      "result": "passed"
+    }
+  ],
+  "limits": [
+    "Unmeasured local examples/API/CLI/UTC checks only",
+    "Existing pinned compiler reused; no fresh compiler bootstrap claim",
+    "No benchmark rerun",
+    "Goose source snippets match documented_code_revision; later wording-only edits are outside compiled inputs"
+  ],
+  "documented_code_revision": "40f3adb86cc8f4fc41639a86d3e9f35d276c4c50",
+  "checked_goose_blocks_sha256": {
+    "README.md": [
+      "468eddcdd4dde4484c8b2da46d2c0768860c2d34e9208c410d9b33549f51c849",
+      "016b65a72cfc3bb7da0c6ea43adb185e90aaa430c31251530af9769fe1c154b7"
+    ],
+    "API.md": [
+      "a5df1c8e0362fa8a4cc39f50b2836e6575e257e651cab3dcd1f78a1719869d37"
+    ]
+  }
+}

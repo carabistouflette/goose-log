@@ -85,7 +85,7 @@ let record = log::Record { level: log::Level.Info, message: "request complete",
 log::render_record(config, record, scratch);
 ```
 
-Output: `[INFO] target="http" file="app.goose" line=42 "account"="demo" "token"="***" request complete`
+Rendered line: `[INFO] target="http" file="app.goose" line=42 "account"="demo" "token"="***" request complete`
 followed by a newline. Optional `timestamp` is caller-formatted text: there is
 no implicit clock read, date parser, or automatic source-location capture.
 `line` is a `u32`; zero omits it. Empty timestamp/target/file values are omitted.

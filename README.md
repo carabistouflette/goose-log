@@ -49,7 +49,8 @@ released dependency, replace the relative import with:
 import logger from "carabistouflette/goose-log@e93a71c0ff2f852b2d68f0a2c70f25ded3e8893a";
 ```
 
-The remote import needs Git/network access on first use.
+The remote import needs Git/network access on first use; Goose may print fetch
+progress before running the program.
 
 Goose's `write_stderr` returns no I/O status, so this example reports success
 unconditionally. Use an error-reporting output API when delivery matters.
