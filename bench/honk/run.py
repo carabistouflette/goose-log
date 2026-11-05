@@ -31,11 +31,22 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def read_log(path):
+    require(not path.is_symlink(), "log path is a symlink")
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC)
+    with os.fdopen(fd, "rb") as source:
+        info = os.fstat(source.fileno())
+        require(stat.S_ISREG(info.st_mode) and stat.S_IMODE(info.st_mode) == 0o600
+                and info.st_uid == os.geteuid() and info.st_nlink == 1, "invalid private file")
+        data = source.read(CAP + 1)
+    require(len(data) <= CAP and len(data) == info.st_size, "invalid log size")
+    return info, data
+
+
 def file_state(path):
-    info = path.lstat()
-    require(stat.S_ISREG(info.st_mode) and stat.S_IMODE(info.st_mode) == 0o600
-            and info.st_uid == os.geteuid() and info.st_nlink == 1, "invalid private file")
-    return (info.st_dev, info.st_ino, info.st_mode, info.st_uid, info.st_nlink, info.st_size, digest(path))
+    info, data = read_log(path)
+    return (info.st_dev, info.st_ino, info.st_mode, info.st_uid, info.st_nlink,
+            info.st_size, hashlib.sha256(data).hexdigest())
 
 
 def git(source, *args):
@@ -106,7 +117,7 @@ def main():
         # Warm both paths once; setup and validation are outside batch timing.
         warm = invoke(True)
         require((warm.returncode, warm.stdout, warm.stderr) == (0, baseline.stdout, b""), "warmup changed output")
-        check_events(PREFIX + log.read_bytes(), 1)
+        check_events(PREFIX + read_log(log)[1], 1)
         file_state(log)
         log.unlink()
         order = random.Random(0x6005E)
@@ -125,7 +136,7 @@ def main():
                 require(all((r.returncode, r.stdout, r.stderr) == (0, baseline.stdout, b"") for r in results),
                         "command status/stdout/stderr changed")
                 require(file_state(log)[:2] == identity, "file identity changed")
-                data = log.read_bytes()
+                data = read_log(log)[1]
                 if enabled:
                     check_events(data, args.calls)
                 else:
@@ -143,7 +154,7 @@ def main():
             failed = invoke(True)
         require((failed.returncode, failed.stdout, failed.stderr) == (1, b"", FAILURE),
                 "busy sink failure policy changed")
-        require(log.read_bytes() == PREFIX, "busy sink modified file")
+        require(read_log(log)[1] == PREFIX, "busy sink modified file")
         require(file_state(log) == busy_state, "busy sink changed file identity or bytes")
         with log.open("r+b") as full:
             full.truncate(CAP)
