@@ -61,3 +61,21 @@ Hosted CI must pass on the published source before parent registration. Local
 commands above are not presented as a hosted result. See the optional component
 benchmark for instrumentation costs and retained evidence; no default-core speed
 change or universal performance ranking is claimed.
+
+## Publication checkpoint
+
+The consumer was published through
+[PR #3](https://github.com/carabistouflette/goose-log/pull/3) at
+`b7c46dab861bd8875fff58f48d990e265976dd44`, whose full tree equals tested head
+`03e96ac12bdad6e62bf1b5a4da452e6305cacaf0`.
+[Actual main CI](https://github.com/carabistouflette/goose-log/actions/runs/41935649420)
+passed on that published commit: Linux covers the optional consumer and core;
+macOS ARM64 covers the core. These are hosted results, separate from the local
+commands above. No Linux ARM64 consumer coverage is claimed by this checkpoint.
+
+Version 0.1.3 preparation changes only release documentation. Its implementation,
+compiler pin, tests, measurement tools and retained samples remain byte-identical
+to the published checkpoint. Successful maintained CI on the exact release
+commit is required before tagging. The
+[release record](https://github.com/carabistouflette/goose-log/releases/tag/v0.1.3)
+links that exact-commit evidence and identifies the source-only archive/checksum.

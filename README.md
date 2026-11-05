@@ -2,7 +2,7 @@
 
 Small, bounded, explicit logging for the
 [Goose programming language](https://github.com/aardappel/goose).
-Apache-2.0. Version 0.1.2; the API is experimental before 1.0.
+Apache-2.0. Version 0.1.3; the API is experimental before 1.0.
 
 Severity filtering, single-line byte-safe formatting, optional label colors,
 and synchronous delivery to a caller-supplied sink. The application owns output
@@ -63,7 +63,7 @@ sustained output and real filesystem failures; `make test-cli-sanitize` adds
 native sanitizers. The [component profile](bench/cli/README.md) separates message
 construction, rendering, append delivery, and actual adapter calls.
 
-For optional canonical UTC timestamps, see the
+For optional canonical UTC timestamps (introduced in 0.1.3), see the
 [application-owned UTC consumer](examples/utc/README.md). It composes the
 existing record interface with a full-commit goose-time dependency, an injected
 clock, and reusable caller buffers. `make test-utc` validates that optional
