@@ -51,3 +51,39 @@ Affinity is not exclusive core/filesystem isolation. Keep every round/outlier an
 repeat independently before interpreting small differences. Enabled/disabled
 differences include all changed application work, not exact logger-only cost.
 Production changes require a demonstrated bottleneck and matched comparison.
+
+## Separate instrumentation
+
+With heaptrack 1.5.0 and strace 7.3 installed, after a plain run:
+
+```sh
+python3 bench/honk/instrument.py \
+  --profile .build/honk-profile/results.json \
+  --honk-source /absolute/path/to/isolated/honk \
+  --goose /absolute/path/to/pinned/goose \
+  --output .build/honk-profile/instrument.json
+```
+
+The preload library and interpreter paths default to Arch's `/usr/lib/heaptrack`
+installation; override `--heaptrack-preload` and `--heaptrack-interpret` elsewhere.
+Only trusted tool binaries/libraries are supported. Heaptrack records whole-process
+intercepted heap calls and tool-reported peak heap, including startup and libc;
+it does not count logical allocations inside Goose arenas or all mmap/stack/RSS
+memory. Its costs are not plain timing evidence. Raw traces are temporary;
+published excerpts contain only the parsed tool summaries, without private paths.
+
+Strace filters writes to the private log path. Three repetitions each check
+unmodified tracing, a one-millisecond entry delay on every matching write, and
+ENOSPC on the second matching write. Disabled delay controls must trace zero log
+writes; enabled controls trace exactly two writes with two DELAYED markers.
+Late failure must preserve metadata stdout and Started, omit Returned and exit
+nonzero. The frozen Honk release prints two fixed diagnostic errors on delivery
+failure; this is checked explicitly. No delay/error is injected into the product
+binary, unrelated filesystem paths or another running application.
+
+Instrumentation timings include ptrace/preload overhead and scheduling. Fixed
+mode ordering and three samples are behavioral controls, not comparative latency
+estimates. Do not subtract their timings from the plain series or interpret them
+as a model of real storage contention, long stalls, durability or failure rates.
+
+See [retained measurements and interpretation](RESULTS.md).

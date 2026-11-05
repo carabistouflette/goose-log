@@ -1,0 +1,204 @@
+{
+  "schema": 1,
+  "measured_at_utc": "2026-11-05T07:10:19Z",
+  "harness_revision": "e8668cc357dce4d5e56dc29339b8748f93ad554a",
+  "harness_sha256": "a04f43c556d7e7a699cfec1d37938c3aa5ee9c7a90e909fb01367cc49795f260",
+  "honk_revision": "855fb0552aefd5f0c033826af64f3bdd09ae6482",
+  "honk_tree": "de5d480917c9ff1146e12c77e525f17d5d3bc712",
+  "honk_sha256": "78701624fff932ff1aecdfeb9eefb6f793a8300116a9a05d5c1da6d7d356a511",
+  "goose_sha256": "3db881b3955dc510f3efb513cd818fd092857b11ccc2164a808ed68b76caa443",
+  "goose_version": "goose eadca40 (runtime 3025e5810379)",
+  "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+  "architecture": "x86_64",
+  "python": "3.14.9",
+  "libc": [
+    "glibc",
+    "2.44"
+  ],
+  "cpu": 6,
+  "page_size": 4096,
+  "filesystem": "btrfs",
+  "manifest_sha256": "781a1699c7305332ca4493026e831fa68b3dda5c8fb8e704a5ff77d2baf9c2e6",
+  "main_source_sha256": "1432c1a52d46aed6529b9456b82b963b399c793568850b3a81626cedb5b8c87b",
+  "stdout_sha256": "383b42fad6d21803e57f48bcc8bb2e3e1a7080600d2ab434e4989cf759137b8d",
+  "validation": {
+    "busy_lock": "passed",
+    "full_file": "passed"
+  },
+  "samples": [
+    {
+      "round": 0,
+      "enabled": true,
+      "calls": 32,
+      "elapsed_ns": 381437185,
+      "ns_per_command": 11919912.03125,
+      "file_bytes": 2695,
+      "file_sha256": "d0278c6d5db3554835de8e5cad01c9d1e8d867d26d74c1ba406e35077d5c1d73"
+    },
+    {
+      "round": 0,
+      "enabled": false,
+      "calls": 32,
+      "elapsed_ns": 348373664,
+      "ns_per_command": 10886677.0,
+      "file_bytes": 7,
+      "file_sha256": "5a958fd0cb0435992ec0b7afb3255dbe976078447b0fe2830119c083b9eae082"
+    },
+    {
+      "round": 1,
+      "enabled": true,
+      "calls": 32,
+      "elapsed_ns": 350366290,
+      "ns_per_command": 10948946.5625,
+      "file_bytes": 2695,
+      "file_sha256": "bd0f5ee18ca21c7d0452ba75d3cdfc63afe65ac79869543eacde7d599b029547"
+    },
+    {
+      "round": 1,
+      "enabled": false,
+      "calls": 32,
+      "elapsed_ns": 378593367,
+      "ns_per_command": 11831042.71875,
+      "file_bytes": 7,
+      "file_sha256": "5a958fd0cb0435992ec0b7afb3255dbe976078447b0fe2830119c083b9eae082"
+    },
+    {
+      "round": 2,
+      "enabled": true,
+      "calls": 32,
+      "elapsed_ns": 340168964,
+      "ns_per_command": 10630280.125,
+      "file_bytes": 2695,
+      "file_sha256": "093143d224ad21160cd3261acbf0d796d7d11540e585d69ca4b58d225a93208d"
+    },
+    {
+      "round": 2,
+      "enabled": false,
+      "calls": 32,
+      "elapsed_ns": 320129182,
+      "ns_per_command": 10004036.9375,
+      "file_bytes": 7,
+      "file_sha256": "5a958fd0cb0435992ec0b7afb3255dbe976078447b0fe2830119c083b9eae082"
+    },
+    {
+      "round": 3,
+      "enabled": false,
+      "calls": 32,
+      "elapsed_ns": 452930069,
+      "ns_per_command": 14154064.65625,
+      "file_bytes": 7,
+      "file_sha256": "5a958fd0cb0435992ec0b7afb3255dbe976078447b0fe2830119c083b9eae082"
+    },
+    {
+      "round": 3,
+      "enabled": true,
+      "calls": 32,
+      "elapsed_ns": 658373020,
+      "ns_per_command": 20574156.875,
+      "file_bytes": 2699,
+      "file_sha256": "a46d0df90699b3aacccccea9bcf3c47deef1fd61bfd15f7a084bbed3c07f578b"
+    },
+    {
+      "round": 4,
+      "enabled": false,
+      "calls": 32,
+      "elapsed_ns": 343592881,
+      "ns_per_command": 10737277.53125,
+      "file_bytes": 7,
+      "file_sha256": "5a958fd0cb0435992ec0b7afb3255dbe976078447b0fe2830119c083b9eae082"
+    },
+    {
+      "round": 4,
+      "enabled": true,
+      "calls": 32,
+      "elapsed_ns": 382171993,
+      "ns_per_command": 11942874.78125,
+      "file_bytes": 2695,
+      "file_sha256": "015d013ebe20ea1d9f547b21b0c142d53cd395f16ed1a80aac759a7efe232dd5"
+    },
+    {
+      "round": 5,
+      "enabled": true,
+      "calls": 32,
+      "elapsed_ns": 355493605,
+      "ns_per_command": 11109175.15625,
+      "file_bytes": 2695,
+      "file_sha256": "b5108d9bcc5c00d3186e336ba1f39517f28d8cebbf22afd966b5343430b0efc6"
+    },
+    {
+      "round": 5,
+      "enabled": false,
+      "calls": 32,
+      "elapsed_ns": 325082360,
+      "ns_per_command": 10158823.75,
+      "file_bytes": 7,
+      "file_sha256": "5a958fd0cb0435992ec0b7afb3255dbe976078447b0fe2830119c083b9eae082"
+    },
+    {
+      "round": 6,
+      "enabled": false,
+      "calls": 32,
+      "elapsed_ns": 350005964,
+      "ns_per_command": 10937686.375,
+      "file_bytes": 7,
+      "file_sha256": "5a958fd0cb0435992ec0b7afb3255dbe976078447b0fe2830119c083b9eae082"
+    },
+    {
+      "round": 6,
+      "enabled": true,
+      "calls": 32,
+      "elapsed_ns": 326817173,
+      "ns_per_command": 10213036.65625,
+      "file_bytes": 2695,
+      "file_sha256": "816242ad8857c392bfe9535fdb9ff35d62b541d7d0f077e379972eedec2d0d8d"
+    },
+    {
+      "round": 7,
+      "enabled": true,
+      "calls": 32,
+      "elapsed_ns": 338151153,
+      "ns_per_command": 10567223.53125,
+      "file_bytes": 2695,
+      "file_sha256": "44eda34f4ef64b7113827ba93b535e77d71034a2fcd16b6f1e9dbe82f1d32550"
+    },
+    {
+      "round": 7,
+      "enabled": false,
+      "calls": 32,
+      "elapsed_ns": 358428081,
+      "ns_per_command": 11200877.53125,
+      "file_bytes": 7,
+      "file_sha256": "5a958fd0cb0435992ec0b7afb3255dbe976078447b0fe2830119c083b9eae082"
+    },
+    {
+      "round": 8,
+      "enabled": true,
+      "calls": 32,
+      "elapsed_ns": 351781749,
+      "ns_per_command": 10993179.65625,
+      "file_bytes": 2695,
+      "file_sha256": "ad657e03913d28491228565180f9da8864e722efbd4970ef0b4130182600c361"
+    },
+    {
+      "round": 8,
+      "enabled": false,
+      "calls": 32,
+      "elapsed_ns": 338052973,
+      "ns_per_command": 10564155.40625,
+      "file_bytes": 7,
+      "file_sha256": "5a958fd0cb0435992ec0b7afb3255dbe976078447b0fe2830119c083b9eae082"
+    }
+  ],
+  "summaries": {
+    "False": {
+      "median_ns": 10886677.0,
+      "min_ns": 10004036.9375,
+      "max_ns": 14154064.65625
+    },
+    "True": {
+      "median_ns": 10993179.65625,
+      "min_ns": 10213036.65625,
+      "max_ns": 20574156.875
+    }
+  }
+}

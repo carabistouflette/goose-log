@@ -45,6 +45,8 @@ jobs:
       - run: make setup
       - run: .toolchain/goose/build/goose version
       - run: make check test
+      - name: Whole-Honk profile oracle negative controls
+        run: python3 -O tests/honk_profile.py
       - name: Optional UTC record consumer with pinned goose-time
         run: make test-utc
       - name: Optional UTC component benchmark correctness smoke

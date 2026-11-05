@@ -1,0 +1,248 @@
+{
+  "instrument_revision": "7c5202ef20ff2571541daa6d601ec551cc1e1cc3",
+  "instrument_sha256": "a5a535e12e5caeab65f8c58db23f152cb6477b1d99b68348b52d487d5ff10874",
+  "reference_profile_sha256": "403379ec0514545ec0d405cd421e074e3e15bff7768196e45e3538272b0c795c",
+  "honk_sha256": "78701624fff932ff1aecdfeb9eefb6f793a8300116a9a05d5c1da6d7d356a511",
+  "heaptrack_tool_sha256": [
+    "52cb63f52aede1c7f4e8e8d7da2a9f862d0a5217c6c0648e079da8d3c82c4ce6",
+    "c264a17fd0db3418551a593d5c4caaff577b76c073bdf5bd921b39ab9fb5f12a"
+  ],
+  "heaptrack_version": "heaptrack 1.5.0",
+  "strace_version": "strace -- version 7.3",
+  "samples": [
+    {
+      "index": 0,
+      "mode": "heap",
+      "enabled": false,
+      "elapsed_ns": 27753995,
+      "allocation_calls": 11,
+      "temporary_allocations": 1,
+      "peak_heap_display": "144.96K",
+      "summary_excerpts": [
+        "calls to allocation functions: 11",
+        "temporary memory allocations: 1",
+        "peak heap memory consumption: 144.96K"
+      ]
+    },
+    {
+      "index": 0,
+      "mode": "heap",
+      "enabled": true,
+      "elapsed_ns": 25952721,
+      "allocation_calls": 11,
+      "temporary_allocations": 1,
+      "peak_heap_display": "144.96K",
+      "summary_excerpts": [
+        "calls to allocation functions: 11",
+        "temporary memory allocations: 1",
+        "peak heap memory consumption: 144.96K"
+      ]
+    },
+    {
+      "index": 0,
+      "mode": "trace",
+      "enabled": false,
+      "elapsed_ns": 53541324,
+      "trace": [],
+      "delayed_writes": 0
+    },
+    {
+      "index": 0,
+      "mode": "trace",
+      "enabled": true,
+      "elapsed_ns": 48638578,
+      "trace": [
+        "write(4, \"[INFO] started duration_ns=0 out\"..., 39) = 39",
+        "write(4, \"[INFO] returned duration_ns=4104\"..., 46) = 46"
+      ],
+      "delayed_writes": 0
+    },
+    {
+      "index": 0,
+      "mode": "delayed",
+      "enabled": false,
+      "elapsed_ns": 52930211,
+      "trace": [],
+      "delayed_writes": 0
+    },
+    {
+      "index": 0,
+      "mode": "delayed",
+      "enabled": true,
+      "elapsed_ns": 52554873,
+      "trace": [
+        "write(4, \"[INFO] started duration_ns=0 out\"..., 39) = 39 (DELAYED)",
+        "write(4, \"[INFO] returned duration_ns=4770\"..., 46) = 46 (DELAYED)"
+      ],
+      "delayed_writes": 2
+    },
+    {
+      "index": 0,
+      "mode": "late_failure",
+      "enabled": true,
+      "elapsed_ns": 55350950,
+      "trace": [
+        "write(4, \"[INFO] started duration_ns=0 out\"..., 39) = 39",
+        "write(4, \"[INFO] returned duration_ns=9966\"..., 45) = -1 ENOSPC (No space left on device) (INJECTED)"
+      ],
+      "delayed_writes": 0,
+      "failure_after_started": "passed"
+    },
+    {
+      "index": 1,
+      "mode": "heap",
+      "enabled": false,
+      "elapsed_ns": 27919924,
+      "allocation_calls": 11,
+      "temporary_allocations": 1,
+      "peak_heap_display": "144.96K",
+      "summary_excerpts": [
+        "calls to allocation functions: 11",
+        "temporary memory allocations: 1",
+        "peak heap memory consumption: 144.96K"
+      ]
+    },
+    {
+      "index": 1,
+      "mode": "heap",
+      "enabled": true,
+      "elapsed_ns": 28027849,
+      "allocation_calls": 11,
+      "temporary_allocations": 1,
+      "peak_heap_display": "144.96K",
+      "summary_excerpts": [
+        "calls to allocation functions: 11",
+        "temporary memory allocations: 1",
+        "peak heap memory consumption: 144.96K"
+      ]
+    },
+    {
+      "index": 1,
+      "mode": "trace",
+      "enabled": false,
+      "elapsed_ns": 60423609,
+      "trace": [],
+      "delayed_writes": 0
+    },
+    {
+      "index": 1,
+      "mode": "trace",
+      "enabled": true,
+      "elapsed_ns": 52640529,
+      "trace": [
+        "write(4, \"[INFO] started duration_ns=0 out\"..., 39) = 39",
+        "write(4, \"[INFO] returned duration_ns=3375\"..., 46) = 46"
+      ],
+      "delayed_writes": 0
+    },
+    {
+      "index": 1,
+      "mode": "delayed",
+      "enabled": false,
+      "elapsed_ns": 56192851,
+      "trace": [],
+      "delayed_writes": 0
+    },
+    {
+      "index": 1,
+      "mode": "delayed",
+      "enabled": true,
+      "elapsed_ns": 52919992,
+      "trace": [
+        "write(4, \"[INFO] started duration_ns=0 out\"..., 39) = 39 (DELAYED)",
+        "write(4, \"[INFO] returned duration_ns=4460\"..., 46) = 46 (DELAYED)"
+      ],
+      "delayed_writes": 2
+    },
+    {
+      "index": 1,
+      "mode": "late_failure",
+      "enabled": true,
+      "elapsed_ns": 50996256,
+      "trace": [
+        "write(4, \"[INFO] started duration_ns=0 out\"..., 39) = 39",
+        "write(4, \"[INFO] returned duration_ns=1787\"..., 46) = -1 ENOSPC (No space left on device) (INJECTED)"
+      ],
+      "delayed_writes": 0,
+      "failure_after_started": "passed"
+    },
+    {
+      "index": 2,
+      "mode": "heap",
+      "enabled": false,
+      "elapsed_ns": 23386945,
+      "allocation_calls": 11,
+      "temporary_allocations": 1,
+      "peak_heap_display": "144.96K",
+      "summary_excerpts": [
+        "calls to allocation functions: 11",
+        "temporary memory allocations: 1",
+        "peak heap memory consumption: 144.96K"
+      ]
+    },
+    {
+      "index": 2,
+      "mode": "heap",
+      "enabled": true,
+      "elapsed_ns": 27399588,
+      "allocation_calls": 11,
+      "temporary_allocations": 1,
+      "peak_heap_display": "144.96K",
+      "summary_excerpts": [
+        "calls to allocation functions: 11",
+        "temporary memory allocations: 1",
+        "peak heap memory consumption: 144.96K"
+      ]
+    },
+    {
+      "index": 2,
+      "mode": "trace",
+      "enabled": false,
+      "elapsed_ns": 49829025,
+      "trace": [],
+      "delayed_writes": 0
+    },
+    {
+      "index": 2,
+      "mode": "trace",
+      "enabled": true,
+      "elapsed_ns": 53329435,
+      "trace": [
+        "write(4, \"[INFO] started duration_ns=0 out\"..., 39) = 39",
+        "write(4, \"[INFO] returned duration_ns=2108\"..., 46) = 46"
+      ],
+      "delayed_writes": 0
+    },
+    {
+      "index": 2,
+      "mode": "delayed",
+      "enabled": false,
+      "elapsed_ns": 54251246,
+      "trace": [],
+      "delayed_writes": 0
+    },
+    {
+      "index": 2,
+      "mode": "delayed",
+      "enabled": true,
+      "elapsed_ns": 60259371,
+      "trace": [
+        "write(4, \"[INFO] started duration_ns=0 out\"..., 39) = 39 (DELAYED)",
+        "write(4, \"[INFO] returned duration_ns=2447\"..., 46) = 46 (DELAYED)"
+      ],
+      "delayed_writes": 2
+    },
+    {
+      "index": 2,
+      "mode": "late_failure",
+      "enabled": true,
+      "elapsed_ns": 54793468,
+      "trace": [
+        "write(4, \"[INFO] started duration_ns=0 out\"..., 39) = 39",
+        "write(4, \"[INFO] returned duration_ns=2396\"..., 46) = -1 ENOSPC (No space left on device) (INJECTED)"
+      ],
+      "delayed_writes": 0,
+      "failure_after_started": "passed"
+    }
+  ]
+}

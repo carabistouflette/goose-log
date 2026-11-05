@@ -1,0 +1,20 @@
+{
+  "cpu_model": "Intel(R) Core(TM) Ultra 7 258V",
+  "cpu": 6,
+  "shared_host": true,
+  "exclusive_isolation": false,
+  "honk_revision": "855fb0552aefd5f0c033826af64f3bdd09ae6482",
+  "honk_binary_sha256": "78701624fff932ff1aecdfeb9eefb6f793a8300116a9a05d5c1da6d7d356a511",
+  "build_provenance": "Frozen native release binary supplied by Honk owner from clean published source; build flags not independently reconstructed.",
+  "build_time_compiler_sha256_owner_receipt": "7ffde13da95fbbdaa15b27419494fc9b71f2c91c0b4c4d732f51815e928a4b56",
+  "explicit_goose_sha256": "3db881b3955dc510f3efb513cd818fd092857b11ccc2164a808ed68b76caa443",
+  "compiler_pin": "eadca409f68210893f366e60d0c2f0dc29a339be",
+  "logger_core_sha256": "9b13b2ff7af3e683df6a0f2c218102023274fe13c0eb57c2c880fc177b6a9171",
+  "vendored_logger_pin": "a3919c5e9135b9812db422d5052bb1ea5d1d202b",
+  "sink_sha256": "51dabc2881c3032e2dd3e12e535d2d6c2d634cc16506a57ccd783522a4033c5e",
+  "diagnostics_sha256": "0047149ebc9ab0e1c07483485b132d73d12f3c2fd35566c65dff0c05a00fdbea",
+  "valgrind_attempt": {
+    "version": "3.25.1",
+    "result": "runtime failed to reserve data stack address space before metadata; excluded from allocation evidence"
+  }
+}

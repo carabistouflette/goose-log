@@ -1,0 +1,212 @@
+{
+  "instrument_revision": "13bf9246efcf333711e9e435c23e2e8f34a5331c",
+  "instrument_sha256": "c723bc443063b770062404fd688921b9586094775480110d67ee2186e58e85e1",
+  "reference_profile_sha256": "403379ec0514545ec0d405cd421e074e3e15bff7768196e45e3538272b0c795c",
+  "honk_sha256": "78701624fff932ff1aecdfeb9eefb6f793a8300116a9a05d5c1da6d7d356a511",
+  "heaptrack_tool_sha256": [
+    "52cb63f52aede1c7f4e8e8d7da2a9f862d0a5217c6c0648e079da8d3c82c4ce6",
+    "c264a17fd0db3418551a593d5c4caaff577b76c073bdf5bd921b39ab9fb5f12a"
+  ],
+  "heaptrack_version": "heaptrack 1.5.0",
+  "strace_version": "strace -- version 7.3",
+  "samples": [
+    {
+      "index": 0,
+      "mode": "heap",
+      "enabled": false,
+      "elapsed_ns": 15003100,
+      "allocation_calls": 11,
+      "temporary_allocations": 1,
+      "peak_heap_display": "144.96K",
+      "summary_excerpts": [
+        "calls to allocation functions: 11",
+        "temporary memory allocations: 1",
+        "peak heap memory consumption: 144.96K"
+      ]
+    },
+    {
+      "index": 0,
+      "mode": "heap",
+      "enabled": true,
+      "elapsed_ns": 12991527,
+      "allocation_calls": 11,
+      "temporary_allocations": 1,
+      "peak_heap_display": "144.96K",
+      "summary_excerpts": [
+        "calls to allocation functions: 11",
+        "temporary memory allocations: 1",
+        "peak heap memory consumption: 144.96K"
+      ]
+    },
+    {
+      "index": 0,
+      "mode": "trace",
+      "enabled": false,
+      "elapsed_ns": 24710530,
+      "trace": [],
+      "delayed_writes": 0
+    },
+    {
+      "index": 0,
+      "mode": "trace",
+      "enabled": true,
+      "elapsed_ns": 28599823,
+      "trace": [
+        "write(4, \"[INFO] started duration_ns=0 out\"..., 39) = 39",
+        "write(4, \"[INFO] returned duration_ns=1439\"..., 46) = 46"
+      ],
+      "delayed_writes": 0
+    },
+    {
+      "index": 0,
+      "mode": "delayed",
+      "enabled": false,
+      "elapsed_ns": 26611485,
+      "trace": [],
+      "delayed_writes": 0
+    },
+    {
+      "index": 0,
+      "mode": "delayed",
+      "enabled": true,
+      "elapsed_ns": 30606122,
+      "trace": [
+        "write(4, \"[INFO] started duration_ns=0 out\"..., 39) = 39 (DELAYED)",
+        "write(4, \"[INFO] returned duration_ns=2668\"..., 46) = 46 (DELAYED)"
+      ],
+      "delayed_writes": 2
+    },
+    {
+      "index": 1,
+      "mode": "heap",
+      "enabled": false,
+      "elapsed_ns": 14063735,
+      "allocation_calls": 11,
+      "temporary_allocations": 1,
+      "peak_heap_display": "144.96K",
+      "summary_excerpts": [
+        "calls to allocation functions: 11",
+        "temporary memory allocations: 1",
+        "peak heap memory consumption: 144.96K"
+      ]
+    },
+    {
+      "index": 1,
+      "mode": "heap",
+      "enabled": true,
+      "elapsed_ns": 12669817,
+      "allocation_calls": 11,
+      "temporary_allocations": 1,
+      "peak_heap_display": "144.96K",
+      "summary_excerpts": [
+        "calls to allocation functions: 11",
+        "temporary memory allocations: 1",
+        "peak heap memory consumption: 144.96K"
+      ]
+    },
+    {
+      "index": 1,
+      "mode": "trace",
+      "enabled": false,
+      "elapsed_ns": 22475299,
+      "trace": [],
+      "delayed_writes": 0
+    },
+    {
+      "index": 1,
+      "mode": "trace",
+      "enabled": true,
+      "elapsed_ns": 25764170,
+      "trace": [
+        "write(4, \"[INFO] started duration_ns=0 out\"..., 39) = 39",
+        "write(4, \"[INFO] returned duration_ns=1271\"..., 46) = 46"
+      ],
+      "delayed_writes": 0
+    },
+    {
+      "index": 1,
+      "mode": "delayed",
+      "enabled": false,
+      "elapsed_ns": 25698852,
+      "trace": [],
+      "delayed_writes": 0
+    },
+    {
+      "index": 1,
+      "mode": "delayed",
+      "enabled": true,
+      "elapsed_ns": 29554605,
+      "trace": [
+        "write(4, \"[INFO] started duration_ns=0 out\"..., 39) = 39 (DELAYED)",
+        "write(4, \"[INFO] returned duration_ns=2104\"..., 46) = 46 (DELAYED)"
+      ],
+      "delayed_writes": 2
+    },
+    {
+      "index": 2,
+      "mode": "heap",
+      "enabled": false,
+      "elapsed_ns": 15746663,
+      "allocation_calls": 11,
+      "temporary_allocations": 1,
+      "peak_heap_display": "144.96K",
+      "summary_excerpts": [
+        "calls to allocation functions: 11",
+        "temporary memory allocations: 1",
+        "peak heap memory consumption: 144.96K"
+      ]
+    },
+    {
+      "index": 2,
+      "mode": "heap",
+      "enabled": true,
+      "elapsed_ns": 13268736,
+      "allocation_calls": 11,
+      "temporary_allocations": 1,
+      "peak_heap_display": "144.96K",
+      "summary_excerpts": [
+        "calls to allocation functions: 11",
+        "temporary memory allocations: 1",
+        "peak heap memory consumption: 144.96K"
+      ]
+    },
+    {
+      "index": 2,
+      "mode": "trace",
+      "enabled": false,
+      "elapsed_ns": 22710630,
+      "trace": [],
+      "delayed_writes": 0
+    },
+    {
+      "index": 2,
+      "mode": "trace",
+      "enabled": true,
+      "elapsed_ns": 24616930,
+      "trace": [
+        "write(4, \"[INFO] started duration_ns=0 out\"..., 39) = 39",
+        "write(4, \"[INFO] returned duration_ns=1188\"..., 46) = 46"
+      ],
+      "delayed_writes": 0
+    },
+    {
+      "index": 2,
+      "mode": "delayed",
+      "enabled": false,
+      "elapsed_ns": 23687390,
+      "trace": [],
+      "delayed_writes": 0
+    },
+    {
+      "index": 2,
+      "mode": "delayed",
+      "enabled": true,
+      "elapsed_ns": 28476589,
+      "trace": [
+        "write(4, \"[INFO] started duration_ns=0 out\"..., 39) = 39 (DELAYED)",
+        "write(4, \"[INFO] returned duration_ns=2687\"..., 46) = 46 (DELAYED)"
+      ],
+      "delayed_writes": 2
+    }
+  ]
+}

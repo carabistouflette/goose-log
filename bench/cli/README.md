@@ -7,6 +7,10 @@ entire Honk command, process startup, child execution, or product throughput.
 The actual CLI consumer is checked separately. The `adapter` stage measures its
 public `diagnostics::write` wrapper without adding product instrumentation hooks.
 
+The separate [whole-Honk logging study](../honk/README.md) measures repeated
+native metadata commands and keeps allocator/delayed-write instrumentation
+separate from plain latency. Its scope and startup costs differ from this probe.
+
 ```sh
 make setup
 # Small correctness/build check; dirty working trees are allowed here only.
