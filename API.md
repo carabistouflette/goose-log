@@ -89,8 +89,8 @@ Output: `[INFO] target="http" file="app.goose" line=42 "account"="demo" "token"=
 followed by a newline. Optional `timestamp` is caller-formatted text: there is
 no implicit clock read, date parser, or automatic source-location capture.
 `line` is a `u32`; zero omits it. Empty timestamp/target/file values are omitted.
-All metadata values and field keys/values are quoted; quotes, backslashes,
-controls, and non-ASCII bytes are escaped. Field keys remain quoted even when
+Timestamp, target and file values, and field keys/values, are quoted; `line` is
+unquoted decimal. Quotes, backslashes, controls and non-ASCII bytes are escaped. Field keys remain quoted even when
 they match a reserved metadata name. This is a text format, not JSON.
 
 Timestamp and target inspect at most 64 source bytes each; file inspects at

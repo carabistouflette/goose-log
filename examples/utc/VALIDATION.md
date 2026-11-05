@@ -74,6 +74,6 @@ commands above. No Linux ARM64 consumer coverage is claimed by this checkpoint.
 
 Version 0.1.3 preparation changes only release documentation. Its implementation,
 compiler pin, tests, measurement tools and retained samples remain byte-identical
-to the published checkpoint. The exact-source CI and archive checks used for
-tagging are recorded with the [release record](https://github.com/carabistouflette/goose-log/releases/tag/v0.1.3)
-links that exact-commit evidence and identifies the source-only archive/checksum.
+to the published checkpoint. The
+[release record](https://github.com/carabistouflette/goose-log/releases/tag/v0.1.3)
+links the exact-source CI evidence and identifies the source-only archive/checksum.

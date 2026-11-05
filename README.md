@@ -58,8 +58,9 @@ unconditionally. Use an error-reporting output API when delivery matters.
 
 - Six severities: Trace, Debug, Info, Warn, Error and Fatal. The default minimum
   is Info; Off disables output. Fatal does not exit the process.
-- `render` replaces caller scratch; `emit` also calls a synchronous boolean sink.
-  Results are Filtered, Written or SinkError. Filtered calls leave scratch alone.
+- `render` replaces caller scratch and returns whether it rendered a line.
+  `emit` also calls a synchronous boolean sink and returns Filtered, Written or
+  SinkError. Filtered calls leave scratch alone.
 - `emit_lazy` builds a message only when enabled. `Record` adds caller-supplied
   timestamp/source text and up to eight string fields with explicit masking.
 - Plain messages inspect at most 4096 source bytes and emit at most 16417 bytes.
