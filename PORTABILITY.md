@@ -101,6 +101,15 @@ OS/architecture caches and `fail-fast: false`. It retained every prior check:
 - Correctness smokes for the pinned cross-library comparison, allocation
   probe, CLI component profiler and paired native hot-path harness.
 
+The combined source
+[`84b0cf8ed540a988ba9638f1db7602d9baf0b712`](https://github.com/carabistouflette/goose-log/commit/84b0cf8ed540a988ba9638f1db7602d9baf0b712)
+also passed all three jobs in
+[CI run 41937670364](https://github.com/carabistouflette/goose-log/actions/runs/41937670364).
+That Linux ARM64 run additionally passed the existing optional UTC consumer
+tests, its component correctness smoke, and its GCC/Clang sanitizer suites.
+This extends the earlier Linux x86-64 consumer checkpoint; it does not establish
+macOS consumer support or an ARM64 performance result.
+
 Reproduce on a native Ubuntu ARM64 host with the documented prerequisites:
 
 ```sh

@@ -8,9 +8,24 @@
 - Report an unavailable CPU model as JSON `null` in synchronous comparison, CLI
   and hot-path benchmark metadata when `/proc/cpuinfo` lacks `model name`; record
   architecture independently.
+
+## 0.1.3 — 2026-11-05
+
+Optional-consumer maintenance release. The core logger, documented API/output/
+bounds, standard-library-only core dependency graph, and compiler pin are
+unchanged from 0.1.2. Existing release tags remain immutable.
+
 - Optional application-owned UTC record consumer using pinned goose-time,
   injected clocks and reusable builders. Core source, contract and dependencies
   remain unchanged; optional tests and component measurements cover the integration.
+- Deterministic clock/sink tests, compiler ownership/type rejection, and GCC/Clang
+  ASan/UBSan validation for the optional consumer. Optional entrypoints pin
+  experimental goose-time `343887caeee0a1f4e2e536ff322fcafb454e11bd`.
+- Runtime-input component measurements with independent byte/checksum oracles,
+  replayable smoke traces, executable-revision checks and corruption controls.
+  All stages/outliers remain recorded; no speedup or exact cost decomposition
+  is claimed. UTC-consumer platform validation is Linux x86-64 only; macOS
+  ARM64 core CI does not establish optional-consumer portability.
 
 ## 0.1.2 — 2026-11-05
 
